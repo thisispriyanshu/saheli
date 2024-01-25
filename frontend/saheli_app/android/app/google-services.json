@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "873861567763",
+    "project_id": "saheli-db8a5",
+    "storage_bucket": "saheli-db8a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873861567763:android:35b9a6bdb2b6c23b96b6e6",
+        "android_client_info": {
+          "package_name": "com.example.saheli_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV3wv9Izo56-1N0q0jfk0j-yHdiZgf8Xo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
