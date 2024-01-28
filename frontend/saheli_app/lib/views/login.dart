@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:saheli_app/views/home.dart';
+import 'package:saheli_app/views/home_screen.dart';
 import 'package:saheli_app/views/signup.dart';
 
 import '../common/widgets/customBtn.dart';
@@ -218,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const HomePage(),
+        builder: (context) => HomePage(),
       ),
     );
   }
