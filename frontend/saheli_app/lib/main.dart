@@ -7,6 +7,8 @@ import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
 import 'package:saheli_app/services/localDb/localDb.dart';
 import 'package:saheli_app/views/home_screen.dart';
 import 'package:saheli_app/views/login.dart';
+import 'package:saheli_app/widgets/Contacts/contacts.dart';
+import 'package:saheli_app/widgets/Contacts/new_contacts.dart';
 import 'package:saheli_app/widgets/SafeRoutes/Profile.dart';
 import 'package:saheli_app/widgets/SafeRoutes/SafeRoutes.dart';
 
@@ -59,8 +61,9 @@ class _MyAppState extends State<MyApp> {
           controller: _pageController,
           children:  <Widget>[
             if (isLogin) HomePage() else LoginPage(),
+            ContactsPage(),
             SafeRoutes(),
-            ProfilePage(),
+            Profile(),
           ],
         ),
         extendBody: true,
@@ -72,10 +75,12 @@ class _MyAppState extends State<MyApp> {
           items: const [
             RollingBottomBarItem(Icons.home,
                 label: 'Home', activeColor: Colors.redAccent),
+            RollingBottomBarItem(Icons.contact_phone,
+                label: 'Contacts', activeColor: Colors.green),
             RollingBottomBarItem(Icons.map,
                 label: 'SafeRoute', activeColor: Colors.blueAccent),
             RollingBottomBarItem(Icons.person,
-                label: 'Profile', activeColor: Colors.green),
+                label: 'Profile', activeColor: Colors.pink),
           ],
           enableIconRotation: true,
           onTap: (index) {

@@ -1,198 +1,246 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:uuid/uuid.dart';
-import 'package:saheli_app/views/login.dart';
-// import 'package:women_safety_app/components/PrimaryButton.dart';
-// import 'package:women_safety_app/components/custom_textfield.dart';
-// import 'package:women_safety_app/utils/constants.dart';
 
-class CheckUserStatusBeforeChatOnProfile extends StatelessWidget {
-  const CheckUserStatusBeforeChatOnProfile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else {
-          if (snapshot.hasData) {
-            return ProfilePage();
-          } else {
-            Fluttertoast.showToast(msg: 'please login first');
-            return LoginPage();
-          }
-        }
-      },
-    );
-  }
+void main() {
+  runApp(Profile());
 }
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
-
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  TextEditingController nameC = TextEditingController();
-  final key = GlobalKey<FormState>();
-  String? id;
-  String? profilePic;
-  String? downloadUrl;
-  bool isSaving = false;
-  getDate() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((value) {
-      setState(() {
-        nameC.text = value.docs.first['name'];
-        id = value.docs.first.id;
-        profilePic = value.docs.first['profilePic'];
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getDate();
-  }
-
+class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: isSaving == true
-          ? Center(
-          child: CircularProgressIndicator(
-            backgroundColor: Colors.pink,
-          ))
-          : SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Center(
-            child: Form(
-                key: key,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      "UPDATE YOUR PROFILE",
-                      style: TextStyle(fontSize: 25),
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: Container(color: Colors.white54,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 15,
+                ),
+                const ListTile(
+                  leading: Icon(Icons.arrow_back),
+                  trailing: Icon(Icons.menu),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    CircleAvatar(
+                      maxRadius: 65,
+                      backgroundImage: AssetImage("assets/6195145.jpg"),
                     ),
-                    SizedBox(height: 15),
-                    GestureDetector(
-                      onTap: () async {
-                        final XFile? pickImage = await ImagePicker()
-                            .pickImage(
-                            source: ImageSource.gallery,
-                            imageQuality: 50);
-                        if (pickImage != null) {
-                          setState(() {
-                            profilePic = pickImage.path;
-                          });
-                        }
-                      },
-                      child: Container(
-                        child: profilePic == null
-                            ? CircleAvatar(
-                          backgroundColor: Colors.deepPurple,
-                          radius: 80,
-                          child: Center(
-                              child: Image.asset(
-                                'assets/add_pic.png',
-                                height: 80,
-                                width: 80,
-                              )),
-                        )
-                            : profilePic!.contains('http')
-                            ? CircleAvatar(
-                          backgroundColor: Colors.deepPurple,
-                          radius: 80,
-                          backgroundImage:
-                          NetworkImage(profilePic!),
-                        )
-                            : CircleAvatar(
-                            backgroundColor: Colors.deepPurple,
-                            radius: 80,
-                            backgroundImage:
-                            FileImage(File(profilePic!))),
-                      ),
-                    ),
-                    // CustomTextField(
-                    //   controller: nameC,
-                    //   hintText: nameC.text,
-                    //   validate: (v) {
-                    //     if (v!.isEmpty) {
-                    //       return 'please enter your updated name';
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
-                    // SizedBox(height: 25),
-                    // PrimaryButton(
-                    //     title: "UPDATE",
-                    //     onPressed: () async {
-                    //       if (key.currentState!.validate()) {
-                    //         SystemChannels.textInput
-                    //             .invokeMethod('TextInput.hide');
-                    //         profilePic == null
-                    //             ? Fluttertoast.showToast(
-                    //             msg: 'please select profile picture')
-                    //             : update();
-                    //       }
-                    //     })
                   ],
-                )),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    CircleAvatar(
+                      backgroundImage: AssetImage("assets/download.png"),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    CircleAvatar(
+                      backgroundImage:
+                      AssetImage("assets/GooglePlus-logo-red.png"),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    CircleAvatar(
+                      backgroundImage: AssetImage(
+                          "assets/1_Twitter-new-icon-mobile-app.jpg"),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    CircleAvatar(
+                      backgroundImage:
+                      AssetImage("assets/600px-LinkedIn_logo_initials.png"),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      "Thomas Shelby",
+                      style:
+                      TextStyle(fontWeight: FontWeight.w900, fontSize: 26),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [Text("@peakyBlinders")],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      "Master manipulator, deal-maker and\n                   entrepreneur",
+                      style: TextStyle(fontSize: 20),
+                    )
+                  ],
+                ),const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  child: Expanded(
+                      child: ListView(
+                        children: [
+                          Card(
+                            margin:
+                            const EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                            color: Colors.white70,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: const ListTile(
+                              leading: Icon(
+                                Icons.privacy_tip_sharp,
+                                color: Colors.black54,
+                              ),
+                              title: Text(
+                                'Privacy',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              trailing: Icon(
+                                Icons.arrow_forward_ios_outlined,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Card(
+                            color: Colors.white70,
+                            margin:
+                            const EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: const ListTile(
+                              leading: Icon(
+                                Icons.history,
+                                color: Colors.black54,
+                              ),
+                              title: Text(
+                                'Purchase History',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              trailing: Icon(
+                                Icons.arrow_forward_ios_outlined,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Card(
+                            color: Colors.white70,
+                            margin:
+                            const EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: const ListTile(
+                              leading:
+                              Icon(Icons.help_outline, color: Colors.black54),
+                              title: Text(
+                                'Help & Support',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              trailing: Icon(
+                                Icons.arrow_forward_ios_outlined,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Card(
+                            color: Colors.white70,
+                            margin:
+                            const EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: const ListTile(
+                              leading: Icon(
+                                Icons.privacy_tip_sharp,
+                                color: Colors.black54,
+                              ),
+                              title: Text(
+                                'Settings',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              trailing: Icon(Icons.arrow_forward_ios_outlined),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Card(
+                            color: Colors.white70,
+                            margin:
+                            const EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: const ListTile(
+                              leading: Icon(
+                                Icons.add_reaction_sharp,
+                                color: Colors.black54,
+                              ),
+                              title: Text(
+                                'Invite a Friend',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              trailing: Icon(
+                                Icons.arrow_forward_ios_outlined,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Card(
+                            color: Colors.white70,
+                            margin:
+                            const EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: const ListTile(
+                              leading: Icon(
+                                Icons.logout,
+                                color: Colors.black54,
+                              ),
+                              title: Text(
+                                'Logout',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              trailing: Icon(Icons.arrow_forward_ios_outlined),
+                            ),
+                          )
+                        ],
+                      )),
+                )
+              ],
+            ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Future<String?> uploadImage(String filePath) async {
-    try {
-      final filenName = Uuid().v4();
-      final Reference fbStorage =
-      FirebaseStorage.instance.ref('profile').child(filenName);
-      final UploadTask uploadTask = fbStorage.putFile(File(filePath));
-      await uploadTask.then((p0) async {
-        downloadUrl = await fbStorage.getDownloadURL();
-      });
-      return downloadUrl;
-    } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
-    }
-  }
-
-  update() async {
-    setState(() {
-      isSaving = true;
-    });
-    uploadImage(profilePic!).then((value) {
-      Map<String, dynamic> data = {
-        'name': nameC.text,
-        'profilePic': downloadUrl,
-      };
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update(data);
-      setState(() {
-        isSaving = false;
-      });
-    });
+        ));
   }
 }

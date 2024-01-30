@@ -12,6 +12,7 @@ import 'package:saheli_app/widgets/custom_widgets/custom_appBar.dart';
 import '../widgets/NearbyLocations/nearby_places.dart';
 import '../widgets/emergency.dart';
 
+
 class HomePage extends StatefulWidget {
   int qIndex = 2;
 
