@@ -129,7 +129,8 @@ class _ContactsPageState extends State<ContactsPage> {
                       ? contactsFiltered[index]
                       : contacts[index];
                   return ListTile(
-                    title: Text(contact.displayName!),
+                    title: Text(contact.displayName ?? 'Untitled'),
+
                     // subtitle:Text(contact.phones!.elementAt(0)
                     // .value!) ,
                     leading: contact.avatar != null &&

@@ -9,7 +9,7 @@ import 'package:saheli_app/views/home_screen.dart';
 import 'package:saheli_app/views/login.dart';
 import 'package:saheli_app/widgets/Contacts/contacts.dart';
 import 'package:saheli_app/widgets/Contacts/new_contacts.dart';
-import 'package:saheli_app/widgets/SafeRoutes/Profile.dart';
+import 'package:saheli_app/widgets/Profile.dart';
 import 'package:saheli_app/widgets/SafeRoutes/SafeRoutes.dart';
 
 class MyApp extends StatefulWidget {

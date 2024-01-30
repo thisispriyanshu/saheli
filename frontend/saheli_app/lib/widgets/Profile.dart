@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:saheli_app/widgets/PrivacyPolicy.dart';
+
+import '../views/login.dart';
 
 void main() {
   runApp(Profile());
@@ -102,41 +106,24 @@ class Profile extends StatelessWidget {
                             color: Colors.white70,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30)),
-                            child: const ListTile(
+                            child:  ListTile(
                               leading: Icon(
                                 Icons.privacy_tip_sharp,
                                 color: Colors.black54,
                               ),
                               title: Text(
-                                'Privacy',
+                                'Privacy Policy',
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
-                              trailing: Icon(
-                                Icons.arrow_forward_ios_outlined,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Card(
-                            color: Colors.white70,
-                            margin:
-                            const EdgeInsets.only(left: 35, right: 35, bottom: 10),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30)),
-                            child: const ListTile(
-                              leading: Icon(
-                                Icons.history,
-                                color: Colors.black54,
-                              ),
-                              title: Text(
-                                'Purchase History',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PrivacyPolicyPage(),
+                                  ),
+                                );
+                              },
                               trailing: Icon(
                                 Icons.arrow_forward_ios_outlined,
                                 color: Colors.black54,
@@ -222,7 +209,7 @@ class Profile extends StatelessWidget {
                             const EdgeInsets.only(left: 35, right: 35, bottom: 10),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30)),
-                            child: const ListTile(
+                            child:  ListTile(
                               leading: Icon(
                                 Icons.logout,
                                 color: Colors.black54,
@@ -232,7 +219,11 @@ class Profile extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
+
                               trailing: Icon(Icons.arrow_forward_ios_outlined),
+                              onTap: () {
+                                logout(context);
+                              },
                             ),
                           )
                         ],
@@ -242,5 +233,17 @@ class Profile extends StatelessWidget {
             ),
           ),
         ));
+
+  }
+
+  Future<void> logout(BuildContext context) async {
+    CircularProgressIndicator();
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginPage(),
+      ),
+    );
   }
 }
