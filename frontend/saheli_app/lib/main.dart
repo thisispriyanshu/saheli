@@ -1,14 +1,19 @@
 import 'dart:ui';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
 import 'package:saheli_app/services/localDb/localDb.dart';
+import 'package:saheli_app/views/article_screen.dart';
 import 'package:saheli_app/views/home_screen.dart';
 import 'package:saheli_app/views/login.dart';
 import 'package:saheli_app/widgets/SafeRoutes/Profile.dart';
 import 'package:saheli_app/widgets/SafeRoutes/SafeRoutes.dart';
+
+import 'common/theme/theme.dart';
+import 'firebase_options.dart';
 
 class MyApp extends StatefulWidget {
   MyApp({super.key});
@@ -16,8 +21,12 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 }
-void main() {
+
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
@@ -54,11 +63,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: Styles.themeData(context),
       home: Scaffold(
         body: PageView(
           controller: _pageController,
-          children:  <Widget>[
+          children: <Widget>[
             if (isLogin) HomePage() else LoginPage(),
+            ArticleScreen(),
             SafeRoutes(),
             ProfilePage(),
           ],
@@ -72,6 +83,8 @@ class _MyAppState extends State<MyApp> {
           items: const [
             RollingBottomBarItem(Icons.home,
                 label: 'Home', activeColor: Colors.redAccent),
+            RollingBottomBarItem(Icons.grid_view_rounded,
+                label: 'article', activeColor: Colors.amberAccent),
             RollingBottomBarItem(Icons.map,
                 label: 'SafeRoute', activeColor: Colors.blueAccent),
             RollingBottomBarItem(Icons.person,
