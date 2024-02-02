@@ -102,7 +102,6 @@ class _SafeHomeState extends State<SafeHome> {
       context: context,
       builder: (context) {
         return Scaffold(
-          backgroundColor: Colors.red,
           body: Container(
             height: MediaQuery.of(context).size.height / 1.4,
             child: Padding(
@@ -125,13 +124,13 @@ class _SafeHomeState extends State<SafeHome> {
                   SizedBox(height: 10),
                   if (_curentPosition != null) Text(_curentAddress!),
                   PrimaryButton(
-                      title: "GET LOCATION",
+                      title: "GET CURRENT LOCATION",
                       onPressed: () {
                         _getCurrentLocation();
                       }),
                   SizedBox(height: 10),
                   PrimaryButton(
-                      title: "SEND ALERT",
+                      title: "SEND SOS ALERT",
                       onPressed: () async {
                         String recipients = "";
                         List<TContact> contactList =
@@ -188,14 +187,14 @@ class _SafeHomeState extends State<SafeHome> {
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text("Send Location"),
+                        title: Text("Send Current Location"),
                         subtitle: Text("Share Location"),
                       ),
                     ],
                   )),
               ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.asset('assets/route.jpg')),
+                  child: Image.asset('assets/location.jpg')),
             ],
           ),
         ),
@@ -215,17 +214,17 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      width: MediaQuery.of(context).size.width * 0.5,
+      width: MediaQuery.of(context).size.width * 1.0,
       child: ElevatedButton(
         onPressed: () {
           onPressed();
         },
         child: Text(
           title,
-          style: TextStyle(fontSize: 17),
+          style: TextStyle(fontSize: 17, color: Colors.black),
         ),
         style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.pink,
+            backgroundColor: Colors.green,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30))),
       ),

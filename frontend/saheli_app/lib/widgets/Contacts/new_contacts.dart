@@ -37,7 +37,7 @@ class _AddContactsPageState extends State<AddContactsPage> {
   void deleteContact(TContact contact) async {
     int result = await databasehelper.deleteContact(contact.id);
     if (result != 0) {
-      Fluttertoast.showToast(msg: "contact removed succesfully");
+      Fluttertoast.showToast(msg: "Emergency Contact Removed");
       showList();
     }
   }
@@ -56,65 +56,71 @@ class _AddContactsPageState extends State<AddContactsPage> {
     if (contactList == null) {
       contactList = [];
     }
-    return SafeArea(
-      child: Container(
-          padding: EdgeInsets.all(12),
-          child: Column(
-            children: [
-              PrimaryButton(
-                  title: "Add Trusted Contacts",
-                  onPressed: () async {
-                    bool result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ContactsPage(),
-                        ));
-                    if (result == true) {
-                      showList();
-                    }
-                  }),
-              Expanded(
-                child: ListView.builder(
-                  // shrinkWrap: true,
-                  itemCount: count,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text(contactList![index].name),
-                          trailing: Container(
-                            width: 100,
-                            child: Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () async {
-                                      await FlutterPhoneDirectCaller.callNumber(
-                                          contactList![index].number);
-                                    },
-                                    icon: Icon(
-                                      Icons.call,
-                                      color: Colors.red,
-                                    )),
-                                IconButton(
-                                    onPressed: () {
-                                      deleteContact(contactList![index]);
-                                    },
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    )),
-                              ],
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 255, 236, 208),
+      body: SafeArea(
+        child: Container(
+            padding: EdgeInsets.all(12),
+            child: Column(
+              children: [
+                PrimaryButton(
+                    title: "Add Trusted Contacts",
+                    onPressed: () async {
+                      bool result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ContactsPage(),
+                          ));
+                      if (result == true) {
+                        showList();
+                      }
+                    }),
+                Expanded(
+                  child: ListView.builder(
+                    // shrinkWrap: true,
+                    itemCount: count,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Card(
+                        margin: const EdgeInsets.all(8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
+                          child: ListTile(
+                            title: Text(contactList![index].name),
+                            trailing: Container(
+                              width: 100,
+
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () async {
+                                        await FlutterPhoneDirectCaller.callNumber(
+                                            contactList![index].number);
+                                      },
+
+                                      icon: Icon(
+                                        Icons.call,
+                                        color: Colors.pinkAccent,
+                                      )),
+                                  IconButton(
+                                      onPressed: () {
+                                        deleteContact(contactList![index]);
+                                      },
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Colors.pinkAccent,
+                                      )),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
-          )),
+              ],
+            )),
+      ),
     );
   }
 }

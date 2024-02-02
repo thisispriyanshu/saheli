@@ -51,14 +51,11 @@ class DatabaseHelper {
         'CREATE TABLE $contactTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colContactName TEXT, $colContactNumber TEXT)');
   }
 
-  // Fetch Operation: get contact object from db
   Future<List<Map<String, dynamic>>> getContactMapList() async {
     Database db = await this.database;
     List<Map<String, dynamic>> result =
     await db.rawQuery('SELECT * FROM $contactTable order by $colId ASC');
 
-    // or
-    // var result = await db.query(contactTable, orderBy: '$colId ASC');
     return result;
   }
 

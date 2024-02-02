@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:saheli_app/widgets/PrivacyPolicy.dart';
+import 'package:share/share.dart';
 
 import '../views/login.dart';
 
@@ -184,7 +185,7 @@ class Profile extends StatelessWidget {
                             const EdgeInsets.only(left: 35, right: 35, bottom: 10),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30)),
-                            child: const ListTile(
+                            child: ListTile(
                               leading: Icon(
                                 Icons.add_reaction_sharp,
                                 color: Colors.black54,
@@ -194,11 +195,16 @@ class Profile extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
+                              onTap: () {
+                                openSharePanel();
+                              },
                               trailing: Icon(
                                 Icons.arrow_forward_ios_outlined,
                                 color: Colors.black54,
                               ),
+
                             ),
+
                           ),
                           const SizedBox(
                             height: 10,
@@ -234,6 +240,12 @@ class Profile extends StatelessWidget {
           ),
         ));
 
+  }
+  final String linkToShare = 'your_link_here';
+
+  void openSharePanel() {
+    // Use the share function from the share package to open the share panel
+    Share.share(linkToShare);
   }
 
   Future<void> logout(BuildContext context) async {

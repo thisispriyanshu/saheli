@@ -37,9 +37,9 @@ class _ContactsPageState extends State<ContactsPage> {
     _contacts.addAll(contacts);
     if (searchController.text.isNotEmpty) {
       _contacts.retainWhere((element) {
-        String searchTerm = searchController.text.toLowerCase();
+        String searchTerm= searchController.text.toLowerCase();
         String searchTermFlattren = flattenPhoneNumber(searchTerm);
-        String contactName = element.displayName!.toLowerCase();
+        String contactName = element.displayName ?? 'Untitled'.toLowerCase();
         bool nameMatch = contactName.contains(searchTerm);
         if (nameMatch == true) {
           return true;
