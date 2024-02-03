@@ -16,7 +16,9 @@ class ChatMessage extends StatelessWidget {
     return <Widget>[
       Container(
         margin: const EdgeInsets.only(right: 16.0),
-        child: const CircleAvatar(child: Text('B')),
+        child:  CircleAvatar(child: Text('S'),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+        ),
       ),
       Expanded(
         child: Column(
