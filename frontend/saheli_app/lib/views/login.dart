@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:saheli_app/views/home_screen.dart';
 import 'package:saheli_app/views/signup.dart';
+import 'package:saheli_app/widgets/bottomNavBar.dart';
 
 import '../common/widgets/customBtn.dart';
 
@@ -218,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => HomePage(),
+        builder: (context) => BottomNavBar(),
       ),
     );
   }

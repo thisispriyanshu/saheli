@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:saheli_app/common/widgets/customBtn.dart';
+import 'package:saheli_app/views/details.dart';
 import 'package:saheli_app/views/login.dart';
 
 import '../services/localDb/localDb.dart';
@@ -29,8 +30,6 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController mobile = TextEditingController();
   bool _isObscure = true;
-  bool _isObscure2 = true;
-  File? file;
 
   @override
   Widget build(BuildContext context) {
@@ -260,6 +259,7 @@ class _SignupPageState extends State<SignupPage> {
   postDetailsToFirestore(String name, String email) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     var user = _auth.currentUser;
+    await user?.updateDisplayName(name);
     CollectionReference ref = firebaseFirestore.collection('users');
     ref
         .doc(user!.uid)
@@ -269,6 +269,6 @@ class _SignupPageState extends State<SignupPage> {
     Fluttertoast.showToast(
         msg: "Registered as $name", toastLength: Toast.LENGTH_SHORT);
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const LoginPage()));
+        context, MaterialPageRoute(builder: (context) => Details()));
   }
 }

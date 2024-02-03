@@ -1,10 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalDb{
-  static const uidKey = '';
-  static const eKey = '';
-  static const pKey = '';
-  static const rKey = '';
+  static const uidKey = 'uuvgauwvasd';
+  static const eKey = 'sndabwiefabwe';
+  static const pKey = 'sadarbhvarev';
+  static const rKey = 'awnfiawiufjkdsb';
+  static const mKey = 'niaiewiaiuea';
+  static const gKey = 'awbiaiubvabeva';
+  static const dKey = ' ajbvuabawebjkwe';
 
   static Future<bool> saveUserId(String uid) async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -37,5 +40,38 @@ class LocalDb{
   static Future<String?> getName() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(pKey);
+  }
+
+  static Future<bool> saveMobile(String mobile) async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return await preferences.setString(mKey, mobile);
+  }
+
+  //gets name of user
+  static Future<String?> getMobile() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(mKey);
+  }
+
+  static Future<bool> saveGender(String gender) async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return await preferences.setString(gKey, gender);
+  }
+
+  //gets name of user
+  static Future<String?> getGender() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(gKey);
+  }
+
+  static Future<bool> saveDOB(String dob) async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return await preferences.setString(dKey, dob);
+  }
+
+  //gets name of user
+  static Future<String?> getDOB() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(dKey);
   }
 }
