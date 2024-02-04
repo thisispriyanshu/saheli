@@ -1,28 +1,28 @@
 const express = require('express');
-const cors = require("cors");
-const mongoose = require('mongoose');
-const userRouter = require('./views/user');
-const PORT = process.env.PORT || 3000;
+const userRoutes = require('./routes/userRoutes');
 
-
+// Initialize Express
 const app = express();
+const PORT = process.env.PORT || 8080;
 
-// Middlewares
-app.use(cors());
+// Middleware
 app.use(express.json());
 
-//MongoDB Connection
-mongoose.connect('mongodb://localhost:27017/saheli-database')
-.then(() => console.log('MongoDB Connected'))
-.catch(err => console.log(err));
+// Use user routes
+app.use('/users', userRoutes);
 
+// Handle 404 errors
+app.use((req, res, next) => {
+  res.status(404).json({ error: 'Not Found' });
+});
 
-// Routes
-app.get('/',userRouter)
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal Server Error' });
+});
 
-
-// Server
+// Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}` );
-})
-
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
