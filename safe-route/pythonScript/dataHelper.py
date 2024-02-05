@@ -1,11 +1,13 @@
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import pandas as pd
 
 # Importing the dataset
-dataset = pd.read_csv('crime.csv')
+dataset = pd.read_csv('./data/crime.csv')
 X = dataset.iloc[0:166, 0].values
+#longitude
 y1 = dataset.iloc[:, 10].values
+#latitude
 y2 = dataset.iloc[:, 11].values
 y = [1, 2, 4, 1, 1, 2, 1, 1, 1, 2, 0, 2, 0, 2, 0, 2, 2, 2, 4, 0, 1, 0, 1,
        1, 3, 1, 2, 1, 1, 1, 0, 4, 0, 1, 2, 0, 0, 1, 0, 1, 2, 0, 1, 1, 2, 0,
@@ -60,9 +62,9 @@ new_array= []
 for i in range(0, 166):
     str = places[i]+", Delhi, India"
     new_array.append(str)
-dataset2 = pd.read_csv('crime2.csv')
-lati = dataset2.iloc[:, 0].values
-longi = dataset2.iloc[:, 1].values
+# dataset2 = pd.read_csv('./data/crime2.csv')
+# lati = dataset2.iloc[:, 0].values
+# longi = dataset2.iloc[:, 1].values
 
 ar = []
    
@@ -72,8 +74,8 @@ for i in range(0, 166):
 
     o = {  "type": "Feature",
            "properties": { 'mag': y[i]   },                 
-            'lati': y1[i], 
-            'longi': y2[i] 
+            'lati': y2[i], 
+            'longi': y1[i] 
         }
     ar.append(o)
 print(ar)
