@@ -2,8 +2,11 @@ const express = require('express');
 const userRoutes = require('./routes/userRoutes');
 const {Client} = require("@googlemaps/google-maps-services-js");
 const bodyParser = require('body-parser');
+require("dotenv").config();
 
 const client = new Client({});
+
+
 
 // Initialize Express
 const app = express();
@@ -39,17 +42,6 @@ app.use(bodyParser.json());
 app.use('/users', userRoutes);
 
 
-// Handle 404 errors
-app.use((req, res, next) => {
-  res.status(404).json({ error: 'Not Found' });
-});
-
-// Global error handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Internal Server Error' });
-});
-
 // Helper function to calculate distance between two points
 function calculateDistance(lat1, lon1, lat2, lon2) {
   const R = 6371; // Radius of the earth in km
@@ -71,7 +63,7 @@ function deg2rad(deg) {
 app.post('/safest-route', async (req, res) => {
   try {
     // Get source and destination coordinates from the request
-    const { source, destination } = req.body;
+    const { source, destination,mode } = req.body;
 
     // Calculate distances between source and destination to each data point
     const distances = data.map(point => ({
@@ -111,7 +103,7 @@ app.post('/safest-route', async (req, res) => {
       params: {
         origin: `${source.lat},${source.lng}`,
         destination: `${destination.lat},${destination.lng}`,
-        mode: 'driving',
+        mode: mode,
         alternatives: true,  
         avoid: 'highways',
         key: googleMapsApiKey,
@@ -127,6 +119,18 @@ app.post('/safest-route', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
+});
+
+
+// Handle 404 errors
+app.use((req, res, next) => {
+  res.status(404).json({ error: 'Not Found' });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal Server Error' });
 });
 
 // Start the server
