@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
-import 'package:saheli_app/widgets/Contacts/new_contacts.dart';
 
 import '../views/article_screen.dart';
 import '../views/home_screen.dart';
@@ -25,7 +24,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         children: <Widget>[
           // if (isLogin) HomePage() else LoginPage(),
           HomePage(),
-          AddContactsPage(),
+          ArticleScreen(),
           SafeRoutes(),
           Profile(),
         ],

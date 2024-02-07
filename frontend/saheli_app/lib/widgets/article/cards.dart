@@ -31,20 +31,36 @@ class _ArticleCardState extends State<ArticleCard> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Icon(widget.icon, color: Theme.of(context).colorScheme.secondary,),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(widget.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Theme.of(context).colorScheme.secondary),),
-              Text(widget.desc, style: TextStyle(color: Colors.black),)
-            ],
+          Icon(
+            widget.icon,
+            color: Theme.of(context).colorScheme.secondary,
           ),
-          InkWell(
-            child: Icon(Icons.arrow_right_alt_rounded, color: Theme.of(context).colorScheme.secondary,),
-            onTap: () {
-              navigateToRoute(context, SafeWebView(url: "https://www.techtarget.com/searchsecurity/definition/cyberstalking",));
-            },
-            mouseCursor: MouseCursor.uncontrolled,
+          SizedBox(
+            width: 270,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.title,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Theme.of(context).colorScheme.secondary),
+                ),
+                Text(
+                  widget.desc,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(color: Colors.black),
+                )
+              ],
+            ),
+          ),
+          Icon(
+            Icons.arrow_right_alt_rounded,
+            color: Theme.of(context).colorScheme.secondary,
           )
         ],
       ),

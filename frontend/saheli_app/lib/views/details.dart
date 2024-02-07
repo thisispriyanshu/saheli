@@ -18,28 +18,28 @@ class _DetailsState extends State<Details> {
   final _formkey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
 
-  final List<String> gender = ['Female', 'Male', 'Any'];
+  final List<String> gender = ['Female', 'Male'];
   String? dropDownValue1;
   String _gender = 'Female';
-  String _dob = '';
   final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController ageController = TextEditingController();
   bool loading = false;
   DateTime selectedDate = DateTime.now();
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
+  // Future<void> _selectDate(BuildContext context) async {
+  //   final DateTime? picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: selectedDate,
+  //     firstDate: DateTime(1900),
+  //     lastDate: DateTime.now(),
+  //   );
+  //
+  //   if (picked != null && picked != selectedDate) {
+  //     setState(() {
+  //       selectedDate = picked;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class _DetailsState extends State<Details> {
               child: SingleChildScrollView(
                 child: Container(
                   margin: const EdgeInsets.all(12),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Form(
                     key: _formkey,
                     child: Column(
@@ -132,14 +132,14 @@ class _DetailsState extends State<Details> {
                                 DropdownButton<String>(
                                   hint: Text("Female", style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 25),),
                                   value: dropDownValue1,
-                                  icon: Icon(Icons.arrow_drop_down),
+                                  icon: const Icon(Icons.arrow_drop_down),
                                   style: TextStyle(color: Theme.of(context).colorScheme.primary),
                                   items: gender
                                       .map((item) => DropdownMenuItem<String>(
                                     value: item,
                                     child: Text(
                                       item,
-                                      style: TextStyle(color: Colors.black, fontSize: 20),
+                                      style: const TextStyle(color: Colors.black, fontSize: 20),
                                     ),
                                   ))
                                       .toList(),
@@ -155,46 +155,75 @@ class _DetailsState extends State<Details> {
                             Column(
                               children: [
                                 Text(
-                                  "DOB",
+                                  "Age",
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
                                           .primary),
                                 ),
-                                InkWell(
-                                  onTap: () => _selectDate(context),
-                                  child: Container(
-                                    width: 200,
-                                    height: 100,
-                                    child: InputDecorator(
-                                      decoration: InputDecoration(
-                                        hintText: 'Select Date of Birth',
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context).colorScheme.primary),
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context).colorScheme.primary),
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            "${selectedDate.toLocal()}"
-                                                .split(' ')[0],
-                                            style: TextStyle(fontSize: 16, color: Colors.black),
-                                          ),
-                                          Icon(Icons.calendar_today_rounded, color: Theme.of(context).colorScheme.primary,),
-                                        ],
-                                      ),
+                                TextFormField(
+                                  controller: ageController,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.transparent,
+                                    enabled: true,
+                                    contentPadding: const EdgeInsets.only(
+                                        left: 14.0, bottom: 8.0, top: 8.0),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).colorScheme.primary),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).colorScheme.primary),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
-                                )
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Age cannot be empty";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  onChanged: (value) {},
+                                  keyboardType: TextInputType.number,
+                                ),
+                                // InkWell(
+                                //   onTap: () => _selectDate(context),
+                                //   child: Container(
+                                //     width: 200,
+                                //     height: 100,
+                                //     child: InputDecorator(
+                                //       decoration: InputDecoration(
+                                //         hintText: 'Select Date of Birth',
+                                //         enabledBorder: OutlineInputBorder(
+                                //           borderSide: BorderSide(
+                                //               color: Theme.of(context).colorScheme.primary),
+                                //           borderRadius: BorderRadius.circular(10),
+                                //         ),
+                                //         border: OutlineInputBorder(
+                                //           borderSide: BorderSide(
+                                //               color: Theme.of(context).colorScheme.primary),
+                                //           borderRadius: BorderRadius.circular(10),
+                                //         ),
+                                //       ),
+                                //       child: Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: <Widget>[
+                                //           Text(
+                                //             "${selectedDate.toLocal()}"
+                                //                 .split(' ')[0],
+                                //             style: TextStyle(fontSize: 16, color: Colors.black),
+                                //           ),
+                                //           Icon(Icons.calendar_today_rounded, color: Theme.of(context).colorScheme.primary,),
+                                //         ],
+                                //       ),
+                                //     ),
+                                //   ),
+                                // )
                               ],
                             ),
                           ],
@@ -206,7 +235,7 @@ class _DetailsState extends State<Details> {
                               submit(
                                   phoneNumberController.text,
                                   _gender,
-                                  _dob);
+                                  ageController.text);
                             }),
                       ],
                     ),
@@ -219,7 +248,7 @@ class _DetailsState extends State<Details> {
       ),
     );
   }
-  void submit(String mobile, String gender, String dob) async {
+  void submit(String mobile, String gender, String age) async {
     const CircularProgressIndicator();
     if (_formkey.currentState!.validate()) {
       FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -227,10 +256,10 @@ class _DetailsState extends State<Details> {
       CollectionReference ref = firebaseFirestore.collection('users');
       ref
           .doc(user!.uid)
-          .update({'mobile number': mobile, 'gender': gender, 'dob': dob});
+          .update({'mobile number': mobile, 'gender': gender, 'dob': age});
       await LocalDb.saveMobile(mobile);
       await LocalDb.saveGender(gender);
-      await LocalDb.saveDOB(dob);
+      await LocalDb.saveAge(age);
       Fluttertoast.showToast(
           msg: "Details Submitted", toastLength: Toast.LENGTH_SHORT);
       Navigator.pushReplacement(
