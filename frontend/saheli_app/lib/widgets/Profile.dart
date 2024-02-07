@@ -277,6 +277,7 @@ class _ProfileState extends State<Profile> {
   Future<void> logout(BuildContext context) async {
     CircularProgressIndicator();
     await FirebaseAuth.instance.signOut();
+    await LocalDb.clearUserData();
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

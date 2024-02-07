@@ -85,4 +85,10 @@ class LocalDb{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(dKey);
   }
+
+  //   delete all the data for logoout
+  static Future<void> clearUserData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+  }
 }
