@@ -16,7 +16,7 @@ class ArmyEmergency extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: InkWell(
-          onTap: () => _callNumber('1717'),
+          onTap: () => _callNumber('1090'),
           child: Container(
             height: 180,
             width: MediaQuery.of(context).size.width * 0.7,
@@ -55,7 +55,7 @@ class ArmyEmergency extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Police Help',
+                          'Women Helpline',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: MediaQuery.of(context).size.width * 0.045,
@@ -70,7 +70,7 @@ class ArmyEmergency extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              '1 -7 -1 -7',
+                              '1 0 9 0',
                               style: TextStyle(
                                 color: Colors.red[300],
                                 fontWeight: FontWeight.bold,

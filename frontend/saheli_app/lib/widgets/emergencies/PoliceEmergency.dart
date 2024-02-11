@@ -70,7 +70,7 @@ class PoliceEmergency extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              '1-0-9-0',
+                              '1 0 9 0',
                               style: TextStyle(
                                 color: Colors.red[300],
                                 fontWeight: FontWeight.bold,

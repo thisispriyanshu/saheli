@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,6 +43,16 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDH4Fi1F9fJpRn_ePSGbD2AJPVYFKdomv0',
+    appId: '1:873861567763:web:22e7adcf79d180cd96b6e6',
+    messagingSenderId: '873861567763',
+    projectId: 'saheli-db8a5',
+    authDomain: 'saheli-db8a5.firebaseapp.com',
+    storageBucket: 'saheli-db8a5.appspot.com',
+    measurementId: 'G-EDJH4NTMCR',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAV3wv9Izo56-1N0q0jfk0j-yHdiZgf8Xo',
     appId: '1:873861567763:android:35b9a6bdb2b6c23b96b6e6',
@@ -63,6 +67,17 @@ class DefaultFirebaseOptions {
     messagingSenderId: '873861567763',
     projectId: 'saheli-db8a5',
     storageBucket: 'saheli-db8a5.appspot.com',
+    iosClientId: '873861567763-pa1ds9mm7nuekhf3l4f6f6fnp9gnfm2g.apps.googleusercontent.com',
     iosBundleId: 'com.example.saheliApp',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyAzX7RgNblljRFZ17jA118IHE9im0GM5_o',
+    appId: '1:873861567763:ios:19327cf1d1c4306096b6e6',
+    messagingSenderId: '873861567763',
+    projectId: 'saheli-db8a5',
+    storageBucket: 'saheli-db8a5.appspot.com',
+    iosClientId: '873861567763-hv6v9a66sokhum14sqvbnikeiup9e5aj.apps.googleusercontent.com',
+    iosBundleId: 'com.example.saheliApp.RunnerTests',
   );
 }

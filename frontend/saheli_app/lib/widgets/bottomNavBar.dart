@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
+import 'package:saheli_app/lib/screens/home_screen/home_screen.dart';
 import 'package:saheli_app/widgets/Contacts/new_contacts.dart';
-
 import '../views/article_screen.dart';
 import '../views/home_screen.dart';
+import 'Chatbot/chatbot.dart';
 import 'Profile.dart';
 import 'SafeRoutes/SafeRoutes.dart';
 
@@ -20,11 +21,29 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddContactsPage(),
+            ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('Chat', style: TextStyle( color: Theme.of(context).colorScheme.secondary,fontWeight: FontWeight.bold),),
+        ),
+
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: PageView(
         controller: _pageController,
         children: <Widget>[
           // if (isLogin) HomePage() else LoginPage(),
           HomePage(),
+          AudioScreen(),
           AddContactsPage(),
           SafeRoutes(),
           Profile(),
@@ -38,11 +57,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
         useActiveColorByDefault: false,
         items: const [
           RollingBottomBarItem(Icons.home,
-              label: 'Home', activeColor: Colors.redAccent),
-          RollingBottomBarItem(Icons.grid_view_rounded,
-              label: 'article', activeColor: Colors.amberAccent),
+              label: 'Home', activeColor: Colors.orangeAccent),
+          RollingBottomBarItem(Icons.record_voice_over,
+              label: 'Record', activeColor: Colors.purpleAccent),
+          RollingBottomBarItem(Icons.contact_emergency,
+              label: 'Contacts', activeColor: Colors.redAccent),
           RollingBottomBarItem(Icons.map,
-              label: 'SafeRoute', activeColor: Colors.blueAccent),
+              label: 'Routes', activeColor: Colors.blueAccent),
           RollingBottomBarItem(Icons.person,
               label: 'Profile', activeColor: Colors.green),
         ],

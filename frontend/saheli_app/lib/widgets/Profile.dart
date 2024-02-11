@@ -4,8 +4,8 @@ import 'package:saheli_app/services/localDb/localDb.dart';
 import 'package:saheli_app/widgets/PrivacyPolicy.dart';
 import 'package:share/share.dart';
 
+import '../views/article_screen.dart';
 import '../views/login.dart';
-
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -126,151 +126,164 @@ class _ProfileState extends State<Profile> {
                 const SizedBox(
                   height: 15,
                 ),
-                Container(
-                  child: Expanded(
-                      child: ListView(
-                    children: [
-                      Card(
-                        margin: const EdgeInsets.only(
-                            left: 35, right: 35, bottom: 10),
-                        color: Colors.white70,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.privacy_tip_sharp,
-                            color: Colors.black54,
-                          ),
-                          title: Text(
-                            'Privacy Policy',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PrivacyPolicyPage(),
-                              ),
-                            );
-                          },
-                          trailing: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            color: Colors.black54,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Card(
-                        color: Colors.white70,
-                        margin: const EdgeInsets.only(
-                            left: 35, right: 35, bottom: 10),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        child: const ListTile(
-                          leading:
-                              Icon(Icons.help_outline, color: Colors.black54),
-                          title: Text(
-                            'Help & Support',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            color: Colors.black54,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Card(
-                        color: Colors.white70,
-                        margin: const EdgeInsets.only(
-                            left: 35, right: 35, bottom: 10),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        child: const ListTile(
-                          leading: Icon(
-                            Icons.privacy_tip_sharp,
-                            color: Colors.black54,
-                          ),
-                          title: Text(
-                            'Settings',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          trailing: Icon(Icons.arrow_forward_ios_outlined),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Card(
-                        color: Colors.white70,
-                        margin: const EdgeInsets.only(
-                            left: 35, right: 35, bottom: 10),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.add_reaction_sharp,
-                            color: Colors.black54,
-                          ),
-                          title: Text(
-                            'Invite a Friend',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          onTap: () {
-                            openSharePanel();
-                          },
-                          trailing: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            color: Colors.black54,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Card(
-                        color: Colors.white70,
-                        margin: const EdgeInsets.only(
-                            left: 35, right: 35, bottom: 10),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.logout,
-                            color: Colors.black54,
-                          ),
-                          title: Text(
-                            'Logout',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          trailing: Icon(Icons.arrow_forward_ios_outlined),
-                          onTap: () {
-                            logout(context);
-                          },
-                        ),
-                      )
-                    ],
-                  )),
-                )
-              ],
-            ),
-          ),
-        ));
-  }
+    Container(
+    child: Expanded(
+    child: ListView(
+    children: [
+    Card(
+    margin: const EdgeInsets.only(
+    left: 35, right: 35, bottom: 10),
+    color: Theme.of(context).colorScheme.secondary,
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(30)),
+    child: ListTile(
 
-  final String linkToShare = 'your_link_here';
+    leading: Icon(
+    Icons.privacy_tip_sharp,
+    color: Colors.black54,
+    ),
+    title: Text(
+    'Privacy Policy',
+    style: TextStyle(color: Colors.white,
+    fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+    onTap: () {
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+    builder: (context) => PrivacyPolicyPage(),
+    ),
+    );
+    },
+    trailing: Icon(
+    Icons.arrow_forward_ios_outlined,
+    color: Colors.black54,
+    ),
+    ),
+    ),
+    const SizedBox(
+    height: 10,
+    ),
+    Card(
+    color: Theme.of(context).colorScheme.secondary,
+    margin: const EdgeInsets.only(
+    left: 35, right: 35, bottom: 10),
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(30)),
+    child: ListTile(
+
+    onTap: (){
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+    builder: (context) => ArticleScreen(),
+    ),
+    );},
+    leading:
+    Icon(Icons.read_more, color: Colors.black54),
+    title: Text(
+    'Explore Safety Articles',
+    style: TextStyle(
+    color: Colors.white,
+    fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+    trailing: Icon(
+    Icons.arrow_forward_ios_outlined,
+    color: Colors.black54,
+    ),
+    ),
+    ),
+    const SizedBox(
+    height: 10,
+    ),
+    Card(
+    color: Theme.of(context).colorScheme.secondary,
+    margin: const EdgeInsets.only(
+    left: 35, right: 35, bottom: 10),
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(30)),
+    child: const ListTile(
+    leading: Icon(
+    Icons.settings,
+    color: Colors.black54,
+    ),
+    title: Text(
+    'Settings',
+    style: TextStyle(
+    color: Colors.white,
+    fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios_outlined),
+    ),
+    ),
+    const SizedBox(
+    height: 10,
+    ),
+    Card(
+    color: Theme.of(context).colorScheme.secondary,
+    margin: const EdgeInsets.only(
+    left: 35, right: 35, bottom: 10),
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(30)),
+    child: ListTile(
+    leading: Icon(
+    Icons.add_reaction_sharp,
+    color: Colors.black54,
+    ),
+    title: Text(
+
+    'Invite a Friend',
+    style: TextStyle(
+    color: Colors.white,
+    fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+    onTap: () {
+    openSharePanel();
+    },
+    trailing: Icon(
+    Icons.arrow_forward_ios_outlined,
+    color: Colors.black54,
+    ),
+    ),
+    ),
+    const SizedBox(
+    height: 10,
+    ),
+    Card(
+    color: Theme.of(context).colorScheme.secondary,
+    margin: const EdgeInsets.only(
+    left: 35, right: 35, bottom: 10),
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(30)),
+    child: ListTile(
+    leading: Icon(
+    Icons.logout,
+    color: Colors.black54,
+    ),
+    title: Text(
+    'Logout',
+    style: TextStyle(
+    color: Colors.white,
+    fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios_outlined),
+    onTap: () {
+    logout(context);
+    },
+    ),
+    )
+    ],
+    ),
+    ),
+    )
+    ],
+    ),
+    ),
+    ));
+    }
 
   void openSharePanel() {
-    // Use the share function from the share package to open the share panel
+    String linkToShare="saheli.dev";
     Share.share(linkToShare);
   }
 

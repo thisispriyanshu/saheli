@@ -12,7 +12,12 @@
           "package_name": "com.example.saheli_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "873861567763-b2g88un8skl8tdfklgon56bjp8c4bqha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAV3wv9Izo56-1N0q0jfk0j-yHdiZgf8Xo"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873861567763-b2g88un8skl8tdfklgon56bjp8c4bqha.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "873861567763-pa1ds9mm7nuekhf3l4f6f6fnp9gnfm2g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.saheliApp"
+              }
+            }
+          ]
         }
       }
     }

@@ -70,7 +70,7 @@ class AmbulanceEmergency extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              '1 -1 -2 -2',
+                              '1 1 2 2',
                               style: TextStyle(
                                 color: Colors.red[300],
                                 fontWeight: FontWeight.bold,

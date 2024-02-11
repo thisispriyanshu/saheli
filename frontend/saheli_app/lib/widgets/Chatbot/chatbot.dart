@@ -154,7 +154,7 @@
 //             ),
 //           ),
 //           Padding(
-//             padding: const EdgeInsets.only(bottom: 60.0),
+//             padding: const EdgeInsets.only(bottom: 0.0),
 //             child: Container(
 //               padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0, right: 8.0),
 //               decoration: BoxDecoration(

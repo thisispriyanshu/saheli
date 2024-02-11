@@ -1,9 +1,11 @@
 
+import 'dart:async';
 import 'dart:math';
 
 import 'package:background_sms/background_sms.dart' as sms;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,11 +13,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:saheli_app/common/widgets/customBtn.dart';
 import 'package:saheli_app/views/login.dart';
+import 'package:saheli_app/widgets/Chatbot/chatbot.dart';
 import 'package:saheli_app/widgets/SafeRoutes/SafeHome.dart';
 import 'package:saheli_app/widgets/custom_widgets/CustomCarousel.dart';
 import 'package:saheli_app/widgets/custom_widgets/custom_appBar.dart';
 import 'package:shake/shake.dart';
 import 'package:telephony/telephony.dart';
+import 'package:volume_watcher/volume_watcher.dart';
 
 import '../db/databases.dart';
 import '../model/PhoneContact.dart';
@@ -43,7 +47,7 @@ class _HomePageState extends State<HomePage> {
       qIndex = random.nextInt(6);
     });
   }
-
+  late int _volumeListenerId;
   void initState() {
 
     super.initState();
@@ -57,7 +61,7 @@ class _HomePageState extends State<HomePage> {
     minimumShakeCount: 1,
     shakeSlopTimeMS: 500,
     shakeCountResetTime: 3000,
-    shakeThresholdGravity: 2.7);
+    shakeThresholdGravity: 5.0);
 
   }
 
@@ -67,7 +71,6 @@ class _HomePageState extends State<HomePage> {
     sms.SmsStatus result = (await sms.BackgroundSms.sendMessage(
         phoneNumber: phoneNumber, message: message, simSlot: 1));
     if (result == sms.SmsStatus.sent) {
-      print("Sent");
       Fluttertoast.showToast(msg: "send");
     } else {
       Fluttertoast.showToast(msg: "failed");
