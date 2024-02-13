@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
-import 'package:saheli_app/lib/screens/home_screen/home_screen.dart';
 import 'package:saheli_app/widgets/Contacts/new_contacts.dart';
+import '../AudioRecorder/screens/home_screen/home_screen.dart';
 import '../views/article_screen.dart';
 import '../views/home_screen.dart';
 import 'Chatbot/chatbot.dart';
@@ -21,6 +21,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
 
@@ -60,7 +61,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               label: 'Home', activeColor: Colors.orangeAccent),
           RollingBottomBarItem(Icons.record_voice_over,
               label: 'Record', activeColor: Colors.purpleAccent),
-          RollingBottomBarItem(Icons.contact_emergency,
+          RollingBottomBarItem(Icons.crisis_alert,
               label: 'Contacts', activeColor: Colors.redAccent),
           RollingBottomBarItem(Icons.map,
               label: 'Routes', activeColor: Colors.blueAccent),

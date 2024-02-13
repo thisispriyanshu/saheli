@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:saheli_app/FakeCaller/screens/call_menu.dart';
 import 'package:saheli_app/services/localDb/localDb.dart';
 import 'package:saheli_app/widgets/PrivacyPolicy.dart';
 import 'package:share/share.dart';
@@ -15,18 +16,18 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  String userName = 'null';
+  String? userName = 'null';
   String userEmail = 'null';
 
   Future<void> _loadUserDetails() async {
     await LocalDb.getName().then((value) {
       setState(() {
-        userName = value!;
+        userName = _auth.currentUser!.displayName;
       });
     });
     await LocalDb.getEmail().then((value) {
       setState(() {
-        userEmail = value!;
+        userEmail = _auth.currentUser!.email!;
       });
     });
   }
@@ -58,7 +59,7 @@ class _ProfileState extends State<Profile> {
                   children: const [
                     CircleAvatar(
                       maxRadius: 65,
-                      backgroundImage: AssetImage("assets/6195145.jpg"),
+                      backgroundImage: AssetImage("assets/profile.png"),
                     ),
                   ],
                 ),
@@ -101,7 +102,7 @@ class _ProfileState extends State<Profile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      userName,
+                      userName!,
                       style: const TextStyle(
                           fontWeight: FontWeight.w900, fontSize: 26),
                     )
@@ -118,7 +119,7 @@ class _ProfileState extends State<Profile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     Text(
-                      "Master manipulator, deal-maker and\n                   entrepreneur",
+                      "",
                       style: TextStyle(fontSize: 20),
                     )
                   ],
@@ -202,13 +203,21 @@ class _ProfileState extends State<Profile> {
     left: 35, right: 35, bottom: 10),
     shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(30)),
-    child: const ListTile(
+    child: ListTile(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CallMenu(),
+        ),
+      );
+    },
     leading: Icon(
-    Icons.settings,
+    Icons.call,
     color: Colors.black54,
     ),
     title: Text(
-    'Settings',
+    'Fake Caller',
     style: TextStyle(
     color: Colors.white,
     fontSize: 18, fontWeight: FontWeight.bold),

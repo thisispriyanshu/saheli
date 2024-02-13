@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:saheli_app/widgets/Live_location/main.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../db/databases.dart';
@@ -57,6 +58,20 @@ class _AddContactsPageState extends State<AddContactsPage> {
       contactList = [];
     }
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LiveScreen(),
+            ),
+          );
+        },
+        label: Text('Share Live Location'),
+        icon: Icon(Icons.location_on),
+        backgroundColor: Colors.blue,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: Color.fromARGB(255, 255, 236, 208),
       body: SafeArea(
         child: Container(

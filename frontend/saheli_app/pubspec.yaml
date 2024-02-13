@@ -68,9 +68,16 @@ dependencies:
   flutter_background_service_android: ^3.0.3
   flutter_background_service_ios: ^2.4.0
 #  flutter_local_notifications: ^8.2.0
-  rflutter_alert: ^2.0.2
+  rflutter_alert: ^2.0.7
+  google_maps_flutter: ^2.3.0
+  location:
+    git:
+      url: https://github.com/781flyingdutchman/flutterlocation.git
+      ref: 'V4'
+      path: packages/location
+  flutter_ringtone_player: ^3.1.1
 #  dialogflow_flutter: ^1.0.0
-#  dialogflow_grpc: ^0.2.9
+  dialog_flowtter: any
 #  speech_to_text: ^6.1.1
   volume_watcher: ^2.0.1
   flutter_native_splash: ^2.3.10

@@ -9,13 +9,10 @@ import 'package:saheli_app/services/localDb/localDb.dart';
 import 'package:saheli_app/views/login.dart';
 import 'package:saheli_app/widgets/bottomNavBar.dart';
 
+import 'AudioRecorder/screens/home_screen/cubit/record/record_cubit.dart';
+import 'AudioRecorder/screens/recordings_list/cubit/files/files_cubit.dart';
 import 'common/theme/theme.dart';
 import 'firebase_options.dart';
-import 'lib/screens/home_screen/cubit/record/record_cubit.dart';
-import 'lib/screens/home_screen/home_screen.dart';
-import 'lib/screens/recordings_list/cubit/files/files_cubit.dart';
-import 'lib/screens/recordings_list/view/recordings_list_screen.dart';
-
 class MyApp extends StatefulWidget {
   MyApp({super.key});
 
@@ -92,7 +89,17 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiBlocProvider(
+        providers: [
+        BlocProvider<RecordCubit>(
+        create: (context) => RecordCubit(),
+    ),
+
+    BlocProvider<FilesCubit>(
+    create: (context) => FilesCubit(),
+    ),
+    ],
+    child: MaterialApp(
       debugShowCheckedModeBanner: false,
       theme:
         Styles.themeData(context),
@@ -109,10 +116,7 @@ class _MyAppState extends State<MyApp> {
           }
         },
       ),
-      routes: {
-        AudioScreen.routeName: (context) => AudioScreen(),
-        RecordingsListScreen.routeName: (context) => RecordingsListScreen(),
-      },
+      ),
     );
   }
 }
@@ -120,7 +124,8 @@ class _MyAppState extends State<MyApp> {
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+      Scaffold(
       backgroundColor: const Color.fromARGB(255, 238, 30, 128),
       body: Center(
         child: Column(
