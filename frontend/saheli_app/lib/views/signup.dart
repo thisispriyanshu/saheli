@@ -16,7 +16,6 @@ class SignupPage extends StatefulWidget {
   @override
   State<SignupPage> createState() => _SignupPageState();
 }
-
 class _SignupPageState extends State<SignupPage> {
   bool showProgress = false;
   bool visible = false;

@@ -63,7 +63,7 @@ class _AddContactsPageState extends State<AddContactsPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => LiveScreen(),
+              builder: (context) => AddContactsPage(),
             ),
           );
         },
