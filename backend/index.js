@@ -1,5 +1,6 @@
 const express = require('express');
 const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
 const {Client} = require("@googlemaps/google-maps-services-js");
 const bodyParser = require('body-parser');
 require("dotenv").config();
@@ -37,6 +38,9 @@ function deg2rad(deg) {
 
 // Middleware
 app.use(bodyParser.json());
+
+// use auth routes
+app.use('/auth', authRoutes);
 
 // Use user routes
 app.use('/users', userRoutes);
