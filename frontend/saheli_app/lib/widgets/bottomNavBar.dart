@@ -22,6 +22,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
       body: PageView(
         controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
           // if (isLogin) HomePage() else LoginPage(),
           HomePage(),
