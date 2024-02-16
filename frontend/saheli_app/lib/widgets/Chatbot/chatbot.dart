@@ -1,197 +1,165 @@
-// import 'dart:async';
-// import 'package:saheli_app/widgets/Chatbot/chat_bubble.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:dialogflow_grpc/dialogflow_grpc.dart';
-// import 'package:dialogflow_grpc/generated/google/cloud/dialogflow/v2beta1/session.pb.dart';
-// import 'package:speech_to_text/speech_recognition_result.dart';
-// import 'package:speech_to_text/speech_to_text.dart';
-//
-// class HomeScreen extends StatefulWidget {
-//   const HomeScreen({Key? key}) : super(key: key);
-//
-//   @override
-//   State<HomeScreen> createState() => _HomeScreenState();
-// }
-//
-// class _HomeScreenState extends State<HomeScreen> {
-//   // message text controller
-//   final TextEditingController _textController = TextEditingController();
-//
-//   // list of messages that will be displayed on the screen
-//   final List<ChatMessage> _messages = <ChatMessage>[];
-//
-//   // for changing recording icon
-//   bool _isRecording = false;
-//
-//   late final SpeechToText speechToText;
-//   late StreamSubscription _recorderStatus;
-//   late StreamSubscription<List<int>> _audioStreamSubscription;
-//   late DialogflowGrpcV2Beta1 dialogflow;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     initPlugin();
-//   }
-//
-//   Future<void> initPlugin() async {
-//     // initializing speech t otext plugin
-//     speechToText = SpeechToText();
-//
-//     // requiried for setting up dialogflow
-//     final serviceAccount = ServiceAccount.fromString(
-//       await rootBundle.loadString(
-//         'assets/cred.json',
-//       ),
-//     );
-//
-//     // dialogflow setup
-//     dialogflow = DialogflowGrpcV2Beta1.viaServiceAccount(serviceAccount);
-//     setState(() {});
-//
-//     // Initialize speech recognition services, returns true if successful, false if failed.
-//     await speechToText.initialize(
-//       options: [SpeechToText.androidIntentLookup],
-//     );
-//   }
-//
-//   void stopStream() async {
-//     await _audioStreamSubscription.cancel();
-//   }
-//
-//   void handleSubmitted(text) async {
-//     _textController.clear();
-//
-//     ChatMessage message = ChatMessage(
-//       text: text,
-//       name: "You",
-//       type: true,
-//     );
-//
-//     setState(() {
-//       _messages.insert(0, message);
-//     });
-//
-//     // callling dialogflow api
-//     DetectIntentResponse data = await dialogflow.detectIntent(text, 'en-US');
-//
-//     // getting meaningful response text
-//     String fulfillmentText = data.queryResult.fulfillmentText;
-//     if (fulfillmentText.isNotEmpty) {
-//       ChatMessage botMessage = ChatMessage(
-//         text: fulfillmentText,
-//         name: "Sakha",
-//         type: false,
-//       );
-//
-//       setState(() {
-//         _messages.insert(0, botMessage);
-//       });
-//     }
-//   }
-//
-//   void _onSpeechResult(SpeechRecognitionResult result) async {
-//     String lastWords = result.recognizedWords;
-//
-//     // setting textediting controller to the speech value and moving cursor at the end
-//     _textController.text = lastWords;
-//     _textController.selection = TextSelection.collapsed(
-//       offset: _textController.text.length,
-//     );
-//
-//     setState(() {
-//       _isRecording = false;
-//     });
-//     await Future.delayed(const Duration(seconds: 5));
-//     _stopListening();
-//   }
-//
-//   void handleStream() async {
-//     setState(() {
-//       _isRecording = true;
-//     });
-//     await speechToText.listen(
-//       onResult: _onSpeechResult,
-//     );
-//   }
-//
-//   void _stopListening() async {
-//     await speechToText.stop();
-//   }
-//
-//   @override
-//   void dispose() {
-//     _recorderStatus.cancel();
-//     _audioStreamSubscription.cancel();
-//     speechToText.stop();
-//     super.dispose();
-//   }
-//
-//   // The chat interface
-//   //
-//   //------------------------------------------------------------------------------------
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor:Theme.of(context).colorScheme.secondary,
-//         title: const Text(
-//           "Chat with Sakha",
-//           style: TextStyle(
-//             color: Colors.white,
-//           ),
-//         ),
-//       ),
-//       body: Column(
-//         children: [
-//           Flexible(
-//             child: ListView.builder(
-//               padding: const EdgeInsets.all(8.0),
-//               reverse: true,
-//               itemBuilder: (ctx, int index) => _messages[index],
-//               itemCount: _messages.length,
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.only(bottom: 0.0),
-//             child: Container(
-//               padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0, right: 8.0),
-//               decoration: BoxDecoration(
-//                 color: Theme.of(context).cardColor,
-//                 border: Border.all(color: Theme.of(context).colorScheme.secondary,),
-//                 borderRadius: BorderRadius.circular(10),
-//               ),
-//               margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-//               child: Row(
-//                 children: <Widget>[
-//                   Flexible(
-//                     child: TextField(
-//                       controller: _textController,
-//                       onSubmitted: handleSubmitted,
-//                       decoration: const InputDecoration.collapsed(
-//                           hintText: "Send a message"),
-//                     ),
-//                   ),
-//                   Container(
-//                     margin: const EdgeInsets.symmetric(horizontal: 4.0),
-//                     child: IconButton(
-//                       icon: const Icon(Icons.send),
-//                       onPressed: () => handleSubmitted(_textController.text),
-//                     ),
-//                   ),
-//                   IconButton(
-//                       iconSize: 30.0,
-//                       icon: Icon(_isRecording ? Icons.mic : Icons.mic_off),
-//                       onPressed: () {
-//                         handleStream();
-//                       }),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+import 'package:flutter/material.dart';
+import 'package:dialog_flowtter/dialog_flowtter.dart';
+
+
+
+class ChatScreen extends StatefulWidget {
+const ChatScreen({Key? key}) : super(key: key);
+
+@override
+State<ChatScreen> createState() => _ChatBotState();
+}
+
+class _ChatBotState extends State<ChatScreen> {
+Color clr1 = Colors.pinkAccent;
+late DialogFlowtter instance;
+final messageController = new TextEditingController();
+Future<void> getInstance() async {
+instance = await DialogFlowtter.fromFile(
+path: "assets/dialog_flow_auth.json",
+sessionId: "any_random_string_will_do");
+}
+
+@override
+void initState() {
+getInstance();
+super.initState();
+}
+
+@override
+void dispose() {
+instance.dispose();
+super.dispose();
+}
+
+List<Map> messsages = [];
+
+Future<void> getResponse() async {
+DetectIntentResponse response = await instance.detectIntent(
+queryInput: QueryInput(text: TextInput(text: messageController.text)),
+);
+String? textResponse = response.text;
+print(textResponse);
+setState(() {
+messsages.insert(0, {"data": 0, "message": textResponse});
+});
+}
+
+@override
+Widget build(BuildContext context) {
+return Scaffold(
+body: Padding(
+padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 60),
+child: Column(
+children: [
+Flexible(
+child: ListView.builder(
+reverse: true,
+itemCount: messsages.length,
+itemBuilder: (context, index) => chat(
+messsages[index]["message"].toString(),
+messsages[index]["data"]))),
+Container(
+child: ListTile(
+title: Container(
+padding: EdgeInsets.only(left: 10),
+decoration: BoxDecoration(
+color: Color(0xffF2F4F6),
+borderRadius: BorderRadius.all(Radius.circular(15))),
+child: TextFormField(
+controller: messageController,
+decoration: InputDecoration(
+hintText: "Send Message",
+border: InputBorder.none,
+focusedBorder: InputBorder.none,
+enabledBorder: InputBorder.none,
+errorBorder: InputBorder.none,
+disabledBorder: InputBorder.none),
+cursorColor: clr1,
+),
+),
+trailing: GestureDetector(
+child: Icon(Icons.send_outlined, color: clr1),
+onTap: () {
+getResponse();
+setState(() {
+messsages.insert(
+0, {"data": 1, "message": messageController.text});
+});
+messageController.clear();
+},
+),
+),
+),
+SizedBox(height: 10),
+],
+),
+),
+);
+}
+
+Widget chat(String message, int data) {
+return Container(
+padding: EdgeInsets.only(left: 10, right: 10),
+child: Row(
+mainAxisAlignment:
+data == 1 ? MainAxisAlignment.end : MainAxisAlignment.start,
+children: [
+data == 0
+? Container(
+height: 60,
+width: 60,
+child: CircleAvatar(
+backgroundColor: clr1,
+child: Text("Sakha", style: TextStyle(color: Colors.white)),
+),
+)
+    : Container(),
+Padding(
+padding: EdgeInsets.all(0.0),
+child: Card(
+color: data == 0 ? Colors.white : clr1,
+elevation: 0.0,
+child: Padding(
+padding: EdgeInsets.only(right: 10.0, top: 10.0, bottom: 10.0),
+child: Row(
+mainAxisSize: MainAxisSize.min,
+children: <Widget>[
+SizedBox(
+width: 10.0,
+),
+Flexible(
+child: Container(
+constraints: BoxConstraints(maxWidth: 200),
+child: Text(
+message,
+style: data == 0
+? TextStyle(
+color: clr1, fontWeight: FontWeight.bold)
+    : TextStyle(
+color: Colors.white,
+fontWeight: FontWeight.bold),
+),
+))
+],
+),
+)),
+),
+data == 1
+? Container(
+child: CircleAvatar(
+minRadius: 30,
+child: CircleAvatar(
+minRadius: 29,
+backgroundColor: Colors.white,
+child: Text("You", style: TextStyle(color: clr1)),
+),
+backgroundColor: clr1,
+),
+)
+    : Container(),
+],
+),
+);
+}
+}

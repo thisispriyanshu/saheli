@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saheli_app/FakeCaller/screens/caller_screen.dart';
 import 'dart:async';
 import 'middle_button.dart';
 
@@ -79,10 +80,18 @@ class _BottomButtonState extends State<BottomButton>
                 onPanEnd: (details) {
                   setState(() {
                     if (_buttonPosition == -100.0) {
-                      Navigator.popAndPushNamed(context, '/CallerScreen',
-                          arguments: {
-                            'name': widget.name,
-                          });
+                      // Navigator.popAndPushNamed(context, '/CallerScreen',
+                      //     arguments: {
+                      //       'name': widget.name,
+                      //     });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CallerScreen(
+
+                          ),
+                        ),
+                      );
                     } else {
                       _buttonPosition = 0.0;
                       _visibleAnimation = true;

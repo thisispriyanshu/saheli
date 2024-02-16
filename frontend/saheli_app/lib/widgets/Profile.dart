@@ -7,6 +7,7 @@ import 'package:share/share.dart';
 
 import '../views/article_screen.dart';
 import '../views/login.dart';
+import 'SOSStorage/CollectionScreen.dart';
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -227,6 +228,37 @@ class _ProfileState extends State<Profile> {
     ),
     const SizedBox(
     height: 10,
+    ),
+      Card(
+        color: Theme.of(context).colorScheme.secondary,
+        margin: const EdgeInsets.only(
+            left: 35, right: 35, bottom: 10),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30)),
+        child: ListTile(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CollectionScreen(),
+              ),
+            );
+          },
+          leading: Icon(
+            Icons.storage,
+            color: Colors.black54,
+          ),
+          title: Text(
+            'Your SOS Collection',
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          trailing: Icon(Icons.arrow_forward_ios_outlined),
+        ),
+      ),
+    SizedBox(
+      height: 10,
     ),
     Card(
     color: Theme.of(context).colorScheme.secondary,

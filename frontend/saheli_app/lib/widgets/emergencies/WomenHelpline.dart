@@ -47,7 +47,7 @@ class ArmyEmergency extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'State Police Authority',
+                          'State Women Welfare',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

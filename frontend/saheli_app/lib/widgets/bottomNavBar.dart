@@ -1,8 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
+import 'package:saheli_app/AudioRecorder/screens/home_screen/audioplayer.dart';
 import 'package:saheli_app/widgets/Contacts/new_contacts.dart';
 import '../AudioRecorder/screens/home_screen/home_screen.dart';
+import '../FakeCaller/utilities/icon_content.dart';
 import '../views/article_screen.dart';
 import '../views/home_screen.dart';
 import 'Chatbot/chatbot.dart';
@@ -17,35 +21,38 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
+
+  int _selectedIndex = 0;
   final PageController _pageController = PageController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: _selectedIndex != 2
+          ? FloatingActionButton(
+        backgroundColor: Colors.red,
         onPressed: () {
-
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddContactsPage(),
+              builder: (context) => AudioPlayer(),
             ),
           );
         },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text('Chat', style: TextStyle( color: Theme.of(context).colorScheme.secondary,fontWeight: FontWeight.bold),),
-        ),
+        child: Icon(Icons.crisis_alert_outlined),
+      )
+          : null, // Render FAB only for the Search tab (index 1)
 
-      ),
+
+
+
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: PageView(
         controller: _pageController,
         children: <Widget>[
           // if (isLogin) HomePage() else LoginPage(),
           HomePage(),
-          AudioScreen(),
           AddContactsPage(),
+          ChatScreen(),
           SafeRoutes(),
           Profile(),
         ],
@@ -59,10 +66,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
         items: const [
           RollingBottomBarItem(Icons.home,
               label: 'Home', activeColor: Colors.orangeAccent),
-          RollingBottomBarItem(Icons.record_voice_over,
-              label: 'Record', activeColor: Colors.purpleAccent),
-          RollingBottomBarItem(Icons.crisis_alert,
-              label: 'Contacts', activeColor: Colors.redAccent),
+          RollingBottomBarItem(Icons.contacts,
+              label: 'Contacts', activeColor: Colors.deepOrange),
+          RollingBottomBarItem(Icons.bubble_chart_outlined,
+              label: 'Chat', activeColor: Colors.blueAccent),
           RollingBottomBarItem(Icons.map,
               label: 'Routes', activeColor: Colors.blueAccent),
           RollingBottomBarItem(Icons.person,
@@ -74,7 +81,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
             index,
             duration: const Duration(milliseconds: 400),
             curve: Curves.easeOut,
+
           );
+          setState(() {
+            _selectedIndex = index;
+          });
         },
       ),
     );
