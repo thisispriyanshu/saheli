@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:saheli_app/services/localDb/localDb.dart';
@@ -11,9 +12,11 @@ import 'package:saheli_app/views/OnboardingScreen.dart';
 import 'package:saheli_app/views/googleSignIn.dart';
 import 'package:saheli_app/views/login.dart';
 import 'package:saheli_app/widgets/bottomNavBar.dart';
+import 'package:shake/shake.dart';
 
 import 'AudioRecorder/screens/home_screen/cubit/record/record_cubit.dart';
 import 'AudioRecorder/screens/recordings_list/cubit/files/files_cubit.dart';
+import 'FakeCaller/screens/incoming_call.dart';
 import 'common/theme/theme.dart';
 import 'firebase_options.dart';
 
@@ -48,11 +51,13 @@ class MyApp extends StatefulWidget {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load();
+  //await dotenv.load();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(MaterialApp(
+    home: MyApp(),
+  ));
 }
 
 class _MyAppState extends State<MyApp> {
@@ -71,11 +76,34 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void playRingtone() {
+    FlutterRingtonePlayer.playRingtone(asAlarm: true);
+  }
+
   @override
   void initState() {
     getLoggedinState();
     print(isLogin);
     super.initState();
+    ShakeDetector.autoStart(
+      onPhoneShake: () {
+        // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('shaked')));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => IncomingCall(
+              name: "Unknown",
+              number: "(410) 0679 890",
+            ),
+          ),
+        );
+        // playRingtone();
+      },
+      minimumShakeCount: 2,
+      shakeSlopTimeMS: 200,
+      shakeThresholdGravity: 3.0,
+      shakeCountResetTime: 3000,
+    );
     // Add a delay to simulate a splash screen effect
     Timer(Duration(seconds: 2), () {
       getLoggedinState();
@@ -157,7 +185,7 @@ class SplashScreen extends StatelessWidget {
                 height: 15,
               ),
               Text(
-                'towards a safe \'YOU\'',
+                'Towards A Safe \'YOU\'',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,

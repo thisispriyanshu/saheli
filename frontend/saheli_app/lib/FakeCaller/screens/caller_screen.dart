@@ -1,14 +1,109 @@
 import 'dart:async';
+import 'package:background_sms/background_sms.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class CallerScreen extends StatelessWidget {
+import '../../db/databases.dart';
+import '../../model/PhoneContact.dart';
+class CallerScreen extends StatefulWidget {
+  @override
+  State<CallerScreen> createState() => _SafeHomeState();
+}
+
+class _SafeHomeState extends State<CallerScreen> {
+  Position? _curentPosition;
+  String? _curentAddress;
+  LocationPermission? permission;
+
+  _isPermissionGranted() async => await Permission.sms.status.isGranted;
+  _sendSms(String phoneNumber, String message, {int? simSlot}) async {
+    SmsStatus result = await BackgroundSms.sendMessage(
+        phoneNumber: phoneNumber, message: message, simSlot: 1);
+    if (result == SmsStatus.sent) {
+      print("Sent");
+      Fluttertoast.showToast(msg: "send");
+    } else {
+      Fluttertoast.showToast(msg: "failed");
+    }
+  }
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context as BuildContext).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context as BuildContext).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context as BuildContext).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
+
+  _getCurrentLocation() async {
+    final hasPermission = await _handleLocationPermission();
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+        forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        _curentPosition = position;
+        print(_curentPosition!.latitude);
+        _getAddressFromLatLon();
+      });
+    }).catchError((e) {
+      Fluttertoast.showToast(msg: e.toString());
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+
+    _getCurrentLocation();
+  }
+
+
+  _getAddressFromLatLon() async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          _curentPosition!.latitude, _curentPosition!.longitude);
+
+      Placemark place = placemarks[0];
+      setState(() {
+        _curentAddress =
+        "${place.locality},${place.postalCode},${place.street},";
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
   static const routeName = '/CallerScreen';
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map;
-    String name = args['name'];
+    // final args = ModalRoute.of(context)!.settings.arguments as Map;
+    // String name = args['name'];
     return Material(
       type: MaterialType.transparency,
       child: Container(
@@ -20,7 +115,7 @@ class CallerScreen extends StatelessWidget {
               backgroundColor:Color.fromARGB(255, 255, 57, 116),
               radius: 40,
               child: Text(
-                name[0],
+                'Apoorv',
                 style: GoogleFonts.lato(),
               ),
             ),
@@ -28,7 +123,7 @@ class CallerScreen extends StatelessWidget {
               height: 5.0,
             ), //CircleAvatar
             Text(
-              args['name'],
+             'Yash',
               style: GoogleFonts.lato(),
               textAlign: TextAlign.center,
             ),
@@ -66,10 +161,44 @@ class CallerScreen extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      const Icon(
-                        IconData(0xe1ce, fontFamily: 'MaterialIcons'),
-                        size: 45.0,
+                      ElevatedButton(
+                        onPressed:
+                          () async {
+                            String recipients = "";
+                            List<TContact> contactList =
+                                await DatabaseHelper().getContactList();
+                            print(contactList.length);
+                            if (contactList.isEmpty) {
+                              Fluttertoast.showToast(
+                                  msg: "emergency contact is empty");
+                            } else {
+                              String messageBody =
+                                  "https://www.google.com/maps/search/?api=1&query=${_curentPosition!.latitude}%2C${_curentPosition!.longitude}. $_curentAddress";
+
+                              if (await _isPermissionGranted()) {
+                          contactList.forEach((element) {
+                          _sendSms("${element.number}",
+                          "i am in trouble $messageBody");
+                          });
+                          } else {
+                          Fluttertoast.showToast(msg: "something wrong");
+                          }
+                        }
+
+                        },
+                        child: const Icon(
+                          IconData(0xe1ce, fontFamily: 'MaterialIcons'),
+                          size: 30.0,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          shape: const CircleBorder(),
+                          padding: const EdgeInsets.all(24),
+                        ),
                       ),
+                      // const Icon(
+                      //   IconData(0xe1ce, fontFamily: 'MaterialIcons'),
+                      //   size: 45.0,
+                      // ),
                       const SizedBox(
                         height: 5.0,
                       ),
@@ -172,6 +301,7 @@ class CallerScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
+                Navigator.pop(context);
               },
               child: const Icon(
                 IconData(0xe127, fontFamily: 'MaterialIcons'),
@@ -191,6 +321,7 @@ class CallerScreen extends StatelessWidget {
       ),
     );
   }
+
 }
 
 class TickingTimer extends StatefulWidget {

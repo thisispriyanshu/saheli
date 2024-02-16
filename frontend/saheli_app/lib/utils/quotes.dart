@@ -1,10 +1,10 @@
 List sweetSayings = [
-  "\"Make use of helpline numbers when in emergency\"",
-  "\"Audio recorded will be saved on your device storage\"",
-  "\"Shake your phone to send SOS\"",
-  "\"Add contacts that you trust so that they can help you in emergency\"",
-  "\"Chat with your Chatbot whenever you need\"",
-  "\"Get Safe Route from your current location to your Home\"",
+  "Make use of helpline numbers when in emergency",
+  "Audio recorded will be saved on your device storage",
+  "Shake your phone to send SOS",
+  "Add contacts that you trust so that they can help you in emergency",
+  "Chat with your Chatbot whenever you need",
+  "Get Safe Route from your current location to your Home",
 ];
 
 List<String> articleTitle = [

@@ -3,17 +3,18 @@ import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:saheli_app/FakeCaller/screens/scheduler.dart';
 import 'package:saheli_app/FakeCaller/screens/user_manual.dart';
-import '../utilities/card_child.dart';
-import '../utilities/icon_content.dart';
-import 'caller_id.dart';
-import 'incoming_call.dart';
+import 'package:saheli_app/widgets/SOSStorage/AudioStore.dart';
+import 'package:saheli_app/widgets/SOSStorage/CameraStore.dart';
+import 'package:saheli_app/widgets/SOSStorage/sosCardChild.dart';
+import '../../FakeCaller/utilities/card_child.dart';
+import '../../FakeCaller/utilities/icon_content.dart';
 
-class CallMenu extends StatefulWidget {
+class CollectionScreen extends StatefulWidget {
   @override
-  State<CallMenu> createState() => _CallMenuState();
+  State<CollectionScreen> createState() => _CallMenuState();
 }
 
-class _CallMenuState extends State<CallMenu> {
+class _CallMenuState extends State<CollectionScreen> {
   bool isFullTimerLoaded = false;
 
   bool isFullIDLoaded = false;
@@ -24,13 +25,11 @@ class _CallMenuState extends State<CallMenu> {
     super.initState();
   }
 
-  void playRingtone() {
-    FlutterRingtonePlayer.playRingtone(asAlarm: true);
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('SOS storage collection',)),
       backgroundColor: Color.fromARGB(255, 255, 236, 208),
       body: Container(
         decoration: const BoxDecoration(
@@ -53,15 +52,12 @@ class _CallMenuState extends State<CallMenu> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                Text(
-                  'Welcome to Fake Caller',
-                  style: TextStyle(fontFamily: 'lato', fontSize: 20.0, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
+
+
               ]),
             ),
             const SizedBox(
-              height: 100.0,
+              height: 20.0,
             ),
             Expanded(
               child: Container(
@@ -79,21 +75,21 @@ class _CallMenuState extends State<CallMenu> {
                         children: [
                           Expanded(
 
-                            child: CardChild(
+                            child: SOSCard(
+
                               cardChild: IconContent(
-                                icon: const IconData(0xf06e4,
+                                icon: const IconData(0xf05bf,
                                     fontFamily: 'MaterialIcons'),
-                                text: "Call Now",
+                                text: "Audio Storage",
 
                               ),
                               onPress: () {
-                                playRingtone();
+
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => IncomingCall(
-                                      name: "Unknown",
-                                      number: "(410) 0679 890",
+                                    builder: (context) => AudioListScreen(
+
                                     ),
                                   ),
                                 );
@@ -101,19 +97,19 @@ class _CallMenuState extends State<CallMenu> {
                             ),
                           ),
                           Expanded(
-                            child: CardChild(
+                            child: SOSCard(
                               cardChild: IconContent(
-                                icon: const IconData(0xe18c,
+                                icon: const IconData(0xef21,
                                     fontFamily: 'MaterialIcons'),
-                                text: 'Caller ID',
+                                text: 'Camera Storage',
                               ),
                               onPress: () {
 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => CallerID()),
-                                  );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ImageListScreen()),
+                                );
 
                               },
                             ),
@@ -121,51 +117,14 @@ class _CallMenuState extends State<CallMenu> {
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: Row(children: [
-                        Expanded(
-                          child: CardChild(
-                            cardChild: IconContent(
-                              icon: const IconData(0xe0c2,
-                                  fontFamily: 'MaterialIcons'),
-                              text: "Schedule",
-                            ),
-                            onPress: () {
 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Scheduler()),
-                                );
-
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          child: CardChild(
-                            cardChild: IconContent(
-                              icon: const IconData(0xf0555,
-                                  fontFamily: 'MaterialIcons'),
-                              text: "How it works",
-                            ),
-                            onPress: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => UserManual()),
-                              );
-                            },
-                          ),
-                        )
-                      ]),
-                    ),
                   ],
 
                 ),
               ),
             ),
             const SizedBox(
-              height: 150.0,
+              height: 200.0,
             ),
           ],
 

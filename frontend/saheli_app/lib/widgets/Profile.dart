@@ -7,6 +7,7 @@ import 'package:share/share.dart';
 
 import '../views/article_screen.dart';
 import '../views/login.dart';
+import 'SOSStorage/CollectionScreen.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -86,14 +87,14 @@ class _ProfileState extends State<Profile> {
                 ),
                 CircleAvatar(
                   backgroundImage:
-                      AssetImage("assets/1_Twitter-new-icon-mobile-app.jpg"),
+                  AssetImage("assets/1_Twitter-new-icon-mobile-app.jpg"),
                 ),
                 SizedBox(
                   width: 15,
                 ),
                 CircleAvatar(
                   backgroundImage:
-                      AssetImage("assets/600px-LinkedIn_logo_initials.png"),
+                  AssetImage("assets/600px-LinkedIn_logo_initials.png"),
                 )
               ],
             ),
@@ -133,6 +134,72 @@ class _ProfileState extends State<Profile> {
               child: Expanded(
                 child: ListView(
                   children: [
+                    Card(
+                      color: Theme.of(context).colorScheme.secondary,
+                      margin: const EdgeInsets.only(
+                          left: 35, right: 35, bottom: 10),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CallMenu(),
+                            ),
+                          );
+                        },
+                        leading: Icon(
+                          Icons.call,
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                        title: const Text(
+                          'Fake Caller',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                      color: Theme.of(context).colorScheme.secondary,
+                      margin: const EdgeInsets.only(
+                          left: 35, right: 35, bottom: 10),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CollectionScreen(),
+                            ),
+                          );
+                        },
+                        leading: const Icon(
+                          Icons.storage,
+                          color: Colors.black54,
+                        ),
+                        title: const Text(
+                          'Your SOS Collection',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        trailing: const Icon(Icons.arrow_forward_ios_outlined),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Card(
                       margin: const EdgeInsets.only(
                           left: 35, right: 35, bottom: 10),
@@ -187,41 +254,6 @@ class _ProfileState extends State<Profile> {
                             color: Theme.of(context).colorScheme.tertiary),
                         title: const Text(
                           'Explore Safety Articles',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      margin: const EdgeInsets.only(
-                          left: 35, right: 35, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CallMenu(),
-                            ),
-                          );
-                        },
-                        leading: Icon(
-                          Icons.call,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                        title: const Text(
-                          'Fake Caller',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -304,7 +336,7 @@ class _ProfileState extends State<Profile> {
   }
 
   void openSharePanel() {
-    String linkToShare = "saheli.dev";
+    String linkToShare="saheli.dev";
     Share.share(linkToShare);
   }
 
