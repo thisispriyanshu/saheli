@@ -1,11 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
-import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
-import 'package:saheli_app/widgets/Contacts/new_contacts.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:saheli_app/views/home_screen.dart';
+
 import '../AudioRecorder/screens/home_screen/home_screen.dart';
-import '../views/article_screen.dart';
-import '../views/home_screen.dart';
-import 'Chatbot/chatbot.dart';
+import 'Contacts/new_contacts.dart';
 import 'Profile.dart';
 import 'SafeRoutes/SafeRoutes.dart';
 
@@ -17,66 +17,188 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  final PageController _pageController = PageController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  int _selectedIndex = 0;
+
+  final List<Widget> navBarList = [
+    HomePage(),
+    AudioScreen(),
+    AddContactsPage(),
+    SafeRoutes(),
+    Profile(),
+  ];
+
   @override
   Widget build(BuildContext context) {
+    // height
+    double height = MediaQuery.of(context).size.height;
+    // width
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddContactsPage(),
-            ),
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text('Chat', style: TextStyle( color: Theme.of(context).colorScheme.secondary,fontWeight: FontWeight.bold),),
-        ),
-
+      backgroundColor: Theme.of(context).bottomAppBarTheme.color,
+      key: _scaffoldKey,
+      // body: _pages[_selectedIndex],
+      body: SafeArea(
+        child: IndexedStack(index: _selectedIndex, children: navBarList),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      body: PageView(
-        controller: _pageController,
-        children: <Widget>[
-          // if (isLogin) HomePage() else LoginPage(),
-          HomePage(),
-          AudioScreen(),
-          AddContactsPage(),
-          SafeRoutes(),
-          Profile(),
-        ],
-      ) ,
-      extendBody: true,
-      bottomNavigationBar: RollingBottomBar(
-        color: const Color.fromARGB(226, 243, 243, 243),
-        controller: _pageController,
-        flat: true,
-        useActiveColorByDefault: false,
-        items: const [
-          RollingBottomBarItem(Icons.home,
-              label: 'Home', activeColor: Colors.orangeAccent),
-          RollingBottomBarItem(Icons.record_voice_over,
-              label: 'Record', activeColor: Colors.purpleAccent),
-          RollingBottomBarItem(Icons.crisis_alert,
-              label: 'Contacts', activeColor: Colors.redAccent),
-          RollingBottomBarItem(Icons.map,
-              label: 'Routes', activeColor: Colors.blueAccent),
-          RollingBottomBarItem(Icons.person,
-              label: 'Profile', activeColor: Colors.green),
-        ],
-        enableIconRotation: true,
-        onTap: (index) {
-          _pageController.animateToPage(
-            index,
-            duration: const Duration(milliseconds: 400),
-            curve: Curves.easeOut,
-          );
-        },
+      bottomNavigationBar: Material(
+        elevation: 15,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.01),
+          decoration: const BoxDecoration(
+            // color: Theme.of(context).cardColor.withOpacity(0.5),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
+              child: GNav(
+                curve: Curves.easeOutExpo,
+                // rippleColor: Colors.grey[300],
+                // hoverColor: Colors.grey[100],
+                haptic: true,
+                tabBorderRadius: 20,
+                //gap: 2,
+                activeColor: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                duration: const Duration(milliseconds: 400),
+                tabBackgroundColor: Theme.of(context).colorScheme.tertiary,
+                // textStyle: Colors.white,
+                tabs: [
+                  GButton(
+                    iconSize: 25,
+                    icon: _selectedIndex == 0
+                        ? Icons.home_filled
+                        : LineAwesomeIcons.home,
+                    text: 'Home',
+                  ),
+                  GButton(
+                    iconSize: 25,
+                    icon: _selectedIndex == 1 ? Icons.mic : Icons.mic,
+                    text: 'Recorder',
+                  ),
+                  GButton(
+                    iconSize: 25,
+                    icon: _selectedIndex == 2
+                        ? Icons.contacts
+                        : Icons.contacts_outlined,
+                    text: 'Contacts',
+                  ),
+                  GButton(
+                    iconSize: 25,
+                    icon: _selectedIndex == 3 ? Icons.map : Icons.map_outlined,
+                    text: 'Route',
+                  ),
+                  GButton(
+                    iconSize: 25,
+                    icon: _selectedIndex == 4
+                        ? CupertinoIcons.person_solid
+                        : CupertinoIcons.person,
+                    text: 'Profile',
+                  ),
+                ],
+                selectedIndex: _selectedIndex,
+                onTabChange: _onItemTapped,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
+
+  void _onItemTapped(int value) {
+    setState(() {
+      _selectedIndex = value;
+    });
+  }
 }
+
+// import 'package:flutter/material.dart';
+// import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
+// import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
+// import 'package:saheli_app/widgets/Contacts/new_contacts.dart';
+// import '../AudioRecorder/screens/home_screen/home_screen.dart';
+// import '../views/article_screen.dart';
+// import '../views/home_screen.dart';
+// import 'Chatbot/chatbot.dart';
+// import 'Profile.dart';
+// import 'SafeRoutes/SafeRoutes.dart';
+//
+// class BottomNavBar extends StatefulWidget {
+//   const BottomNavBar({super.key});
+//
+//   @override
+//   State<BottomNavBar> createState() => _BottomNavBarState();
+// }
+//
+// class _BottomNavBarState extends State<BottomNavBar> {
+//   final PageController _pageController = PageController();
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: () {
+//
+//           Navigator.push(
+//             context,
+//             MaterialPageRoute(
+//               builder: (context) => AddContactsPage(),
+//             ),
+//           );
+//         },
+//         child: Padding(
+//           padding: const EdgeInsets.all(8.0),
+//           child: Text('Chat', style: TextStyle( color: Theme.of(context).colorScheme.secondary,fontWeight: FontWeight.bold),),
+//         ),
+//
+//       ),
+//       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+//       body: PageView(
+//         controller: _pageController,
+//         children: <Widget>[
+//           // if (isLogin) HomePage() else LoginPage(),
+//           HomePage(),
+//           AudioScreen(),
+//           AddContactsPage(),
+//           SafeRoutes(),
+//           Profile(),
+//         ],
+//       ) ,
+//       extendBody: true,
+//       bottomNavigationBar: RollingBottomBar(
+//         color: const Color.fromARGB(226, 243, 243, 243),
+//         controller: _pageController,
+//         flat: true,
+//         useActiveColorByDefault: false,
+//         items: const [
+//           RollingBottomBarItem(Icons.home,
+//               label: 'Home', activeColor: Colors.orangeAccent),
+//           RollingBottomBarItem(Icons.record_voice_over,
+//               label: 'Record', activeColor: Colors.purpleAccent),
+//           RollingBottomBarItem(Icons.crisis_alert,
+//               label: 'Contacts', activeColor: Colors.redAccent),
+//           RollingBottomBarItem(Icons.map,
+//               label: 'Routes', activeColor: Colors.blueAccent),
+//           RollingBottomBarItem(Icons.person,
+//               label: 'Profile', activeColor: Colors.green),
+//         ],
+//         enableIconRotation: true,
+//         onTap: (index) {
+//           _pageController.animateToPage(
+//             index,
+//             duration: const Duration(milliseconds: 400),
+//             curve: Curves.easeOut,
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }

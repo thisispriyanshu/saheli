@@ -7,9 +7,10 @@ class Styles{
       colorScheme: const ColorScheme.light(
         brightness: Brightness.light,
         primary: Color(0xffffecd0),
-        secondary: Color(0xffff3974)
+        secondary: Color(0xffff3974),
+        tertiary: Color(0xff38302E),
       ),
-      fontFamily:  GoogleFonts.montserrat().fontFamily,
+      fontFamily:  "font",
     );
   }
 }

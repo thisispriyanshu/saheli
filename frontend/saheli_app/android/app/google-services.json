@@ -1,40 +1,48 @@
 {
   "project_info": {
-    "project_number": "873861567763",
-    "project_id": "saheli-db8a5",
-    "storage_bucket": "saheli-db8a5.appspot.com"
+    "project_number": "839782813332",
+    "project_id": "able-current-375514",
+    "storage_bucket": "able-current-375514.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:873861567763:android:35b9a6bdb2b6c23b96b6e6",
+        "mobilesdk_app_id": "1:839782813332:android:5bd5c7509908e987e7ae81",
         "android_client_info": {
           "package_name": "com.example.saheli_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "873861567763-b2g88un8skl8tdfklgon56bjp8c4bqha.apps.googleusercontent.com",
+          "client_id": "839782813332-29p01ad3lu1le5pa25pbgugfdfkjugf8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.saheli_app",
+            "certificate_hash": "3a9f8686d6278a77cd8cde11e4cf062c159f79d1"
+          }
+        },
+        {
+          "client_id": "839782813332-js9a2v1lggms4muc1pevqq4o24rhf0g9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAV3wv9Izo56-1N0q0jfk0j-yHdiZgf8Xo"
+          "current_key": "AIzaSyBxwuQ-dLh_A7qMFwXu6Vq0NVbuDX0rgQE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "873861567763-b2g88un8skl8tdfklgon56bjp8c4bqha.apps.googleusercontent.com",
+              "client_id": "839782813332-js9a2v1lggms4muc1pevqq4o24rhf0g9.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "873861567763-pa1ds9mm7nuekhf3l4f6f6fnp9gnfm2g.apps.googleusercontent.com",
+              "client_id": "839782813332-831pnv12vd4mq6smea9n3n45j3ukd76u.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.saheliApp"
+                "bundle_id": "com.example.saheliApp.RunnerTests"
               }
             }
           ]

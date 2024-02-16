@@ -11,7 +11,6 @@ class PoliceEmergency extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, bottom: 5),
       child: Card(
-        elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),

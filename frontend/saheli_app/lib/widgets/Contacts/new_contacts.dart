@@ -58,6 +58,10 @@ class _AddContactsPageState extends State<AddContactsPage> {
       contactList = [];
     }
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Contacts", style: TextStyle(color: Colors.white),),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
