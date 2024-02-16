@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "839782813332",
+    "project_id": "able-current-375514",
+    "storage_bucket": "able-current-375514.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839782813332:android:5bd5c7509908e987e7ae81",
+        "android_client_info": {
+          "package_name": "com.example.saheli_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839782813332-29p01ad3lu1le5pa25pbgugfdfkjugf8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.saheli_app",
+            "certificate_hash": "3a9f8686d6278a77cd8cde11e4cf062c159f79d1"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxwuQ-dLh_A7qMFwXu6Vq0NVbuDX0rgQE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
