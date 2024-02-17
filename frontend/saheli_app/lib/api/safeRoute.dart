@@ -27,12 +27,16 @@ Future<dynamic> makeSafeRouteRequest(LatLng source, LatLng destination, String m
       'mode': mode,
     },
   );
+
+  print(response.statusCode);
   
   if (response.statusCode == 200) {
     // Request successful
     final body = jsonDecode(response.body);
     print('Safe route request successful');
-    return body['safestRoute']['legs']['steps'];
+    List steps = body["safestRoute"]['legs'][0]['steps'];
+    print(steps); 
+    return steps;
 
   } else {
     // Request failed
