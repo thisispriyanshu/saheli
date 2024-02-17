@@ -46,6 +46,13 @@ class _ChatBotState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Sakha",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ),
       body: Padding(
         padding: EdgeInsets.all(8),
         child: Column(

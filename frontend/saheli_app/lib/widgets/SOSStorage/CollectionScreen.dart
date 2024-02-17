@@ -25,12 +25,16 @@ class _CallMenuState extends State<CollectionScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('SOS storage collection',)),
-      backgroundColor: Color.fromARGB(255, 255, 236, 208),
+      appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          title: const Text(
+            'SOS storage collection', style: TextStyle(color: Colors.white),
+          )),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -48,12 +52,9 @@ class _CallMenuState extends State<CollectionScreen> {
               padding: const EdgeInsets.only(
                   left: 30.0, top: 60.0, right: 30.0, bottom: 30.0),
               child: Column(children: [
-
                 const SizedBox(
                   height: 10.0,
                 ),
-
-
               ]),
             ),
             const SizedBox(
@@ -74,23 +75,17 @@ class _CallMenuState extends State<CollectionScreen> {
                       child: Row(
                         children: [
                           Expanded(
-
                             child: SOSCard(
-
                               cardChild: IconContent(
                                 icon: const IconData(0xf05bf,
                                     fontFamily: 'MaterialIcons'),
                                 text: "Audio Storage",
-
                               ),
                               onPress: () {
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => AudioListScreen(
-
-                                    ),
+                                    builder: (context) => AudioListScreen(),
                                   ),
                                 );
                               },
@@ -104,22 +99,18 @@ class _CallMenuState extends State<CollectionScreen> {
                                 text: 'Camera Storage',
                               ),
                               onPress: () {
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ImageListScreen()),
                                 );
-
                               },
                             ),
                           ),
                         ],
                       ),
                     ),
-
                   ],
-
                 ),
               ),
             ),
@@ -127,7 +118,6 @@ class _CallMenuState extends State<CollectionScreen> {
               height: 200.0,
             ),
           ],
-
         ),
       ),
     );

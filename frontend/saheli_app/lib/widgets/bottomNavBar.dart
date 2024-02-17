@@ -106,7 +106,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     icon: _selectedIndex == 2
                         ? Icons.chat
                         : Icons.chat_bubble_outline,
-                    text: 'Chat',
+                    text: 'Sakha',
                   ),
                   GButton(
                     iconSize: 25,

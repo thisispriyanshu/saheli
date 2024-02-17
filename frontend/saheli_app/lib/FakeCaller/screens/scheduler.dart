@@ -52,24 +52,19 @@ class _SchedulerState extends State<Scheduler> {
       resizeToAvoidBottomInset: false,
 
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(
-                "assets/images/image4.jpeg",
-              ),
-              fit: BoxFit.cover),
-        ),
+        // decoration: const BoxDecoration(
+        //   image: DecorationImage(
+        //       image: AssetImage(
+        //         "assets/images/image4.jpeg",
+        //       ),
+        //       fit: BoxFit.cover),
+        // ),
         child: Container(
           margin: const EdgeInsets.fromLTRB(30.0, 140.0, 30.0, 120.0),
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 10.0),
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 255, 57, 116),
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0),
-              bottomLeft: Radius.circular(20.0),
-              bottomRight: Radius.circular(20.0),
-            ),
+            color: Theme.of(context).colorScheme.secondary,
+            borderRadius: BorderRadius.circular(20)
           ),
           child: Center(
             child: Column(
@@ -87,21 +82,19 @@ class _SchedulerState extends State<Scheduler> {
                       child: Center(
                         child: TextField(
                           cursorColor: Colors.black,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             hintText: "min",
                             hintStyle:
                                 TextStyle(fontSize: 20.0, color: Colors.white),
                             enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.white, width: 1.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.white, width: 3.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                           style: const TextStyle(
@@ -114,7 +107,9 @@ class _SchedulerState extends State<Scheduler> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 20),
+                    const SizedBox(width: 10),
+                    Text(":", style: TextStyle(fontSize: 22, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),),
+                    const SizedBox(width: 10),
                     Container(
                       height: 80,
                       width: 100,
@@ -125,21 +120,19 @@ class _SchedulerState extends State<Scheduler> {
                       child: Center(
                         child: TextField(
                           cursorColor: Color.fromARGB(255, 255, 57, 116),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             hintText: "sec",
                             hintStyle:
                                 TextStyle(fontSize: 20.0, color: Colors.white),
                             enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.white, width: 1.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.white, width: 3.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                           style: const TextStyle(
@@ -161,7 +154,7 @@ class _SchedulerState extends State<Scheduler> {
                 ),
                 Text(
                   "Name",
-                  style: GoogleFonts.lato(),
+                  style: TextStyle(fontSize: 22, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 10.0,
@@ -171,22 +164,22 @@ class _SchedulerState extends State<Scheduler> {
                     color: Color.fromARGB(255, 255, 236, 208),
                     fontSize: 22.0,
                   ),
-                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.name,
+                  textAlign: TextAlign.left,
                   onChanged: (value) {
                     name = value;
                   },
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     //contentPadding:EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white, width: 1.0),
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
@@ -195,7 +188,7 @@ class _SchedulerState extends State<Scheduler> {
                 ),
                 Text(
                   "Number",
-                  style: GoogleFonts.lato(),
+                  style: TextStyle(fontSize: 22, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 10.0,
@@ -205,22 +198,22 @@ class _SchedulerState extends State<Scheduler> {
                     color: Color.fromARGB(255, 255, 236, 208),
                     fontSize: 22.0,
                   ),
-                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.left,
                   onChanged: (value) {
                     number = value;
                   },
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     //contentPadding:EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white, width: 1.0),
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
@@ -230,12 +223,11 @@ class _SchedulerState extends State<Scheduler> {
                   ),
                 ),
                 ElevatedButton(
-
                   child: const Text(
                     'Set Timer',
                     style: TextStyle(
-                      fontSize: 25.0,
-                      color: Color.fromARGB(255, 255, 236, 208),
+                      fontSize: 22.0,
+                      color: Colors.white,
                     ),
                   ),
                   onPressed: () {
@@ -275,11 +267,11 @@ class _SchedulerState extends State<Scheduler> {
                         });
                   },
                   style: ElevatedButton.styleFrom(
-                    primary:Color.fromARGB(255, 255, 57, 116),
+                    backgroundColor: Theme.of(context).colorScheme.tertiary,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 15),
+                        horizontal: 25, vertical: 15),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),

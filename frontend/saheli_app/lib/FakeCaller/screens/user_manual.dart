@@ -22,27 +22,27 @@ class UserManual extends StatelessWidget {
                   ),
                   fit: BoxFit.cover),
             ),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
                 Text(
                   '➋ For how long the call be active?',
-                  style: GoogleFonts.lato(),),
-                const SizedBox(
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                SizedBox(
                   height: 5.0,
                 ),
                 Text(
                   'As long as you want unless and until you press the cancel button.',
-                  style: GoogleFonts.lato(),
+                    style: TextStyle(fontSize: 18)
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 15.0,
                 ),
                 Text(
                   '➌ Can I lock the screen after setting the timer?',
-                  style: GoogleFonts.lato(),),
-                const SizedBox(
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+                SizedBox(
                   height: 5.0,
                 ),
                 Text(
@@ -50,37 +50,36 @@ class UserManual extends StatelessWidget {
                   'will hear your caller tune, but no calling screen will be visible.'
                   'The calling screen will only be visible after you unlock the phone.\n'
                   'PS: You have to be on the timer screen.',
-                  style: GoogleFonts.lato(),
-
+                    style: TextStyle(fontSize: 18)
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 15.0,
                 ),
                 Text(
                   '➍ Will I receive a call if I set the timer and let the app run in the background?',
-                  style: GoogleFonts.lato(),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 5.0,
                 ),
                 Text(
                   'Yes, you will receive the call. You will only hear the caller'
                   'tune first, and then on clicking the app in the background you will be able to see the calling screen.',
-                  style: GoogleFonts.lato(),
+                    style: TextStyle(fontSize: 18)
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 15.0,
                 ),
                 Text(
                   '➎ Can I make a gesture to receive fake calls?',
-                  style:GoogleFonts.lato(),),
-                const SizedBox(
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                SizedBox(
                   height: 5.0,
                 ),
                 Text(
                   'No. Currently your android operating system won\'t allow that. But maybe in the future'
                   ' we will add that functionality.',
-                  style: GoogleFonts.lato(),
+                    style: TextStyle(fontSize: 18)
                 ),
               ],
             ),
