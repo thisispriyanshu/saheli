@@ -1,6 +1,6 @@
 # Saheli - Your Ultimate Safety Companion
 
-Saheli, meaning 'female best friend' in Hindi, is an innovative mobile application designed to ensure the safety and security of women, empowering them to navigate through various situations confidently. Developed as a part of the Google Solution Challenge hackathon, Saheli integrates cutting-edge technologies and thoughtful features to address the pressing issue of women's safety.
+Saheli, meaning 'female best friend' in Hindi, is an innovative mobile application designed to ensure the safety and security of women, empowering them to navigate through various situations confidently. Developed as a part of the Google Solution Challenge hackathon, Saheli app is built using Flutter and integrating cutting-edge technologies and thoughtful features to address the pressing issue of women's safety.
 
 ## Features:
 
@@ -16,7 +16,7 @@ Saheli, meaning 'female best friend' in Hindi, is an innovative mobile applicati
   
 - **Scheduled Fake Caller**: Set scheduled fake calls with customized name, number, and timing, offering a seamless escape plan.
   
-- **AI Chatbot (Sakha)**: Integrated AI chatbot trained on women's safety, providing guidance, tips, and assistance during emergencies.
+- **AI Chatbot (Sakha)**: Integrated AI chatbot using Gemini API and Dialogflow which is trained on women's safety, providing guidance, tips, and assistance during emergencies.
   
 - **Crowdsourced Safety Zones**: Empower users to report unsafe areas and identify verified safe zones, fostering community-driven safety initiatives.
   
@@ -38,7 +38,7 @@ Saheli aims to create a safer environment for women by leveraging technology and
   
 - **Facilitating Immediate Assistance**: Saheli's SOS alerts and audio-video recording capabilities facilitate prompt response from trusted contacts and authorities, potentially saving lives in critical situations.
 
-## Ideas for Further Enhancement:
+## Further Enhancement Ideas:
 
 1. **Community Engagement Campaigns**: Organize workshops, webinars, or awareness campaigns to educate and empower women on safety practices and app usage.
   
@@ -52,7 +52,7 @@ Saheli aims to create a safer environment for women by leveraging technology and
 
 ## Technologies Used:
 
-- Flutter (Frontend)
+- Flutter & Dart (Frontend)
 - Node.js (Backend)
 - Google Maps API
 - K-means Clustering
