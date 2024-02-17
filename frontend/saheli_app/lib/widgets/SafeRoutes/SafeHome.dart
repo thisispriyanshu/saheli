@@ -221,7 +221,7 @@ class PrimaryButton extends StatelessWidget {
         },
         child: Text(
           title,
-          style: TextStyle(fontSize: 17, color: Colors.black),
+          style: TextStyle(fontSize: 17, color: Colors.white),
         ),
         style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.secondary,

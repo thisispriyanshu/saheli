@@ -46,102 +46,74 @@ class _HomePageState extends State<HomePage> {
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 236, 208),
+      appBar: AppBar(
+        title: const Text("Home", style: TextStyle(color: Colors.white),),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16.0, top: 8.0, bottom: 9.0, right: 8.0),
-                    child: Text(
-                      "Welcome",
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 57, 116),
-                          fontFamily: 'Montserrat'),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                  child: Container(
-                    color: Colors.grey.shade100,
-                  ),
-                ),
-                SizedBox(height: 10),                CustomAppBar(
+          child: Column(
+            children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: CustomAppBar(
                   quoteIndex: qIndex,
                   onTap: getRandomQuote(),
                 ),
-                SizedBox(height: 10),
-                SizedBox(height: 10),
-                SizedBox(
-                  height: 10,
-                  child: Container(
-                    color: Colors.grey.shade100,
-                  ),
-                ),
-
-                Expanded(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: [
-                      SizedBox(height: 10),
-                      SafeHome(),
-                      SizedBox(height: 10),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Incase of emergency",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-
-                      SizedBox(height: 10),
-                      Emergency(),
-
-                      SizedBox(height: 10),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Find on Map",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      LiveSafe(),
-                      SizedBox(height: 10),
-                      SizedBox(height: 10),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Explore Inspiring Stories",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      CustomCarouel(),
-                    ],
-                  ),
-                ),
-              ],
             ),
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    const SizedBox(height: 10),
+                    //SafeHome(),
+                    const SizedBox(height: 10),
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Incase of Emergency",
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    const Emergency(),
+                    const SizedBox(height: 5),
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Find on Map",
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Container(
+                      alignment: Alignment.center,
+                        child: const LiveSafe()),
+                    const SizedBox(height: 10),
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Explore Inspiring Stories",
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    const CustomCarouel(),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
 

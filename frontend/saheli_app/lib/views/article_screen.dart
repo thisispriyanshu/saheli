@@ -49,19 +49,23 @@ class ArticleScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 236, 208),
+      appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        title: const Text("Safety Articles", style: TextStyle(color: Colors.white),),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Container(
             padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Identifying Sexual harassment",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
+
                 ListView.builder(
                   shrinkWrap: true,
                   itemCount: articles.length,

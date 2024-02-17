@@ -279,7 +279,13 @@ class AudioPlayerState extends State<AudioPlayer> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.redAccent,
-      appBar: AppBar(title: Text('SOS Mode'),),
+      appBar: AppBar(
+        title: const Text(
+          "SOS Mode",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

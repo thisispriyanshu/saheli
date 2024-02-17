@@ -5,8 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:saheli_app/services/localDb/localDb.dart';
+import 'package:saheli_app/views/OnboardingScreen.dart';
+import 'package:saheli_app/views/googleSignIn.dart';
 import 'package:saheli_app/views/login.dart';
 import 'package:saheli_app/widgets/bottomNavBar.dart';
 import 'package:shake/shake.dart';
@@ -16,6 +19,7 @@ import 'AudioRecorder/screens/recordings_list/cubit/files/files_cubit.dart';
 import 'FakeCaller/screens/incoming_call.dart';
 import 'common/theme/theme.dart';
 import 'firebase_options.dart';
+
 class MyApp extends StatefulWidget {
   MyApp({super.key});
 
@@ -45,19 +49,18 @@ class MyApp extends StatefulWidget {
 //   }
 // }
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //await dotenv.load();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MaterialApp(
     home: MyApp(),
   ));
-
 }
 
 class _MyAppState extends State<MyApp> {
-
   final PageController _pageController = PageController(); // Moved it here
 
   bool isLogin = false;
@@ -72,16 +75,18 @@ class _MyAppState extends State<MyApp> {
       });
     });
   }
+
   void playRingtone() {
     FlutterRingtonePlayer.playRingtone(asAlarm: true);
   }
+
   @override
   void initState() {
     getLoggedinState();
     print(isLogin);
     super.initState();
-    ShakeDetector.autoStart(onPhoneShake:(){
-
+    ShakeDetector.autoStart(
+      onPhoneShake: () {
         // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('shaked')));
         Navigator.push(
           context,
@@ -92,8 +97,8 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         );
-      // playRingtone();
-    },
+        // playRingtone();
+      },
       minimumShakeCount: 2,
       shakeSlopTimeMS: 200,
       shakeThresholdGravity: 3.0,
@@ -116,32 +121,29 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
+      providers: [
         BlocProvider<RecordCubit>(
-        create: (context) => RecordCubit(),
-    ),
-
-    BlocProvider<FilesCubit>(
-    create: (context) => FilesCubit(),
-    ),
-    ],
-    child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme:
-        Styles.themeData(context),
-
-      home: FutureBuilder(
-        // Simulate the initialization process with a Future
-        future: Future.delayed(Duration(seconds: 2)),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return isLogin ? BottomNavBar() : BottomNavBar();
-          } else {
-
-            return SplashScreen();
-          }
-        },
-      ),
+          create: (context) => RecordCubit(),
+        ),
+        BlocProvider<FilesCubit>(
+          create: (context) => FilesCubit(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: Styles.themeData(context),
+        home: FutureBuilder(
+          // Simulate the initialization process with a Future
+          future: Future.delayed(Duration(seconds: 2)),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              //return isLogin ? BottomNavBar() : GoogleSignIn();
+              return OnboardingScreen();
+            } else {
+              return SplashScreen();
+            }
+          },
+        ),
       ),
     );
   }
@@ -150,36 +152,47 @@ class _MyAppState extends State<MyApp> {
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return
-      Scaffold(
+    return Scaffold(
       backgroundColor: const Color.fromARGB(255, 238, 30, 128),
       body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Container(
+                  height: 250,
 
-            Center(
-              child: Container(
-              height: 250,
-
-              // Use BoxDecoration to cover the whole screen with the image
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/img.png'),
+                  // Use BoxDecoration to cover the whole screen with the image
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/img.png'),
+                    ),
+                  ),
                 ),
               ),
-
-                        ),
-            ),
-            SizedBox(height: 30,),
-            Text('S A H E L I', style: TextStyle(color: Colors.white,fontSize: 24, fontWeight: FontWeight.bold),),
-            SizedBox(height: 15,),
-            Text('towards a safe \'YOU\'', style: TextStyle(color: Colors.white,fontSize: 22, fontWeight: FontWeight.bold),)
-        ]),
-      
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                'S A H E L I',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                'Towards A Safe \'YOU\'',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold),
+              )
+            ]),
       ),
     );
-
   }
 }
