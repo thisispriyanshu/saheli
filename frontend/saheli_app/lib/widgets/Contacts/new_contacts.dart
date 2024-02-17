@@ -58,20 +58,7 @@ class _AddContactsPageState extends State<AddContactsPage> {
       contactList = [];
     }
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddContactsPage(),
-            ),
-          );
-        },
-        label: Text('Share Live Location'),
-        icon: Icon(Icons.location_on),
-        backgroundColor: Colors.blue,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
       backgroundColor: Color.fromARGB(255, 255, 236, 208),
       body: SafeArea(
         child: Container(

@@ -9,7 +9,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # followed by an optional build number separated by a +.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
+# In Android, build-name is used as versiomnName while build-number used as versionCode.
 # Read more about Android versioning at https://developer.android.com/studio/publish/versioning
 # In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
 # Read more about iOS versioning at
@@ -46,18 +46,18 @@ dependencies:
   introduction_screen: ^3.1.12
   shared_preferences: ^2.2.2
   fluttertoast: ^8.2.4
-  permission_handler: ^10.0.2
+  permission_handler: any
   contacts_service: ^0.6.3
   sqflite: ^2.2.0+3
   equatable: ^2.0.5
   background_sms: ^0.0.4
-  geolocator: ^9.0.2
+  geolocator: any
   geocoding: ^2.0.5
   image_picker: ^0.8.6+1
   webview_flutter: ^3.0.4
   carousel_slider: ^4.1.1
   flutter_svg: ^2.0.9
-  uuid: ^3.0.7
+  uuid: any
   firebase_storage: ^11.0.11
   cached_network_image: ^3.2.3
   flutter_phone_direct_caller: ^2.1.1
@@ -88,8 +88,10 @@ dependencies:
   gradient_borders: ^1.0.0
   vibration: ^1.7.6
   telephony: ^0.2.0
+  flutter_polyline_points: ^1.0.0
   rolling_bottom_bar: ^0.2.2
-  http: 0.13.6
+  http: any
+  flutter_osm_plugin: any
   photo_view: ^0.14.0
 
 
