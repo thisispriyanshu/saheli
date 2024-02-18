@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:saheli_app/FakeCaller/screens/caller_screen.dart';
 import 'package:saheli_app/services/localDb/localDb.dart';
+import 'package:saheli_app/views/home_screen.dart';
 import 'package:saheli_app/views/login.dart';
 import 'package:saheli_app/widgets/bottomNavBar.dart';
 import 'package:shake/shake.dart';
@@ -52,12 +54,16 @@ void main() async{
   );
   runApp(MaterialApp(
     home: MyApp(),
+    routes: {
+      // When navigating to the "/second" route, build the SecondScreen widget.
+      '/CallerScreen': (context) =>  CallerScreen(),
+    },
+
   ));
 
 }
 
 class _MyAppState extends State<MyApp> {
-
   final PageController _pageController = PageController(); // Moved it here
 
   bool isLogin = false;
@@ -92,7 +98,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         );
-      // playRingtone();
+      playRingtone();
     },
       minimumShakeCount: 2,
       shakeSlopTimeMS: 200,

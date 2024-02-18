@@ -8,6 +8,8 @@ import 'package:share/share.dart';
 import '../views/article_screen.dart';
 import '../views/login.dart';
 import 'SOSStorage/CollectionScreen.dart';
+import 'SOSStorage/SubmitForm.dart';
+
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -45,7 +47,7 @@ class _ProfileState extends State<Profile> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: Container(
-            color: Colors.white54,
+            color: Color.fromARGB(255, 255, 236, 208),
             child: Column(
               children: [
                 const SizedBox(
@@ -59,7 +61,7 @@ class _ProfileState extends State<Profile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     CircleAvatar(
-                      maxRadius: 65,
+                      maxRadius: 95,
                       backgroundImage: AssetImage("assets/profile.png"),
                     ),
                   ],
@@ -67,35 +69,35 @@ class _ProfileState extends State<Profile> {
                 const SizedBox(
                   height: 15,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    CircleAvatar(
-                      backgroundImage: AssetImage("assets/download.png"),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    CircleAvatar(
-                      backgroundImage:
-                          AssetImage("assets/GooglePlus-logo-red.png"),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    CircleAvatar(
-                      backgroundImage: AssetImage(
-                          "assets/1_Twitter-new-icon-mobile-app.jpg"),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    CircleAvatar(
-                      backgroundImage:
-                          AssetImage("assets/600px-LinkedIn_logo_initials.png"),
-                    )
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: const [
+                //     CircleAvatar(
+                //       backgroundImage: AssetImage("assets/download.png"),
+                //     ),
+                //     SizedBox(
+                //       width: 15,
+                //     ),
+                //     CircleAvatar(
+                //       backgroundImage:
+                //           AssetImage("assets/GooglePlus-logo-red.png"),
+                //     ),
+                //     SizedBox(
+                //       width: 15,
+                //     ),
+                //     CircleAvatar(
+                //       backgroundImage: AssetImage(
+                //           "assets/1_Twitter-new-icon-mobile-app.jpg"),
+                //     ),
+                //     SizedBox(
+                //       width: 15,
+                //     ),
+                //     CircleAvatar(
+                //       backgroundImage:
+                //           AssetImage("assets/600px-LinkedIn_logo_initials.png"),
+                //     )
+                //   ],
+                // ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -113,218 +115,287 @@ class _ProfileState extends State<Profile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Text(userEmail)],
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "",
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-    Container(
-    child: Expanded(
-    child: ListView(
-    children: [
-    Card(
-    margin: const EdgeInsets.only(
-    left: 35, right: 35, bottom: 10),
-    color: Theme.of(context).colorScheme.secondary,
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(30)),
-    child: ListTile(
 
-    leading: Icon(
-    Icons.privacy_tip_sharp,
-    color: Colors.black54,
-    ),
-    title: Text(
-    'Privacy Policy',
-    style: TextStyle(color: Colors.white,
-    fontSize: 18, fontWeight: FontWeight.bold),
-    ),
-    onTap: () {
-    Navigator.push(
-    context,
-    MaterialPageRoute(
-    builder: (context) => PrivacyPolicyPage(),
-    ),
-    );
-    },
-    trailing: Icon(
-    Icons.arrow_forward_ios_outlined,
-    color: Colors.black54,
-    ),
-    ),
-    ),
-    const SizedBox(
-    height: 10,
-    ),
-    Card(
-    color: Theme.of(context).colorScheme.secondary,
-    margin: const EdgeInsets.only(
-    left: 35, right: 35, bottom: 10),
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(30)),
-    child: ListTile(
+                Container(
+                  child: Expanded(
+                    child: ListView(
+                      children: [
 
-    onTap: (){
-    Navigator.push(
-    context,
-    MaterialPageRoute(
-    builder: (context) => ArticleScreen(),
-    ),
-    );},
-    leading:
-    Icon(Icons.read_more, color: Colors.black54),
-    title: Text(
-    'Explore Safety Articles',
-    style: TextStyle(
-    color: Colors.white,
-    fontSize: 18, fontWeight: FontWeight.bold),
-    ),
-    trailing: Icon(
-    Icons.arrow_forward_ios_outlined,
-    color: Colors.black54,
-    ),
-    ),
-    ),
-    const SizedBox(
-    height: 10,
-    ),
-    Card(
-    color: Theme.of(context).colorScheme.secondary,
-    margin: const EdgeInsets.only(
-    left: 35, right: 35, bottom: 10),
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(30)),
-    child: ListTile(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CallMenu(),
-        ),
-      );
-    },
-    leading: Icon(
-    Icons.call,
-    color: Colors.black54,
-    ),
-    title: Text(
-    'Fake Caller',
-    style: TextStyle(
-    color: Colors.white,
-    fontSize: 18, fontWeight: FontWeight.bold),
-    ),
-    trailing: Icon(Icons.arrow_forward_ios_outlined),
-    ),
-    ),
-    const SizedBox(
-    height: 10,
-    ),
-      Card(
-        color: Theme.of(context).colorScheme.secondary,
-        margin: const EdgeInsets.only(
-            left: 35, right: 35, bottom: 10),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30)),
-        child: ListTile(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CollectionScreen(),
-              ),
-            );
-          },
-          leading: Icon(
-            Icons.storage,
-            color: Colors.black54,
+                        Card(
+                          margin: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
+                          color: Color.fromARGB(255, 255, 236, 208), // Set transparent color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(color: Colors.pinkAccent, width: 2), // Border color
+                          ),
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.privacy_tip_sharp,
+                              color: Colors.black54,
+                            ),
+                            title: Text(
+                              'Privacy Policy',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PrivacyPolicyPage(),
+                                ),
+                              );
+                            },
+                            trailing: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Card(
+                          margin: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
+                          color: Color.fromARGB(255, 255, 236, 208), // Set transparent color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(color: Colors.pinkAccent, width: 2), // Border color
+                          ),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ArticleScreen(),
+                                ),
+                              );
+                            },
+                            leading:
+                                Icon(Icons.read_more, color: Colors.black54),
+                            title: Text(
+                              'Explore Safety Articles',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Card(
+                          margin: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
+                          color: Color.fromARGB(255, 255, 236, 208), // Set transparent color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(color: Colors.pinkAccent, width: 2), // Border color
+                          ),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SafeRoutesForm(),
+                                ),
+                              );
+                            },
+                            leading:
+                            Icon(Icons.report, color: Colors.black54),
+                            title: Text(
+                              'Report suspicious places',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                        Card(
+                          margin: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
+                          color: Color.fromARGB(255, 255, 236, 208) , // Set transparent color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(color: Colors.pinkAccent, width: 2), // Border color
+                          ),
+                        ),
+                          // child: ListTile(
+                          //   leading: Icon(
+                          //     Icons.add_reaction_sharp,
+                          //     color: Colors.black54,
+                          //   ),
+                        //     title: Text(
+                        //       'Period Tracker',
+                        //       style: TextStyle(
+                        //           color: Colors.black,
+                        //           fontSize: 18,
+                        //           fontWeight: FontWeight.bold),
+                        //     ),
+                        //     onTap: () {
+                        //       Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //           builder: (context) => PeriodScreen(),
+                        //         ),
+                        //       );
+                        //     },
+                        //     trailing: Icon(
+                        //       Icons.arrow_forward_ios_outlined,
+                        //       color: Colors.black54,
+                        //     ),
+                        //   ),
+                        // ),
+
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Card(
+                          margin: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
+                          color: Color.fromARGB(255, 255, 236, 208) ,// Set transparent color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(color: Colors.pinkAccent, width: 2), // Border color
+                          ),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CallMenu(),
+                                ),
+                              );
+                            },
+                            leading: Icon(
+                              Icons.call,
+                              color: Colors.black54,
+                            ),
+                            title: Text(
+                              'Fake Caller',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Icon(Icons.arrow_forward_ios_outlined),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Card(
+                          margin: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
+                          color: Color.fromARGB(255, 255, 236, 208) , // Set transparent color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(color: Colors.pinkAccent, width: 2), // Border color
+                          ),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CollectionScreen(),
+                                ),
+                              );
+                            },
+                            leading: Icon(
+                              Icons.storage,
+                              color: Colors.black54,
+                            ),
+                            title: Text(
+                              'Your SOS Collection',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Icon(Icons.arrow_forward_ios_outlined),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Card(
+                          margin: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
+                          color: Color.fromARGB(255, 255, 236, 208) , // Set transparent color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(color: Colors.pinkAccent, width: 2), // Border color
+                          ),
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.add_reaction_sharp,
+                              color: Colors.black54,
+                            ),
+                            title: Text(
+                              'Invite a Friend',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            onTap: () {
+                              openSharePanel();
+                            },
+                            trailing: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Card(
+                          margin: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
+                          color: Color.fromARGB(255, 255, 236, 208) ,// Set transparent color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(color: Colors.pinkAccent, width: 2), // Border color
+                          ),
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.logout,
+                              color: Colors.black54,
+                            ),
+                            title: Text(
+                              'Logout',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Icon(Icons.arrow_forward_ios_outlined),
+                            onTap: () {
+                              logout(context);
+                            },
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
-          title: Text(
-            'Your SOS Collection',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios_outlined),
-        ),
-      ),
-    SizedBox(
-      height: 10,
-    ),
-    Card(
-    color: Theme.of(context).colorScheme.secondary,
-    margin: const EdgeInsets.only(
-    left: 35, right: 35, bottom: 10),
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(30)),
-    child: ListTile(
-    leading: Icon(
-    Icons.add_reaction_sharp,
-    color: Colors.black54,
-    ),
-    title: Text(
-
-    'Invite a Friend',
-    style: TextStyle(
-    color: Colors.white,
-    fontSize: 18, fontWeight: FontWeight.bold),
-    ),
-    onTap: () {
-    openSharePanel();
-    },
-    trailing: Icon(
-    Icons.arrow_forward_ios_outlined,
-    color: Colors.black54,
-    ),
-    ),
-    ),
-    const SizedBox(
-    height: 10,
-    ),
-    Card(
-    color: Theme.of(context).colorScheme.secondary,
-    margin: const EdgeInsets.only(
-    left: 35, right: 35, bottom: 10),
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(30)),
-    child: ListTile(
-    leading: Icon(
-    Icons.logout,
-    color: Colors.black54,
-    ),
-    title: Text(
-    'Logout',
-    style: TextStyle(
-    color: Colors.white,
-    fontSize: 18, fontWeight: FontWeight.bold),
-    ),
-    trailing: Icon(Icons.arrow_forward_ios_outlined),
-    onTap: () {
-    logout(context);
-    },
-    ),
-    )
-    ],
-    ),
-    ),
-    )
-    ],
-    ),
-    ),
-    ));
-    }
+        ));
+  }
 
   void openSharePanel() {
-    String linkToShare="saheli.dev";
+    String linkToShare = "saheli.dev";
     Share.share(linkToShare);
   }
 

@@ -174,7 +174,7 @@ class AudioPlayerState extends State<AudioPlayer> {
         "https://maps.google.com/?daddr=${_curentPosition?.latitude??1.2325},${_curentPosition?.longitude?? 5.45634}";
     if (await _isPermissionGranted()) {
       contactList.forEach((element) {
-        _sendSms("${element.number}", "i am in trouble $messageBody");
+        _sendSms("${element.number}", "I am in trouble! $messageBody This message is sent from Saheli App");
       });
     } else {
       Fluttertoast.showToast(msg: "something wrong");
