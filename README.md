@@ -16,7 +16,7 @@ Saheli, meaning 'female best friend' in Hindi, is an innovative mobile applicati
   
 - **Scheduled Fake Caller**: Set scheduled fake calls with customized name, number, and timing, offering a seamless escape plan.
   
-- **AI Chatbot (Sakha)**: Integrated AI chatbot using Gemini API and Dialogflow which is trained on women's safety, providing guidance, tips, and assistance during emergencies.
+- **AI Chatbot (Sakha)**: Integrated AI chatbot using Gemini AI, VERTEX AI API and Dialogflow which is trained on women's safety, providing guidance, tips, and assistance during emergencies.
   
 - **Crowdsourced Safety Zones**: Empower users to report unsafe areas and identify verified safe zones, fostering community-driven safety initiatives.
   
@@ -59,6 +59,7 @@ Saheli aims to create a safer environment for women by leveraging technology and
 - Firebase (Authentication, Firestore)
 - Dialogflow
 - Gemini AI API
+- Vertex AI API
 - Compute Engine (Deployment)
 
 ## How to Contribute:
