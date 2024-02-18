@@ -1,6 +1,8 @@
 import 'package:cupertino_onboarding/cupertino_onboarding.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:saheli_app/views/googleSignIn.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -11,10 +13,10 @@ class OnboardingScreen extends StatelessWidget {
     return CupertinoOnboarding(
       bottomButtonColor: Theme.of(context).colorScheme.secondary,
       onPressedOnLastPage: () => Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const GoogleSignIn())),
+          PageTransition(child: GoogleSignIn(), type: PageTransitionType.rightToLeft)),
       pages: [
         WhatsNewPage(
-          title: const Text("Welcome To Saheli"),
+          title: const Text("Welcome To Saheli").animate().fade(duration: 500.milliseconds).shimmer(duration: 2.seconds),
           features: [
             WhatsNewFeature(
               icon: Icon(
@@ -24,11 +26,11 @@ class OnboardingScreen extends StatelessWidget {
               title: const Text(
                 'Send SOS',
                 style: TextStyle(fontSize: 25),
-              ),
+              ).animate().fadeIn(),
               description: const Text(
                 'Send SOS messages with your current location to your selected contacts, so they can track you in emergency situations.',
                 style: TextStyle(fontSize: 15),
-              ),
+              ).animate().fadeIn(),
             ),
             WhatsNewFeature(
               icon: Icon(
@@ -38,11 +40,11 @@ class OnboardingScreen extends StatelessWidget {
               title: const Text(
                 'Quick Access',
                 style: TextStyle(fontSize: 25),
-              ),
+              ).animate().fadeIn(),
               description: const Text(
                 "Quickly access police stations, hospitals and bus stands that are nearby your current location on google maps.",
                 style: TextStyle(fontSize: 15),
-              ),
+              ).animate().fadeIn(),
             ),
             WhatsNewFeature(
               icon: Icon(
@@ -52,19 +54,19 @@ class OnboardingScreen extends StatelessWidget {
               title: const Text(
                 'Incase Of Emergency',
                 style: TextStyle(fontSize: 25),
-              ),
+              ).animate().fadeIn(),
               description: const Text(
                 'Call women helpline, ambulance or state police authority in case of any emergency on a single click of a button.',
                 style: TextStyle(fontSize: 15),
-              ),
+              ).animate().fadeIn(),
             ),
           ],
         ),
         CupertinoOnboardingPage(
-            title: const Text('Safely Reach Home with Safe Routes'),
+            title: const Text('Safely Reach Home with Safe Routes').animate().fadeIn().shimmer(),
             body: Image.asset("assets/route.jpg")),
         CupertinoOnboardingPage(
-            title: const Text('Self Awareness about Self Defense'),
+            title: const Text('Self Awareness about Self Defense').animate().fadeIn().shimmer(),
             body: Image.asset(
               "assets/selfdefense.jpg",
             )),

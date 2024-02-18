@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:saheli_app/widgets/bottomNavBar.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
 import '../services/auth/googleAuth.dart';
+import '../services/auth/googleSignin.dart';
 
-class GoogleSignIn extends StatelessWidget {
-  const GoogleSignIn({super.key});
+class GoogleSignIn extends StatefulWidget {
+  GoogleSignIn({super.key});
+
+  @override
+  State<GoogleSignIn> createState() => _GoogleSignInState();
+}
+
+class _GoogleSignInState extends State<GoogleSignIn> {
+  final GoogleSignInManager _googleSignInManager = GoogleSignInManager();
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +36,20 @@ class GoogleSignIn extends StatelessWidget {
             Container(
               height: 35,
               alignment: Alignment.bottomCenter,
-              child: SignInButton(Buttons.google, onPressed: () async {
+              child: isLoading ? const SpinKitDoubleBounce(
+                color: Colors.white,
+                size: 50.0,
+              ) : SignInButton(Buttons.google, onPressed: () async {
+                setState(() {
+                  isLoading = true;
+                });
+                // await Future.delayed(Duration(seconds: 2));
+                // setState(() {
+                //   isLoading = false;
+                // });
+                //await _googleSignInManager.signIn();
                 await signInWithGoogle();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavBar()));
+                Navigator.pushReplacement(context, PageTransition(child: const BottomNavBar(), type: PageTransitionType.fade));
               }),
             ),
           ],

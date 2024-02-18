@@ -20,6 +20,7 @@ Future<String?> signInWithGoogle() async {
     final userCredential = await _auth.signInWithCredential(credential);
 
     final User? user = userCredential.user;
+    print(user);
 
     assert(!user!.isAnonymous);
 

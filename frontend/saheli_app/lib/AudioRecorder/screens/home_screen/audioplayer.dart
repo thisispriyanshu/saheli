@@ -284,6 +284,9 @@ class AudioPlayerState extends State<AudioPlayer> {
           "SOS Mode",
           style: TextStyle(color: Colors.white),
         ),
+        iconTheme: IconThemeData(
+          color: Colors.white
+        ),
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
       body: Center(

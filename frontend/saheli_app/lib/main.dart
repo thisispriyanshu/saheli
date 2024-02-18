@@ -137,8 +137,7 @@ class _MyAppState extends State<MyApp> {
           future: Future.delayed(Duration(seconds: 2)),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              //return isLogin ? BottomNavBar() : GoogleSignIn();
-              return OnboardingScreen();
+              return isLogin ? BottomNavBar() : OnboardingScreen();
             } else {
               return SplashScreen();
             }
