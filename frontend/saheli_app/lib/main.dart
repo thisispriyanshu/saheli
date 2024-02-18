@@ -5,16 +5,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:saheli_app/FakeCaller/screens/caller_screen.dart';
 import 'package:saheli_app/services/localDb/localDb.dart';
 import 'package:saheli_app/views/home_screen.dart';
 import 'package:saheli_app/views/login.dart';
+import 'package:saheli_app/widgets/Chatbot/geminiAuth.dart';
 import 'package:saheli_app/widgets/bottomNavBar.dart';
 import 'package:shake/shake.dart';
 
-import 'AudioRecorder/screens/home_screen/cubit/record/record_cubit.dart';
-import 'AudioRecorder/screens/recordings_list/cubit/files/files_cubit.dart';
 import 'FakeCaller/screens/incoming_call.dart';
 import 'common/theme/theme.dart';
 import 'firebase_options.dart';
@@ -48,6 +49,9 @@ class MyApp extends StatefulWidget {
 // }
 
 void main() async{
+  await Hive.initFlutter();
+  await Hive.openBox(boxName);
+  await Hive.openBox(userData);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -121,17 +125,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-        BlocProvider<RecordCubit>(
-        create: (context) => RecordCubit(),
-    ),
-
-    BlocProvider<FilesCubit>(
-    create: (context) => FilesCubit(),
-    ),
-    ],
-    child: MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme:
         Styles.themeData(context),
@@ -148,7 +142,7 @@ class _MyAppState extends State<MyApp> {
           }
         },
       ),
-      ),
+
     );
   }
 }

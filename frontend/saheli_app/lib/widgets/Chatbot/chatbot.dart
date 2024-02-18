@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 
+import 'geminiChatbot.dart';
+
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
 
@@ -47,7 +49,10 @@ class _ChatBotState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 236, 208),
-      appBar: AppBar(title: Text('Chat with Saheli AI'),backgroundColor: Colors.pinkAccent,),
+      appBar: AppBar(
+        title: Text('Chat with Saheli AI'),
+        backgroundColor: Colors.pinkAccent,
+      ),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -59,13 +64,20 @@ class _ChatBotState extends State<ChatScreen> {
                 'assets/chat_pic.jpg', // Replace with your image path
                 height: 240,
               ),
-              Text('Saheli AI', style: TextStyle(color: Colors.pinkAccent, fontSize: 25, fontWeight: FontWeight.bold),)
-              ,SizedBox(height: 30,)
+              Text(
+                'Saheli AI',
+                style: TextStyle(
+                    color: Colors.pinkAccent,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 30,
+              )
             ],
           ),
-          
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 60),
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 60, top: 0.0),
             child: Column(
               children: [
                 Flexible(
@@ -74,8 +86,7 @@ class _ChatBotState extends State<ChatScreen> {
                     itemCount: messsages.length,
                     itemBuilder: (context, index) => chat(
                         messsages[index]["message"].toString(),
-                        messsages[index]["data"]
-                    ),
+                        messsages[index]["data"]),
                   ),
                 ),
                 Container(
@@ -84,8 +95,7 @@ class _ChatBotState extends State<ChatScreen> {
                       padding: EdgeInsets.only(left: 10),
                       decoration: BoxDecoration(
                           color: Color(0xffF2F4F6),
-                          borderRadius: BorderRadius.all(Radius.circular(15))
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
                       child: TextFormField(
                         controller: messageController,
                         decoration: InputDecoration(
@@ -94,8 +104,7 @@ class _ChatBotState extends State<ChatScreen> {
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none
-                        ),
+                            disabledBorder: InputBorder.none),
                         cursorColor: clr1,
                       ),
                     ),
@@ -105,8 +114,7 @@ class _ChatBotState extends State<ChatScreen> {
                         getResponse();
                         setState(() {
                           messsages.insert(
-                              0, {"data": 1, "message": messageController.text}
-                          );
+                              0, {"data": 1, "message": messageController.text});
                         });
                         messageController.clear();
                       },
@@ -119,8 +127,8 @@ class _ChatBotState extends State<ChatScreen> {
           ),
         ],
       ),
-    );
 
+    );
   }
 
   Widget chat(String message, int data) {

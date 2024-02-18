@@ -5,11 +5,11 @@ import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
 import 'package:saheli_app/AudioRecorder/screens/home_screen/audioplayer.dart';
 import 'package:saheli_app/widgets/Contacts/new_contacts.dart';
-import '../AudioRecorder/screens/home_screen/home_screen.dart';
 import '../FakeCaller/utilities/icon_content.dart';
 import '../views/article_screen.dart';
 import '../views/home_screen.dart';
 import 'Chatbot/chatbot.dart';
+import 'Chatbot/geminiChatbot.dart';
 import 'Profile.dart';
 import 'SafeRoutes/SafeRoutes.dart';
 
@@ -40,12 +40,22 @@ class _BottomNavBarState extends State<BottomNavBar> {
         },
         child: Icon(Icons.crisis_alert_outlined),
       )
-          : null, // Render FAB only for the Search tab (index 1)
+          : Padding(
+            padding: const EdgeInsets.only(bottom: 30.0),
+            child: FloatingActionButton(
+                    onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GeminiBot()),
 
+                  );
+                },
 
-
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            child:Icon( Icons.star),
+                  backgroundColor: Colors.pinkAccent,
+                ),
+          ),
+    floatingActionButtonLocation: _selectedIndex == 2? FloatingActionButtonLocation.endFloat:FloatingActionButtonLocation.endFloat,
       body: PageView(
         controller: _pageController,
         children: <Widget>[
