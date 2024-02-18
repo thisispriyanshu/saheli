@@ -30,30 +30,26 @@ class _CallerIDState extends State<CallerID> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 236, 208),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       resizeToAvoidBottomInset: false,
 
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(
-                "assets/images/image4.jpeg",
-              ),
-              fit: BoxFit.cover),
-        ),
+        // decoration: const BoxDecoration(
+        //   image: DecorationImage(
+        //       image: AssetImage(
+        //         "assets/images/image4.jpeg",
+        //       ),
+        //       fit: BoxFit.cover),
+        // ),
         child: Container(
           margin: const EdgeInsets.fromLTRB(10.0, 150.0, 10.0, 120.0),
           padding: const EdgeInsets.symmetric(vertical: 35.0, horizontal: 20.0),
           decoration: BoxDecoration(
-            color:Color.fromARGB(255, 255, 57, 116),
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0),
-              bottomLeft: Radius.circular(20.0),
-              bottomRight: Radius.circular(20.0),
-            ),
+            color: Theme.of(context).colorScheme.secondary,
+            borderRadius: BorderRadius.circular(20)
           ),
-          child: Column(children: [
+          child: Column(
+              children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -61,14 +57,14 @@ class _CallerIDState extends State<CallerID> {
                   padding: const EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                     border:
-                        Border.all(color: Color.fromARGB(255, 255, 57, 116), width: 2),
+                        Border.all(color: Theme.of(context).colorScheme.secondary, width: 2),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(5.0),
                     ),
                   ),
                   child: Text(
                     "Enter Caller ID to send Fake Call",
-                    style: TextStyle(color: Color.fromARGB(255, 255, 236, 208), fontFamily: 'lato', fontSize: 20.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 22.0, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -80,32 +76,32 @@ class _CallerIDState extends State<CallerID> {
             ),
             Text(
               "Name",
-              style: TextStyle(color: Color.fromARGB(255, 255, 236, 208),fontFamily: 'lato', fontSize: 15.0, fontWeight: FontWeight.bold),
+              style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 10.0,
             ),
             TextField(
-              style: const TextStyle(
-                color:Color.fromARGB(255, 255, 236, 208),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
                 fontSize: 22.0,
               ),
-              textAlign: TextAlign.center,
+              keyboardType: TextInputType.name,
+              textAlign: TextAlign.left,
               onChanged: (value) {
                 name = value;
               },
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 //contentPadding:EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
@@ -114,7 +110,7 @@ class _CallerIDState extends State<CallerID> {
             ),
             Text(
               "Number",
-              style: TextStyle(color: Color.fromARGB(255, 255, 236, 208),fontFamily: 'lato', fontSize: 15.0, fontWeight: FontWeight.bold),
+              style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 22, fontWeight: FontWeight.bold),
 
             ),
             const SizedBox(
@@ -125,22 +121,22 @@ class _CallerIDState extends State<CallerID> {
                 color: Color.fromARGB(255, 255, 236, 208),
                 fontSize: 22.0,
               ),
-              textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.left,
               onChanged: (value) {
                 number = value;
               },
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 //contentPadding:EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
@@ -162,16 +158,15 @@ class _CallerIDState extends State<CallerID> {
                   ),
                 );
               },
-              child: Text('Call Now',
-                  style: GoogleFonts.lato(),),
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 255, 57, 116),
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
+              child: const Text('Call Now', style: TextStyle(color: Colors.white, fontSize: 22),),
             ),
           ]),
         ),

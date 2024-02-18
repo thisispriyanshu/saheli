@@ -7,18 +7,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:saheli_app/FakeCaller/screens/caller_screen.dart';
 import 'package:saheli_app/services/localDb/localDb.dart';
 import 'package:saheli_app/views/home_screen.dart';
+import 'package:saheli_app/views/OnboardingScreen.dart';
+import 'package:saheli_app/views/googleSignIn.dart';
 import 'package:saheli_app/views/login.dart';
 import 'package:saheli_app/widgets/Chatbot/geminiAuth.dart';
 import 'package:saheli_app/widgets/bottomNavBar.dart';
 import 'package:shake/shake.dart';
 
+import 'AudioRecorder/screens/home_screen/cubit/record/record_cubit.dart';
+import 'AudioRecorder/screens/recordings_list/cubit/files/files_cubit.dart';
 import 'FakeCaller/screens/incoming_call.dart';
 import 'common/theme/theme.dart';
 import 'firebase_options.dart';
+
 class MyApp extends StatefulWidget {
   MyApp({super.key});
 
@@ -48,11 +54,9 @@ class MyApp extends StatefulWidget {
 //   }
 // }
 
-void main() async{
-  await Hive.initFlutter();
-  await Hive.openBox(boxName);
-  await Hive.openBox(userData);
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //await dotenv.load();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -68,6 +72,7 @@ void main() async{
 }
 
 class _MyAppState extends State<MyApp> {
+
   final PageController _pageController = PageController(); // Moved it here
 
   bool isLogin = false;
@@ -82,16 +87,18 @@ class _MyAppState extends State<MyApp> {
       });
     });
   }
+
   void playRingtone() {
     FlutterRingtonePlayer.playRingtone(asAlarm: true);
   }
+
   @override
   void initState() {
     getLoggedinState();
     print(isLogin);
     super.initState();
-    ShakeDetector.autoStart(onPhoneShake:(){
-
+    ShakeDetector.autoStart(
+      onPhoneShake: () {
         // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('shaked')));
         Navigator.push(
           context,
@@ -125,24 +132,31 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme:
-        Styles.themeData(context),
-
-      home: FutureBuilder(
-        // Simulate the initialization process with a Future
-        future: Future.delayed(Duration(seconds: 2)),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return isLogin ? BottomNavBar() : BottomNavBar();
-          } else {
-
-            return SplashScreen();
-          }
-        },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<RecordCubit>(
+          create: (context) => RecordCubit(),
+        ),
+        BlocProvider<FilesCubit>(
+          create: (context) => FilesCubit(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: Styles.themeData(context),
+        home: FutureBuilder(
+          // Simulate the initialization process with a Future
+          future: Future.delayed(Duration(seconds: 2)),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              //return isLogin ? BottomNavBar() : GoogleSignIn();
+              return OnboardingScreen();
+            } else {
+              return SplashScreen();
+            }
+          },
+        ),
       ),
-
     );
   }
 }

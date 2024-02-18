@@ -31,7 +31,17 @@ class _CallMenuState extends State<CallMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 236, 208),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        iconTheme: const IconThemeData(
+          color: Colors.white
+        ),
+        title: const Text(
+          "Fake Caller",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -49,19 +59,20 @@ class _CallMenuState extends State<CallMenu> {
               padding: const EdgeInsets.only(
                   left: 30.0, top: 60.0, right: 30.0, bottom: 30.0),
               child: Column(children: [
-
                 const SizedBox(
-                  height: 10.0,
+                  height: 5.0,
                 ),
                 Text(
-                  'Welcome to Fake Caller',
-                  style: TextStyle(fontFamily: 'lato', fontSize: 20.0, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
+                  'Use fake caller incase of emergency',
+                  style: TextStyle(
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.left,
                 ),
               ]),
             ),
             const SizedBox(
-              height: 100.0,
+              height: 50.0,
             ),
             Expanded(
               child: Container(
@@ -78,13 +89,11 @@ class _CallMenuState extends State<CallMenu> {
                       child: Row(
                         children: [
                           Expanded(
-
                             child: CardChild(
                               cardChild: IconContent(
                                 icon: const IconData(0xf06e4,
                                     fontFamily: 'MaterialIcons'),
                                 text: "Call Now",
-
                               ),
                               onPress: () {
                                 playRingtone();
@@ -108,13 +117,11 @@ class _CallMenuState extends State<CallMenu> {
                                 text: 'Caller ID',
                               ),
                               onPress: () {
-
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => CallerID()),
-                                  );
-
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CallerID()),
+                                );
                               },
                             ),
                           ),
@@ -131,13 +138,11 @@ class _CallMenuState extends State<CallMenu> {
                               text: "Schedule",
                             ),
                             onPress: () {
-
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Scheduler()),
-                                );
-
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Scheduler()),
+                              );
                             },
                           ),
                         ),
@@ -160,7 +165,6 @@ class _CallMenuState extends State<CallMenu> {
                       ]),
                     ),
                   ],
-
                 ),
               ),
             ),
@@ -168,7 +172,6 @@ class _CallMenuState extends State<CallMenu> {
               height: 150.0,
             ),
           ],
-
         ),
       ),
     );

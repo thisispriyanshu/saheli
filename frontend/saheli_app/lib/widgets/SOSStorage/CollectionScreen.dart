@@ -30,8 +30,13 @@ class _CallMenuState extends State<CollectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('SOS storage collection',)),
-      backgroundColor: Color.fromARGB(255, 255, 236, 208),
+      appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          title: const Text(
+            'SOS storage collection', style: TextStyle(color: Colors.white),
+          )),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(

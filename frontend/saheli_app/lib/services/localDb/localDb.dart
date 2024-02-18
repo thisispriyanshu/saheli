@@ -8,6 +8,7 @@ class LocalDb{
   static const mKey = 'niaiewiaiuea';
   static const gKey = 'awbiaiubvabeva';
   static const dKey = ' ajbvuabawebjkwe';
+  static const tKey = ' abueuifgauiwgfi';
 
   static Future<bool> saveUserId(String uid) async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -89,5 +90,16 @@ class LocalDb{
   static Future<void> clearUserData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
+  }
+
+  static Future<bool> saveToken(String jwtToken) async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return await preferences.setString(tKey, jwtToken);
+  }
+
+  //gets jwt Token of user
+  static Future<String?> getToken() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(tKey);
   }
 }
