@@ -57,6 +57,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
     floatingActionButtonLocation: _selectedIndex == 2? FloatingActionButtonLocation.endFloat:FloatingActionButtonLocation.endFloat,
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         controller: _pageController,
         children: <Widget>[
           // if (isLogin) HomePage() else LoginPage(),
