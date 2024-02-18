@@ -13,7 +13,7 @@ class OnboardingScreen extends StatelessWidget {
     return CupertinoOnboarding(
       bottomButtonColor: Theme.of(context).colorScheme.secondary,
       onPressedOnLastPage: () => Navigator.pushReplacement(context,
-          PageTransition(child: GoogleSignIn(), type: PageTransitionType.rightToLeft)),
+          PageTransition(child: GoogleSignIn(), type: PageTransitionType.rightToLeftWithFade)),
       pages: [
         WhatsNewPage(
           title: const Text("Welcome To Saheli").animate().fade(duration: 500.milliseconds).shimmer(duration: 2.seconds),
@@ -27,24 +27,30 @@ class OnboardingScreen extends StatelessWidget {
                 'Send SOS',
                 style: TextStyle(fontSize: 25),
               ).animate().fadeIn(),
-              description: const Text(
-                'Send SOS messages with your current location to your selected contacts, so they can track you in emergency situations.',
-                style: TextStyle(fontSize: 15),
-              ).animate().fadeIn(),
+              description: Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: const Text(
+                  'Send SOS messages with your current location to your selected contacts, so they can track you in emergency situations.',
+                  style: TextStyle(fontSize: 15),
+                ).animate().fadeIn(),
+              ),
             ),
             WhatsNewFeature(
               icon: Icon(
                 CupertinoIcons.map,
-                color: CupertinoColors.systemRed.resolveFrom(context),
+                color: Theme.of(context).colorScheme.secondary,
               ),
               title: const Text(
                 'Quick Access',
                 style: TextStyle(fontSize: 25),
               ).animate().fadeIn(),
-              description: const Text(
-                "Quickly access police stations, hospitals and bus stands that are nearby your current location on google maps.",
-                style: TextStyle(fontSize: 15),
-              ).animate().fadeIn(),
+              description: Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: const Text(
+                  "Quickly access police stations, hospitals and bus stands that are nearby your current location on google maps.",
+                  style: TextStyle(fontSize: 15),
+                ).animate().fadeIn(),
+              ),
             ),
             WhatsNewFeature(
               icon: Icon(
@@ -55,16 +61,19 @@ class OnboardingScreen extends StatelessWidget {
                 'Incase Of Emergency',
                 style: TextStyle(fontSize: 25),
               ).animate().fadeIn(),
-              description: const Text(
-                'Call women helpline, ambulance or state police authority in case of any emergency on a single click of a button.',
-                style: TextStyle(fontSize: 15),
-              ).animate().fadeIn(),
+              description: Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: const Text(
+                  'Call women helpline, ambulance or state police authority in case of any emergency on a single click of a button.',
+                  style: TextStyle(fontSize: 15),
+                ).animate().fadeIn(),
+              ),
             ),
           ],
         ),
         CupertinoOnboardingPage(
             title: const Text('Safely Reach Home with Safe Routes').animate().fadeIn().shimmer(),
-            body: Image.asset("assets/route.jpg")),
+            body: Image.asset("assets/safe_route.jpg")),
         CupertinoOnboardingPage(
             title: const Text('Self Awareness about Self Defense').animate().fadeIn().shimmer(),
             body: Image.asset(

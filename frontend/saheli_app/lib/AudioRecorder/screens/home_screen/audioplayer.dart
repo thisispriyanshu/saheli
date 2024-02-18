@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-
 import 'package:background_sms/background_sms.dart' as sms;
 import 'package:audioplayers/audioplayers.dart' as ap;
 import 'package:background_sms/background_sms.dart';
@@ -26,7 +25,6 @@ class AudioPlayer extends StatefulWidget {
   AudioPlayerState createState() => AudioPlayerState();
 }
 
-
 class AudioPlayerState extends State<AudioPlayer> {
   final recorder = FlutterSoundRecorder();
   bool isRecorderReady = false;
@@ -37,7 +35,6 @@ class AudioPlayerState extends State<AudioPlayer> {
   String? _curentAddress;
   LocationPermission? permission;
 
-
   late int _volumeListenerId;
   void initState() {
     super.initState();
@@ -46,31 +43,31 @@ class AudioPlayerState extends State<AudioPlayer> {
     _getCurrentLocation();
     isRecording = false;
     getAndSendSms();
-    ShakeDetector.autoStart(onPhoneShake: (){ ScaffoldMessenger.of(context as BuildContext).showSnackBar(const SnackBar(
-        content: Text(
-            'Shake ho gya')));
-    },
+    ShakeDetector.autoStart(
+        onPhoneShake: () {
+          ScaffoldMessenger.of(context as BuildContext)
+              .showSnackBar(const SnackBar(content: Text('Shake ho gya')));
+        },
         minimumShakeCount: 1,
         shakeSlopTimeMS: 500,
         shakeCountResetTime: 3000,
         shakeThresholdGravity: 5.0);
-
   }
 
   _getPermission() async => await [Permission.sms].request();
   _isPermissionGranted() async => await Permission.sms.status.isGranted;
   _sendSms(String phoneNumber, String message, {int? simSlot}) async {
-
     // sms.SmsStatus result = (await sms.BackgroundSms.sendMessage(
     //     phoneNumber: phoneNumber, message: message, simSlot: 1));
     // if (result == sms.SmsStatus.sent) {
-      // Fluttertoast.showToast(msg: "send");
-      _showSOSDialog();
+    // Fluttertoast.showToast(msg: "send");
+    _showSOSDialog();
 
     // } else {
     //   Fluttertoast.showToast(msg: "failed");
     // }
   }
+
   void _showSOSDialog() {
     showDialog(
       context: context,
@@ -86,10 +83,10 @@ class AudioPlayerState extends State<AudioPlayer> {
               Text("SOS Activated"),
             ],
           ),
-          content: Text("Your location has been shared with your added emergency contacts along with your location. We have also shared your emergency message with them. The recorder is now being activated automatically for investigation purpose."),
+          content: Text(
+              "Your location has been shared with your added emergency contacts along with your location. We have also shared your emergency message with them. The recorder is now being activated automatically for investigation purpose."),
           actions: <Widget>[
             TextButton(
-
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
@@ -97,7 +94,10 @@ class AudioPlayerState extends State<AudioPlayer> {
                 _captureAndSaveImage();
                 record();
               },
-              child: Text("OK", style: TextStyle(color: Colors.black),),
+              child: Text(
+                "OK",
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ],
         );
@@ -140,8 +140,8 @@ class AudioPlayerState extends State<AudioPlayer> {
     await telephony.requestPhoneAndSmsPermissions;
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-        forceAndroidLocationManager: true)
+            desiredAccuracy: LocationAccuracy.high,
+            forceAndroidLocationManager: true)
         .then((Position position) {
       setState(() {
         _curentPosition = position;
@@ -161,17 +161,18 @@ class AudioPlayerState extends State<AudioPlayer> {
       Placemark place = placemarks[0];
       setState(() {
         _curentAddress =
-        "${place.locality},${place.postalCode},${place.street},";
+            "${place.locality},${place.postalCode},${place.street},";
       });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
   }
+
   getAndSendSms() async {
     List<TContact> contactList = await DatabaseHelper().getContactList();
 
     String messageBody =
-        "https://maps.google.com/?daddr=${_curentPosition?.latitude??1.2325},${_curentPosition?.longitude?? 5.45634}";
+        "https://maps.google.com/?daddr=${_curentPosition?.latitude ?? 1.2325},${_curentPosition?.longitude ?? 5.45634}";
     if (await _isPermissionGranted()) {
       contactList.forEach((element) {
         _sendSms("${element.number}", "i am in trouble $messageBody");
@@ -180,9 +181,8 @@ class AudioPlayerState extends State<AudioPlayer> {
       Fluttertoast.showToast(msg: "something wrong");
     }
   }
+
   @override
-
-
   Future<void> initRecorder() async {
     final status = await Permission.microphone.request();
     if (status != PermissionStatus.granted) {
@@ -215,8 +215,12 @@ class AudioPlayerState extends State<AudioPlayer> {
 
     final path = await recorder.stopRecorder();
     final audioFile = File(path!);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Recorded SOS file at: $path')));
-    final Reference ref = FirebaseStorage.instance.ref().child('audio').child('audio_${DateTime.now()}.mp3');
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Recorded SOS file at: $path')));
+    final Reference ref = FirebaseStorage.instance
+        .ref()
+        .child('audio')
+        .child('audio_${DateTime.now()}.mp3');
     final UploadTask uploadTask = ref.putFile(
       audioFile,
       SettableMetadata(contentType: 'audio/mp3'),
@@ -249,18 +253,21 @@ class AudioPlayerState extends State<AudioPlayer> {
     recorder.closeRecorder();
     super.dispose();
   }
+
   void _captureAndSaveImage() async {
-    ImagePicker picker  = ImagePicker();
-    final image = await picker.pickImage(source: ImageSource.camera,);
+    ImagePicker picker = ImagePicker();
+    final image = await picker.pickImage(
+      source: ImageSource.camera,
+    );
 
     if (image != null) {
       final File file = File(image.path);
-      final Reference ref = FirebaseStorage.instance.ref().child('images').child(image.path);
+      final Reference ref =
+          FirebaseStorage.instance.ref().child('images').child(image.path);
       final UploadTask uploadTask = ref.putFile(
         file,
         SettableMetadata(contentType: 'image/jpeg'),
       );
-
 
       uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
         setState(() {
@@ -270,11 +277,11 @@ class AudioPlayerState extends State<AudioPlayer> {
 
       // Get download URL
       final url = await (await uploadTask).ref.getDownloadURL();
-
     } else {
       Fluttertoast.showToast(msg: "No image captured");
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -284,9 +291,7 @@ class AudioPlayerState extends State<AudioPlayer> {
           "SOS Mode",
           style: TextStyle(color: Colors.white),
         ),
-        iconTheme: IconThemeData(
-          color: Colors.white
-        ),
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
       body: Center(
@@ -294,59 +299,73 @@ class AudioPlayerState extends State<AudioPlayer> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
             StreamBuilder<RecordingDisposition>(
               stream: recorder.onProgress,
               builder: (context, snapshot) {
-                final duration = snapshot.hasData ? snapshot.data!.duration : Duration.zero;
+                final duration =
+                    snapshot.hasData ? snapshot.data!.duration : Duration.zero;
                 final twoDigits = (int n) => n.toString().padLeft(2, '0');
-                final twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-                final twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+                final twoDigitMinutes =
+                    twoDigits(duration.inMinutes.remainder(60));
+                final twoDigitSeconds =
+                    twoDigits(duration.inSeconds.remainder(60));
                 return Text(
                   '$twoDigitMinutes:$twoDigitSeconds',
                   style: const TextStyle(
-                     fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
-                  ),
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 );
               },
             ),
             const SizedBox(height: 30.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center
-
-              ,children: [ElevatedButton(
-
-              onPressed: () async {
-                if (isRecording) {
-                  await stop();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Recording started')));
-                  await record();
-                }
-              },
-              child: Icon(
-
-                isRecording ? Icons.stop : Icons.mic,
-                size: 40,
-                color: Colors.redAccent,
-              ),
-            ),
-              SizedBox(width: 20.0,),
-              ElevatedButton(
-
-                onPressed: () async {
-                  _captureAndSaveImage();
-                },
-                child: Icon(
-
-                  Icons.camera,
-                  size: 40,
-                  color: Colors.redAccent,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    if (isRecording) {
+                      await stop();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Recording started')));
+                      await record();
+                    }
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ),
+                    minimumSize: MaterialStateProperty.all(Size(80.0, 50.0)),
+                  ),
+                  child: Icon(
+                    isRecording ? Icons.stop : Icons.mic,
+                    size: 40,
+                    color: Colors.redAccent,
+                  ),
                 ),
-              ),],),
-
+                ElevatedButton(
+                  onPressed: () async {
+                    _captureAndSaveImage();
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ),
+                    minimumSize: MaterialStateProperty.all(Size(80.0, 50.0)),
+                  ),
+                  child: Icon(
+                    Icons.camera,
+                    size: 40,
+                    color: Colors.redAccent,
+                  ),
+                ),
+              ],
+            ),
             if (isUploading)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
@@ -360,6 +379,3 @@ class AudioPlayerState extends State<AudioPlayer> {
     );
   }
 }
-
-
-

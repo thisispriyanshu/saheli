@@ -113,8 +113,8 @@ class _ContactsPageState extends State<ContactsPage> {
               child: TextField(
                 autofocus: true,
                 controller: searchController,
-                decoration: InputDecoration(
-                    labelText: "search any contact",
+                decoration: const InputDecoration(
+                    hintText: "Search contact",
                     prefixIcon: Icon(Icons.search)),
               ),
             ),
