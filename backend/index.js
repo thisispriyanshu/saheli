@@ -1,6 +1,7 @@
 const express = require('express');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 const {Client} = require("@googlemaps/google-maps-services-js");
 const bodyParser = require('body-parser');
 require("dotenv").config();
@@ -44,6 +45,9 @@ app.use('/auth', authRoutes);
 
 // Use user routes
 app.use('/users', userRoutes);
+
+// use chat routes
+app.use('/chat', chatRoutes);
 
 
 // Helper function to calculate distance between two points
