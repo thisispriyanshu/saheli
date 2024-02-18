@@ -63,7 +63,7 @@ class _HomePageState extends State<GeminiBot> {
   firstTime() {
     var mess = ChatMessage(
         createdAt: DateTime.now(),
-        text: 'Hi ${myself.firstName} I am your Personal Assisstant',
+        text: 'Hi ${myself.firstName} I am your Sakha',
         user: bot);
     allMessages.insert(0, mess);
     setState(() {});
@@ -135,12 +135,13 @@ class _HomePageState extends State<GeminiBot> {
       currentUserTextColor: Colors.black,
       showCurrentUserAvatar: true,
       currentUserContainerColor: Color.fromARGB(255, 188, 188, 188),
-      containerColor: Color.fromARGB(255, 88, 88, 88));
+      containerColor: Colors.pinkAccent);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 50, 50, 50),
+      appBar: AppBar(title: Text('Gemini Bot'),),
+      backgroundColor:  Colors.white,
       body: DashChat(
         currentUser: myself,
         onSend: (ChatMessage m){

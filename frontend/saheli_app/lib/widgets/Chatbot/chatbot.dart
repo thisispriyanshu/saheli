@@ -48,7 +48,7 @@ class _ChatBotState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 236, 208),
+      // backgroundColor: Color.fromARGB(255, 255, 236, 208),
       appBar: AppBar(
         title: Text('Chat with Saheli AI'),
         backgroundColor: Colors.pinkAccent,
