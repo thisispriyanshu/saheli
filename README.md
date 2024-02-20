@@ -34,7 +34,8 @@ Saheli aims to create a safer environment for women by leveraging technology and
 
 ## App Images
 ![image](https://github.com/thisispriyanshu/saheli/assets/73881504/ad8efa48-6894-4612-b055-9aeab70428d2)
-![image](https://github.com/thisispriyanshu/saheli/assets/73881504/fd76bc21-5b90-4558-912d-714731384c74)
+![image](https://github.com/thisispriyanshu/saheli/assets/73881504/22b06add-c75e-4d52-ae3f-5ad564c2fcc3)
+![image](https://github.com/thisispriyanshu/saheli/assets/73881504/1e16bc1f-4ae2-4212-8b8b-fac3dab353f0)
 
 
 ## Impact & UN Sustainable Development Goals:
@@ -89,6 +90,10 @@ Saheli aims to create a safer environment for women by leveraging technology and
 Contributions to Saheli are welcome! If you have ideas for new features, improvements, or bug fixes, please feel free to submit a pull request.
 
 ## About Team
+ - [Priyanshu Agrawal](https://www.linkedin.com/in/priyanshu-agrawal-5a00651b1/)
+ - [Apoorv Yash](https://www.linkedin.com/in/apoorv-yash-75b130230/)
+ - [Yuvraj Singh](https://www.linkedin.com/in/yuvraj-singh-5198441aa/)
+ - [Agrim Saxena](https://www.linkedin.com/in/agrim-saxena-29529b223/)
 
 
 ## License:
