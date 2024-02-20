@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                 child: ListView(
                   shrinkWrap: true,
                   children: [
-                    const SizedBox(height: 10),
+                    // const SizedBox(height: 10),
                     //SafeHome(),
                     const SizedBox(height: 10),
                     const Align(

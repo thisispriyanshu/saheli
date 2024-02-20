@@ -36,7 +36,7 @@ class _ArticleCardState extends State<ArticleCard> {
             color: Theme.of(context).colorScheme.secondary,
           ),
           SizedBox(
-            width: 270,
+            width: 220,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

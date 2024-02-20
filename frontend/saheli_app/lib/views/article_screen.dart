@@ -50,6 +50,7 @@ class ArticleScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+
         iconTheme: const IconThemeData(
           color: Colors.white
         ),
@@ -64,30 +65,79 @@ class ArticleScreen extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: articles.length,
-                  //scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      child: articles[index],
-                      onTap: () {
-                        navigateToRoute(
-                            context,
-                            SafeWebView(
-                              url: url[index],
-                            ));
-                      },
+              children:
+              [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            navigateToRoute(context, SafeWebView(url: "https://digitalpolice.gov.in/"));
+                          },
+                          icon: Icon(Icons.local_police_outlined),
+                          color: Colors.black,
+                        ),
+                        Text(
+                          'Police Website',
+                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            navigateToRoute(context, SafeWebView(url: "https://www.ncwwomenhelpline.in/"));
+                          },
+                          icon: Icon(Icons.woman_2_outlined),
+                          color: Colors.black,
+                        ),
+                        Text(
+                          'Women Website',
+                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            navigateToRoute(context, SafeWebView(url: "pocso_helpline_official_site_url"));
+                          },
+                          icon: Icon(Icons.female_outlined),
+                          color: Colors.black,
+                        ),
+                        Text(
+                          'POCSO Site',
+                          style: TextStyle(color: Colors.black,  fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+            SizedBox(height: 20),
+            ...articles.map((article) {
+                return InkWell(
+                  child: article,
+                  onTap: () {
+                    navigateToRoute(
+                      context,
+                      SafeWebView(
+                        url: url[articles.indexOf(article)],
+                      ),
                     );
                   },
-                )
-              ],
+                );
+              }).toList(),
+        ],
             ),
+
           ),
         ),
       ),
+
     );
   }
 }

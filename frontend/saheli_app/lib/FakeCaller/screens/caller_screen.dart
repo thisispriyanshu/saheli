@@ -112,7 +112,7 @@ class _SafeHomeState extends State<CallerScreen> {
         child: Column(
           children: [
             CircleAvatar(
-              backgroundColor:Colors.grey,
+              backgroundColor:Color.fromARGB(255, 255, 57, 116),
               radius: 40,
               child: Text(
                 'Apoorv',

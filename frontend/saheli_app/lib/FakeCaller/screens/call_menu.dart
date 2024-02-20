@@ -34,7 +34,7 @@ class _CallMenuState extends State<CallMenu> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.secondary,
         iconTheme: const IconThemeData(
-          color: Colors.white
+            color: Colors.white
         ),
         title: const Text(
           "Fake Caller",
