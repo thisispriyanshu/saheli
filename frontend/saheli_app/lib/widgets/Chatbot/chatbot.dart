@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/material.dart';
-import 'package:dialog_flowtter/dialog_flowtter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -10,161 +13,149 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatBotState extends State<ChatScreen> {
   Color clr1 = Colors.pinkAccent;
-  late DialogFlowtter instance;
-  final messageController = new TextEditingController();
-  Future<void> getInstance() async {
-    instance = await DialogFlowtter.fromFile(
-        path: "assets/dialog_flow_auth.json",
-        sessionId: "any_random_string_will_do");
-  }
+  final messageController = TextEditingController();
+  List<Map> messages = [];
 
-  @override
-  void initState() {
-    getInstance();
-    super.initState();
-  }
+  Future<void> getResponse(String userInput) async {
+    if (userInput == 'Hi') {
+      messages.insert(0, {
+        "data": 0,
+        "message":
+            "Hello! Welcome to Sakha, your Personalised Safety Assistant. How can Sakha help you today?"
+      });
+    } else if (userInput == 'Give me some safety tips') {
+      messages.insert(0, {
+        "data": 0,
+        "message":
+            "Sure! Here are some safety tips from Sakha: Always be aware of your surroundings, avoid poorly lit areas, and share your location with someone you trust when heading out."
+      });
+    } else {
+      setState(() {
+        messages.insert(0, {"data": 0, "message": "..."});
+      });
+      final response = await http.post(
+        Uri.parse("https://saheli-backend-ufs3.onrender.com/chat"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{'userInput': userInput}),
+      );
 
-  @override
-  void dispose() {
-    instance.dispose();
-    super.dispose();
-  }
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        String textResponse = data['response'];
+        print(textResponse);
 
-  List<Map> messsages = [];
-
-  Future<void> getResponse() async {
-    DetectIntentResponse response = await instance.detectIntent(
-      queryInput: QueryInput(text: TextInput(text: messageController.text)),
-    );
-    String? textResponse = response.text;
-    print(textResponse);
-    setState(() {
-      messsages.insert(0, {"data": 0, "message": textResponse});
-    });
+        // Parse special characters and apply formatting
+        textResponse =
+            textResponse.replaceAll('', ''); // Remove the ** for bold text
+        textResponse = textResponse.replaceAll(
+            '\n\n', ''); // Split text by double newline to separate steps
+        textResponse = textResponse.replaceAll('*', '');
+        setState(() {
+          messages.removeAt(0);
+          messages.insert(0, {"data": 0, "message": textResponse});
+        });
+      } else {
+        throw Exception('Failed to load response');
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Sakha",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        title: Text('Chat with Sakha AI'),
+        backgroundColor: Colors.pinkAccent,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(8),
-        child: Column(
-          children: [
-            Flexible(
-                child: ListView.builder(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Background image
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Sakha AI',
+                style: TextStyle(
+                    color: Colors.pinkAccent,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 30,
+              )
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                left: 8.0, right: 8.0, bottom: 10, top: 0.0),
+            child: Column(
+              children: [
+                Flexible(
+                  child: ListView.builder(
                     reverse: true,
-                    itemCount: messsages.length,
-                    itemBuilder: (context, index) => chat(
-                        messsages[index]["message"].toString(),
-                        messsages[index]["data"]))),
-            Container(
-              child: ListTile(
-                title: Container(
-                  padding: EdgeInsets.only(left: 10),
-                  decoration: BoxDecoration(
-                      color: Color(0xffF2F4F6),
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                  child: TextFormField(
-                    controller: messageController,
-                    decoration: InputDecoration(
-                        hintText: "Send Message",
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none),
-                    cursorColor: clr1,
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: EdgeInsets.symmetric(vertical: 4.0),
+                      child: chatBubble(messages[index]["message"].toString(),
+                          messages[index]["data"]),
+                    ),
                   ),
                 ),
-                trailing: GestureDetector(
-                  child: Icon(Icons.send_outlined, color: clr1),
-                  onTap: () {
-                    getResponse();
-                    setState(() {
-                      messsages.insert(
-                          0, {"data": 1, "message": messageController.text});
-                    });
-                    messageController.clear();
-                  },
+                Container(
+                  child: ListTile(
+                    title: Container(
+                      padding: EdgeInsets.only(left: 10),
+                      decoration: BoxDecoration(
+                          color: Color(0xffF2F4F6),
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
+                      child: TextFormField(
+                        controller: messageController,
+                        decoration: InputDecoration(
+                            hintText: "Ask anything...",
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none),
+                        cursorColor: clr1,
+                      ),
+                    ),
+                    trailing: GestureDetector(
+                      child: Icon(Icons.send_outlined, color: clr1),
+                      onTap: () {
+                        setState(() {
+                          messages.insert(0,
+                              {"data": 1, "message": messageController.text});
+                        });
+                        getResponse(messageController.text);
+                        messageController.clear();
+                      },
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(height: 10),
+              ],
             ),
-            SizedBox(height: 10),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget chat(String message, int data) {
-    return Container(
-      padding: EdgeInsets.only(left: 10, right: 10),
-      child: Row(
-        mainAxisAlignment:
-            data == 1 ? MainAxisAlignment.end : MainAxisAlignment.start,
-        children: [
-          data == 0
-              ? Container(
-                  height: 60,
-                  width: 60,
-                  child: CircleAvatar(
-                    backgroundColor: clr1,
-                    child: Text("Sakha", style: TextStyle(color: Colors.white)),
-                  ),
-                )
-              : Container(),
-          Padding(
-            padding: EdgeInsets.all(0.0),
-            child: Card(
-                color: data == 0 ? Colors.white : clr1,
-                elevation: 0.0,
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(right: 10.0, top: 10.0, bottom: 10.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Flexible(
-                          child: Container(
-                        constraints: BoxConstraints(maxWidth: 200),
-                        child: Text(
-                          message,
-                          style: data == 0
-                              ? TextStyle(
-                                  color: clr1, fontWeight: FontWeight.bold)
-                              : TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                        ),
-                      ))
-                    ],
-                  ),
-                )),
-          ),
-          data == 1
-              ? Container(
-                  child: CircleAvatar(
-                    minRadius: 30,
-                    child: CircleAvatar(
-                      minRadius: 29,
-                      backgroundColor: Colors.white,
-                      child: Text("You", style: TextStyle(color: clr1)),
-                    ),
-                    backgroundColor: clr1,
-                  ),
-                )
-              : Container(),
-        ],
+  Widget chatBubble(String message, int data) {
+    // final alignment = data == 1 ? CrossAxisAlignment.end : CrossAxisAlignment.start;
+
+    // / Add space on the left for received messages
+    return BubbleSpecialOne(
+      color: (data == 1) ? Colors.pinkAccent : Colors.pink,
+      isSender: data == 1,
+      text: message,
+      textStyle: TextStyle(
+        fontSize: 18,
+        color: Colors.white,
       ),
     );
   }

@@ -55,6 +55,7 @@ class _CallerIDState extends State<CallerID> {
               children: [
                 Container(
                   padding: const EdgeInsets.all(5.0),
+                  width: 250,
                   decoration: BoxDecoration(
                     border:
                         Border.all(color: Theme.of(context).colorScheme.secondary, width: 2),

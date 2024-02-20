@@ -37,6 +37,7 @@ Future<String?> signInWithGoogle() async {
     await LocalDb.saveUserId(user.uid.toString());
     await LocalDb.saveName(user.displayName.toString());
     await LocalDb.saveEmail(user.email.toString());
+    await LocalDb.saveUrl(user.photoURL.toString());
     await LocalDb.saveMobile(user.phoneNumber.toString());
 
     print(user);
@@ -69,5 +70,6 @@ Future<String> signOut() async {
   await googleSignIn.signOut();
   await _auth.signOut();
   await LocalDb.saveUserId('null');
+  await LocalDb.saveEmail('null');
   return "SUCCESS";
 }
