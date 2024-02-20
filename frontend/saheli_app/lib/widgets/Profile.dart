@@ -8,7 +8,6 @@ import 'package:share/share.dart';
 import '../views/article_screen.dart';
 import '../views/login.dart';
 import 'SOSStorage/CollectionScreen.dart';
-import 'SOSStorage/SubmitForm.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -19,8 +18,8 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  String? userName = 'Aditi Agrawal';
-  String userEmail = 'apoorvyash123@gmail.com';
+  String? userName = 'null';
+  String userEmail = 'null';
 
   Future<void> _loadUserDetails() async {
     await LocalDb.getName().then((value) {
@@ -71,7 +70,34 @@ class _ProfileState extends State<Profile> {
             const SizedBox(
               height: 15,
             ),
-
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  backgroundImage: AssetImage("assets/download.png"),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                CircleAvatar(
+                  backgroundImage: AssetImage("assets/GooglePlus-logo-red.png"),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                CircleAvatar(
+                  backgroundImage:
+                  AssetImage("assets/1_Twitter-new-icon-mobile-app.jpg"),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                CircleAvatar(
+                  backgroundImage:
+                  AssetImage("assets/600px-LinkedIn_logo_initials.png"),
+                )
+              ],
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -85,7 +111,6 @@ class _ProfileState extends State<Profile> {
                 )
               ],
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [Text(userEmail)],
@@ -97,13 +122,13 @@ class _ProfileState extends State<Profile> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'A happy wanderer by passion',
+                  "",
                   style: TextStyle(fontSize: 20),
                 )
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
             Container(
               child: Expanded(
@@ -139,37 +164,6 @@ class _ProfileState extends State<Profile> {
                           Icons.arrow_forward_ios_outlined,
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      margin: const EdgeInsets.only(
-                          left: 35, right: 35, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SafeRoutesForm(),
-                            ),
-                          );
-                        },
-                        leading: const Icon(
-                          Icons.dangerous,
-                          color: Colors.black54,
-                        ),
-                        title: const Text(
-                          'Report Suspicious Places',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        trailing: const Icon(Icons.arrow_forward_ios_outlined),
                       ),
                     ),
                     const SizedBox(

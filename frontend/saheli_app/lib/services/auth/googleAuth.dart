@@ -34,7 +34,6 @@ Future<String?> signInWithGoogle() async {
     await FireDb().createNewUser(user.displayName.toString(),
         user.email.toString(), user.photoURL.toString(), user.uid.toString(), jwtToken!);
     await LocalDb.saveUserId(user.uid.toString());
-    print(user.displayName);
     await LocalDb.saveName(user.displayName.toString());
     await LocalDb.saveEmail(user.email.toString());
     await LocalDb.saveMobile(user.phoneNumber.toString());

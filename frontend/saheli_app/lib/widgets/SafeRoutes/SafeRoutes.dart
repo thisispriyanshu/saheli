@@ -8,7 +8,6 @@ import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../api/safeways.dart';
-import 'TextSearch.dart';
 
 class SafeRoutes extends StatefulWidget {
   const SafeRoutes({super.key});
@@ -17,7 +16,6 @@ class SafeRoutes extends StatefulWidget {
 }
 
 class _SafeRoutesState extends State<SafeRoutes> {
-  bool _isLoading = false;
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
   final Set<Marker> _markers = {};
@@ -66,7 +64,6 @@ class _SafeRoutesState extends State<SafeRoutes> {
   // }
 
   void getPolyPoints() async {
-
     List? steps = await makeSafeRouteRequest(_currentLocation, destLocation, "driving");
     if(steps!.isNotEmpty){
       for (var step in steps) {
@@ -77,7 +74,6 @@ class _SafeRoutesState extends State<SafeRoutes> {
     else{
       print('error');
     }
-
     print(polyLineCoordinates);
   }
 
@@ -152,7 +148,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
 
     return Scaffold(
         floatingActionButton:  Padding(
-        padding: const EdgeInsets.only(bottom: 20.0),
+        padding: const EdgeInsets.only(bottom: 90.0),
       child: FloatingActionButton.extended(
         onPressed: () {
           // String location = _locationController.text;
@@ -171,7 +167,43 @@ class _SafeRoutesState extends State<SafeRoutes> {
         body: Stack(
 
             children: [
-
+              // Positioned(
+              //   top: 10.0,
+              //   left: 10.0,
+              //   child: Container(
+              //     padding: EdgeInsets.all(8.0),
+              //     decoration: BoxDecoration(
+              //       color: Colors.white,
+              //       borderRadius: BorderRadius.circular(8.0),
+              //     ),
+              //     child: Column(
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         TextField(
+              //           controller: _locationController,
+              //           decoration: InputDecoration(
+              //             labelText: 'Enter your location',
+              //             border: InputBorder.none,
+              //           ),
+              //         ),
+              //         SizedBox(height: 10.0),
+              //         TextField(
+              //           controller: _destinationController,
+              //           decoration: InputDecoration(
+              //             labelText: 'Enter destination',
+              //             border: InputBorder.none,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              //   // Positioned(
+              //   //       left: 10,// you can change place of search bar any where on the map
+              //   //       child: ElevatedButton(
+              //   //           onPressed: _handleSearch,
+              //   //           child: Text('search')),
+              //   //     )
+              // ),
               GoogleMap(
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: _currentLocation != null
@@ -214,101 +246,51 @@ class _SafeRoutesState extends State<SafeRoutes> {
 
                 myLocationEnabled: true,
               ),
-              if (_isLoading)
-                Positioned.fill(
-                  child: Container(
-                    color: Colors.black.withOpacity(0.5), // Semi-transparent black background
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                ),
-              Positioned(
-                top: 60,
-                right: 15,
-                left: 15,
-                child: Container(
-                  color: Colors.white,
-                  child: Row(
-                    children: <Widget>[
-                      IconButton(
-                        splashColor: Colors.grey,
-                        icon: Icon(Icons.flag
-                        ),
-                        onPressed: () {},
-                      ),
-                      Expanded(
-                        child: TextField(
-                          onTap: () async {
-                          //   Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) =>
-                          //   ),
-                          // );
-                            },
-                          cursorColor: Colors.black,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.go,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding:
-                              EdgeInsets.symmetric(horizontal: 15),
-                              hintText: "Search destination location..."),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.search),
+        Stack(
+            children: <Widget>[
 
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 10,
-                right: 15,
-                left: 15,
-                child: Container(
-                  color: Colors.white,
-                  child: Row(
-                    children: <Widget>[
-                      IconButton(
-                        splashColor: Colors.grey,
-                        icon: Icon(Icons.directions_run
-                        ),
-                        onPressed: () {},
-                      ),
-                      Expanded(
-                        child: TextField(
-                          onTap: () async {
-                            //   Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) =>
-                            //   ),
-                            // );
-                          },
-                          cursorColor: Colors.black,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.go,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding:
-                              EdgeInsets.symmetric(horizontal: 15),
-                              hintText: "Search start location..."),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.search),
+        Container(
+            height: MediaQuery.of(context).size.width * 0.2,
+            color: Colors.white,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: <Widget> [
 
-                      ),
-                    ],
-                  ),
+            Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                controller: _locationController,
+                cursorColor: Colors.white,
+                style: TextStyle(
+                  color: Colors.white,
                 ),
+                decoration: InputDecoration(labelText: 'Select Source Location',labelStyle: TextStyle(color: Colors.black),focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),),)
+
               ),
+            ),),
+    Expanded(
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+      controller: _destinationController,
+      cursorColor: Colors.white,
+      style: TextStyle(
+      color: Colors.white,
+      ),
+      decoration:InputDecoration(labelText: 'Select Destination',labelStyle: TextStyle(color: Colors.black),focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.black),),)
+
+      ),
+    ),),
+
+
+            ]
+        )
+    )
+        ]
+        )
     ]));
   }
 }

@@ -15,14 +15,11 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:saheli_app/views/home_screen.dart';
 import 'package:shake/shake.dart';
 import 'package:telephony/telephony.dart';
 
 import '../../../db/databases.dart';
 import '../../../model/PhoneContact.dart';
-import '../../../views/BlinkingButton.dart';
-import '../../../widgets/bottomNavBar.dart';
 
 class AudioPlayer extends StatefulWidget {
   @override
@@ -39,7 +36,7 @@ class AudioPlayerState extends State<AudioPlayer> {
   Position? _curentPosition;
   String? _curentAddress;
   LocationPermission? permission;
-  String statusText = "Sending Location";
+
 
   late int _volumeListenerId;
   void initState() {
@@ -47,30 +44,6 @@ class AudioPlayerState extends State<AudioPlayer> {
     initRecorder();
     _getPermission();
     _getCurrentLocation();
-    Timer(Duration(seconds: 10), () {
-      setState(() {
-        _captureAndSaveImage();
-      });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Location Sent Successfully')));
-      // _captureAndSaveImage(); // Call the function to open the camera after 3 seconds
-    });
-    Timer(Duration(seconds: 20), () {
-      setState(() {
-        record();
-      });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Image Captured')));
-      // record(); // Call the function to start recording after 6 seconds
-    });
-    Timer(Duration(seconds: 30), () {
-      setState(() {
-        // buttonText = "Sent";
-        if(isRecording){
-           stop();
-        }
-      });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Recorded Audio')));
-      // record(); // Call the function to start recording after 6 seconds
-    });
     isRecording = false;
     getAndSendSms();
     ShakeDetector.autoStart(onPhoneShake: (){ ScaffoldMessenger.of(context as BuildContext).showSnackBar(const SnackBar(
@@ -119,42 +92,13 @@ class AudioPlayerState extends State<AudioPlayer> {
 
               onPressed: () {
                 Navigator.of(context).pop();
-                // record();
-              },
-              child: Text("OK", style: TextStyle(color: Colors.black),),
-            ),
-
-          ],
-        );
-      },
-    );
-  }
-  void _showSuccess() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Row(
-            children: [
-              Icon(
-                Icons.warning,
-                color: Colors.red,
-              ),
-              SizedBox(width: 10),
-              Text("SOS Activated"),
-            ],
-          ),
-          content: Text("Your location, images taken, audio recorded has been sent to your emergency contact. Help is on the way!"),
-          actions: <Widget>[
-            TextButton(
-
-              onPressed: () {
                 Navigator.of(context).pop();
-                // record();
+                // Close dialog
+                _captureAndSaveImage();
+                record();
               },
               child: Text("OK", style: TextStyle(color: Colors.black),),
             ),
-
           ],
         );
       },
@@ -334,7 +278,7 @@ class AudioPlayerState extends State<AudioPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Colors.redAccent,
       appBar: AppBar(
         title: const Text(
           "SOS Mode",
@@ -347,10 +291,6 @@ class AudioPlayerState extends State<AudioPlayer> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 120.0,),
-            Center(
-              child: MyBlinkingButton( buttonText:statusText,),
-            ),
 
             StreamBuilder<RecordingDisposition>(
               stream: recorder.onProgress,
@@ -364,64 +304,53 @@ class AudioPlayerState extends State<AudioPlayer> {
                   style: const TextStyle(
                      fontSize: 40,
                     fontWeight: FontWeight.bold,
-                    color: Colors.red,
+                    color: Colors.white
                   ),
                 );
               },
             ),
             const SizedBox(height: 30.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center
 
-                ,children: [
-                SizedBox(height: 100.0,),
-                // ElevatedButton(
-                //   style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.pinkAccent),),
-                //   onPressed: () async {
-                //     if (isRecording) {
-                //       await stop();
-                //     } else {
-                //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Recording started')));
-                //       await record();
-                //     }
-                //   },
-                //   child: isRecording?  Icon(
-                //
-                //     Icons.stop,
-                //     size: 40,
-                //     color: Colors.redAccent,
-                //   ): Text('Record more', style: TextStyle(color: Colors.white),),),
-                // ElevatedButton(
-                //
-                //   style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.pinkAccent),),
-                //
-                //   onPressed: () async {
-                //       _captureAndSaveImage();
-                //   },
-                //   child:Text('Capture More Images', style: TextStyle(color: Colors.white),),
-                // ),
+              ,children: [ElevatedButton(
 
+              onPressed: () async {
+                if (isRecording) {
+                  await stop();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Recording started')));
+                  await record();
+                }
+              },
+              child: Icon(
 
-
-                ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.redAccent),fixedSize:  MaterialStateProperty.all<Size>(Size(double.infinity, 200),)),
-
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BottomNavBar(),
-                      ),
-                    );
-                  },
-                  child: Text('STOP', style: TextStyle(color: Colors.white),),),
-
-                ],),
+                isRecording ? Icons.stop : Icons.mic,
+                size: 40,
+                color: Colors.redAccent,
+              ),
             ),
+              SizedBox(width: 20.0,),
+              ElevatedButton(
 
+                onPressed: () async {
+                  _captureAndSaveImage();
+                },
+                child: Icon(
+
+                  Icons.camera,
+                  size: 40,
+                  color: Colors.redAccent,
+                ),
+              ),],),
+
+            if (isUploading)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: CircularProgressIndicator(
+                  value: uploadProgress,
+                ),
+              ),
           ],
         ),
       ),

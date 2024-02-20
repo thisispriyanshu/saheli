@@ -1,9 +1,6 @@
 import 'dart:ffi';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
 import 'package:saheli_app/AudioRecorder/screens/home_screen/audioplayer.dart';
@@ -13,7 +10,6 @@ import '../FakeCaller/utilities/icon_content.dart';
 import '../views/article_screen.dart';
 import '../views/home_screen.dart';
 import 'Chatbot/chatbot.dart';
-import 'Chatbot/geminiChatbot.dart';
 import 'Profile.dart';
 import 'SafeRoutes/SafeRoutes.dart';
 
@@ -46,7 +42,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
       floatingActionButton: _selectedIndex != 2
           ? FloatingActionButton(
-              backgroundColor: Colors.red,
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
               onPressed: () {
                 Navigator.push(
                   context,
@@ -55,9 +51,24 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   ),
                 );
               },
-              child: Text('SOS', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18),),
+              child: Icon(Icons.crisis_alert_outlined),
             )
-          : null,
+          : Padding(
+        padding: const EdgeInsets.only(bottom: 30.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => GeminiBot()),
+
+            );
+          },
+
+          child:Icon( Icons.star),
+          backgroundColor: Colors.pinkAccent,
+        ),
+      ), // Render FAB only for the Search tab (index 1)
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       backgroundColor: Theme.of(context).bottomAppBarTheme.color,
       key: _scaffoldKey,
       // body: _pages[_selectedIndex],
@@ -110,8 +121,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   GButton(
                     iconSize: 25,
                     icon: _selectedIndex == 2
-                        ? Icons.auto_awesome
-                        : Icons.auto_awesome_outlined,
+                        ? Icons.chat
+                        : Icons.chat_bubble_outline,
                     text: 'Sakha',
                   ),
                   GButton(

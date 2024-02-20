@@ -27,33 +27,14 @@ class CustomAppBar extends StatelessWidget {
             topLeft: Radius.zero,
           ),
         ),
-
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-        Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Text(
-          'Tip of the Day',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      SizedBox(height: 5),
-      Container(
-
-
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(
             sweetSayings[quoteIndex!],
-            style: const TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 20),
           ),
         ),
       ),
-        ],
       // child: Container(
       //   child: Text(
       //     sweetSayings[quoteIndex!],
@@ -61,6 +42,6 @@ class CustomAppBar extends StatelessWidget {
       //     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic, color: Theme.of(context).colorScheme.secondary),
       //   ),
       // ),
-    ),),);
+    );
   }
 }
