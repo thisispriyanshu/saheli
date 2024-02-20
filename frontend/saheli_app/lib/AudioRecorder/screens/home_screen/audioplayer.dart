@@ -407,7 +407,7 @@ class AudioPlayerState extends State<AudioPlayer> {
 
 
                 ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.redAccent),fixedSize:  MaterialStateProperty.all<Size>(Size(double.infinity, 60),)),
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.redAccent),fixedSize:  MaterialStateProperty.all<Size>(Size(double.infinity, 200),)),
 
                   onPressed: () {
                     Navigator.push(
