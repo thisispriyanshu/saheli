@@ -97,6 +97,12 @@ dependencies:
   flutter_dotenv: any
   google_nav_bar: any
   line_awesome_flutter: any
+  flutter_spinkit: any
+  flutter_animate: any
+  page_transition: any
+  chat_bubbles: any
+  google_places_flutter: any
+  flutter_polyline_points: any
 
 
 dev_dependencies:

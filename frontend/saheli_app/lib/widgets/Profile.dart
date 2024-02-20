@@ -1,13 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:saheli_app/FakeCaller/screens/call_menu.dart';
+import 'package:saheli_app/services/auth/googleAuth.dart';
 import 'package:saheli_app/services/localDb/localDb.dart';
+import 'package:saheli_app/views/OnboardingScreen.dart';
+import 'package:saheli_app/views/googleSignIn.dart';
 import 'package:saheli_app/widgets/PrivacyPolicy.dart';
 import 'package:share/share.dart';
 
 import '../views/article_screen.dart';
 import '../views/login.dart';
 import 'SOSStorage/CollectionScreen.dart';
+import 'SOSStorage/SubmitForm.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -20,6 +25,7 @@ class _ProfileState extends State<Profile> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? userName = 'null';
   String userEmail = 'null';
+  String profileUrl = 'null';
 
   Future<void> _loadUserDetails() async {
     await LocalDb.getName().then((value) {
@@ -30,6 +36,11 @@ class _ProfileState extends State<Profile> {
     await LocalDb.getEmail().then((value) {
       setState(() {
         userEmail = _auth.currentUser!.email!;
+      });
+    });
+    await LocalDb.getUrl().then((value) {
+      setState(() {
+        profileUrl = value.toString();
       });
     });
   }
@@ -58,13 +69,16 @@ class _ProfileState extends State<Profile> {
             const SizedBox(
               height: 15,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  maxRadius: 65,
-                  backgroundImage: AssetImage("assets/profile.png"),
-                ),
+                profileUrl != 'null'
+                    ? CircleAvatar(
+                        backgroundImage: NetworkImage(profileUrl), maxRadius: 65)
+                    : const CircleAvatar(
+                        maxRadius: 65,
+                        backgroundImage: AssetImage("assets/profile.png"),
+                      ),
               ],
             ),
             const SizedBox(
@@ -87,14 +101,14 @@ class _ProfileState extends State<Profile> {
                 ),
                 CircleAvatar(
                   backgroundImage:
-                  AssetImage("assets/1_Twitter-new-icon-mobile-app.jpg"),
+                      AssetImage("assets/1_Twitter-new-icon-mobile-app.jpg"),
                 ),
                 SizedBox(
                   width: 15,
                 ),
                 CircleAvatar(
                   backgroundImage:
-                  AssetImage("assets/600px-LinkedIn_logo_initials.png"),
+                      AssetImage("assets/600px-LinkedIn_logo_initials.png"),
                 )
               ],
             ),
@@ -180,6 +194,37 @@ class _ProfileState extends State<Profile> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
+                              builder: (context) => SafeRoutesForm(),
+                            ),
+                          );
+                        },
+                        leading: const Icon(
+                          Icons.dangerous,
+                          color: Colors.black54,
+                        ),
+                        title: const Text(
+                          'Report Suspicious Places',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        trailing: const Icon(Icons.arrow_forward_ios_outlined),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                      color: Theme.of(context).colorScheme.secondary,
+                      margin: const EdgeInsets.only(
+                          left: 35, right: 35, bottom: 10),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
                               builder: (context) => CollectionScreen(),
                             ),
                           );
@@ -192,7 +237,8 @@ class _ProfileState extends State<Profile> {
                           'Your SOS Collection',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios_outlined),
                       ),
@@ -320,8 +366,10 @@ class _ProfileState extends State<Profile> {
                           Icons.arrow_forward_ios_outlined,
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
-                        onTap: () {
-                          logout(context);
+                        onTap: () async{
+                          //logout(context);
+                          await signOut();
+                          Navigator.pushReplacement(context, PageTransition(child: OnboardingScreen(), type: PageTransitionType.leftToRight));
                         },
                       ),
                     )
@@ -336,7 +384,7 @@ class _ProfileState extends State<Profile> {
   }
 
   void openSharePanel() {
-    String linkToShare="saheli.dev";
+    String linkToShare = "saheli.dev";
     Share.share(linkToShare);
   }
 

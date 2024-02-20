@@ -48,7 +48,7 @@ class _SchedulerState extends State<Scheduler> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 236, 208),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       resizeToAvoidBottomInset: false,
 
       body: Container(
@@ -75,9 +75,9 @@ class _SchedulerState extends State<Scheduler> {
                     Container(
                       height: 80,
                       width: 100,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
-                        color: Color.fromARGB(255, 255, 57, 116),
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                       child: Center(
                         child: TextField(
@@ -113,9 +113,9 @@ class _SchedulerState extends State<Scheduler> {
                     Container(
                       height: 80,
                       width: 100,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
-                        color: Color.fromARGB(255, 255, 57, 116),
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                       child: Center(
                         child: TextField(
