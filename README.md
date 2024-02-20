@@ -28,15 +28,37 @@ Saheli, meaning 'female best friend' in Hindi, is an innovative mobile applicati
 
 Saheli aims to create a safer environment for women by leveraging technology and community engagement. Our mission is to empower women with tools and resources that enhance their safety and provide peace of mind, fostering a society where every woman feels secure and supported.
 
-## Impact:
+## Architecture
+![image](https://github.com/thisispriyanshu/saheli/assets/73881504/85655af2-4798-4f84-a291-4f5d7b181f2f)
 
-- **Promoting Gender Equality**: Saheli contributes to the UN Sustainable Development Goals by promoting gender equality through technological solutions that address safety concerns faced by women.
+
+## App Images
+![image](https://github.com/thisispriyanshu/saheli/assets/73881504/ad8efa48-6894-4612-b055-9aeab70428d2)
+![image](https://github.com/thisispriyanshu/saheli/assets/73881504/fd76bc21-5b90-4558-912d-714731384c74)
+
+
+## Impact & UN Sustainable Development Goals:
+![image](https://github.com/thisispriyanshu/saheli/assets/73881504/13d035f9-95bc-4a0f-916a-f83094528685) ![image](https://github.com/thisispriyanshu/saheli/assets/73881504/cd13f45b-faf2-4d4e-9aff-d565cfe5ef05) ![image](https://github.com/thisispriyanshu/saheli/assets/73881504/41d480cb-607b-40d9-88e9-b2bebbb6b581) ![image](https://github.com/thisispriyanshu/saheli/assets/73881504/6073a03a-dd09-4eac-aeca-4ab17d91380e)
+
+**Goal 4: Quality education**
+* **Self-defense knowledge:** Equips women with practical skills for personal safety and builds confidence.
+* **Crime awareness:** Increases understanding of risks and empowers informed choices, promoting safety for all.
+* **Self-empowerment topics:** Builds confidence, resilience, and critical thinking skills, fostering overall well-being and empowerment.
   
-- **Strengthening Communities**: By encouraging community participation in safety initiatives through crowdsourcing and reporting features, Saheli fosters stronger and safer neighborhoods.
-  
-- **Enhancing Accessibility**: The app's offline accessibility ensures that critical safety features remain available even in areas with limited connectivity, prioritizing inclusivity and usability.
-  
-- **Facilitating Immediate Assistance**: Saheli's SOS alerts and audio-video recording capabilities facilitate prompt response from trusted contacts and authorities, potentially saving lives in critical situations.
+**Goal 5: Achieve gender equality and empower all women and girls**
+* **Empowers women:** Features like SOS, self-defense information, and the AI chatbot enhance security and confidence, allowing women to navigate their environments more freely.
+* **Reduces violence:** Safer journeys, proactive alerts, and community-driven safety reporting decrease women's vulnerability to violence and harassment.
+* **Increases participation:** Freedom from fear and improved safety encourage women to participate more fully in public life, education, and employment.
+
+**Goal 11: Sustainable cities and communities**
+* **Safer public spaces:** Saheli empowers women to utilize public spaces freely, fostering inclusion and vibrant communities.
+* **Community involvement:** Crowdsourced data on unsafe areas and verified safe zones improve safety mapping and awareness for everyone.
+* **Empowered citizens:** By promoting women's safety and participation, Saheli contributes to a more equitable and sustainable urban environment.
+ 
+**Goal 16: Peace, justice and strong institutions**
+* **Reduces violence and crime:** By empowering women and promoting safer communities, Saheli contributes to a decrease in violence and crime overall.
+* **Strengthens institutions:** Increased trust and collaboration between community members and law enforcement agencies can be fostered through Saheli's features.
+* **Promotes justice:** By providing women with tools and resources to report abuse and seek help, Saheli contributes to a more just society.
 
 ## Further Enhancement Ideas:
 
@@ -65,6 +87,9 @@ Saheli aims to create a safer environment for women by leveraging technology and
 ## How to Contribute:
 
 Contributions to Saheli are welcome! If you have ideas for new features, improvements, or bug fixes, please feel free to submit a pull request.
+
+## About Team
+
 
 ## License:
 
