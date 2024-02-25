@@ -154,6 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+
                           Text("New Here? ", style: TextStyle(color: Theme.of(context).colorScheme.primary),),
                           InkWell(
                               onTap: () {
@@ -171,6 +172,29 @@ class _LoginPageState extends State<LoginPage> {
                                     passwordController.text);
                               }),
                         ],
+                      ),
+                      SizedBox(height: 5,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24.0),
+                        child: InkWell(
+
+                          onTap: () {},
+                          child: Ink(
+                            child: Padding(
+                              padding: EdgeInsets.all(6),
+                              child: Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  // <-- Use 'Image.asset(...)' here
+
+                                  Text('Sign in with Google', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),),
+                                  SizedBox(width: 12),
+                                  Image.asset('assets/google.jpg', height: 20,),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 10,
@@ -196,6 +220,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void login(String email, String password) async {
+    const CircularProgressIndicator();
+    await Future.delayed(Duration(seconds: 2));
+    route();
     if (_formkey.currentState!.validate()) {
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -204,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
         );
         Fluttertoast.showToast(
             msg: "Logged in successfully", toastLength: Toast.LENGTH_SHORT);
-        route();
+
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           print('No user found for that email.');

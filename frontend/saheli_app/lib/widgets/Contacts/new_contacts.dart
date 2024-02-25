@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:location/location.dart';
 import 'package:saheli_app/widgets/Live_location/main.dart';
+import 'package:share/share.dart';
 import 'package:sqflite/sqflite.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../db/databases.dart';
 import '../../model/PhoneContact.dart';
 import '../SafeRoutes/SafeHome.dart';
@@ -58,7 +60,20 @@ class _AddContactsPageState extends State<AddContactsPage> {
       contactList = [];
     }
     return Scaffold(
-
+      appBar: AppBar(
+        title: const Text("Contacts", style: TextStyle(color: Colors.white),),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: "btn1",
+      onPressed: ( ) {
+        openSharePanel();
+    },
+        label: Text('Send location to group'),
+        icon: FaIcon(FontAwesomeIcons.whatsapp),
+        backgroundColor: Color.fromARGB(255, 37,211,102),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: Color.fromARGB(255, 255, 236, 208),
       body: SafeArea(
         child: Container(
@@ -124,5 +139,32 @@ class _AddContactsPageState extends State<AddContactsPage> {
             )),
       ),
     );
+
   }
+
+  void openSharePanel() {
+    DateTime now = DateTime.now();
+    String formattedTime = '${now.hour}:${now.minute}:${now.second}';
+
+    String message = "Hi! I am going out at $formattedTime, here's my current location, https://www.google.com/maps/search/?api=1&query=28.59351217640707,77.24437040849519 \n-Sent from Saheli app";
+
+    Share.share(message
+    );
+  }
+  // Future<void> shareCurrentLocation() async {
+  //
+  //
+  //     LocationData currentLocation = await location.getLocation();
+  //     DateTime now = DateTime.now();
+  //     String formattedTime = '${now.hour}:${now.minute}:${now.second}';
+  //
+  //     String message = "Hi! I am going out at $formattedTime, here's my current location, https://www.google.com/maps/search/?api=1&query=${currentLocation.latitude},${currentLocation.longitude}";
+  //
+  //      Share.share(message
+  //     );
+    // } catch (e) {
+      // Handle location access or sharing errors
+      // print("Error: $e");
+    // }
+  // }
 }

@@ -14,7 +14,7 @@ class CardChild extends StatelessWidget {
         margin: const EdgeInsets.all(15.0),
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 255, 57, 116),
+          color: Theme.of(context).colorScheme.secondary,
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),

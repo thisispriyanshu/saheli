@@ -1,10 +1,10 @@
 List sweetSayings = [
-  "Your presence, lights up the whole room",
-  "We admire,Your strong personality.",
-  "We’ll help you In any way we can,",
-  "You are Strong and courageous",
-  'I say if I’m beautiful. I say if I’m strong',
-  'Above all, be the heroine of your life, not the victim',
+  "Make use of helpline numbers when in emergency",
+  "Audio recorded will be saved on your device storage",
+  "Shake your phone to send SOS",
+  "Add contacts that you trust so that they can help you in emergency",
+  "Chat with your Chatbot whenever you need",
+  "Get Safe Route from your current location to your Home",
 ];
 
 List<String> articleTitle = [

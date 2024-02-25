@@ -11,12 +11,11 @@ class PoliceEmergency extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, bottom: 5),
       child: Card(
-        elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
         child: InkWell(
-          onTap: () => _callNumber('15'),
+          onTap: () => _callNumber('1090'),
           child: Container(
             height: 180,
             width: MediaQuery.of(context).size.width * 0.7,

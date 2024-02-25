@@ -2,6 +2,7 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
 }
 
 def localProperties = new Properties()
@@ -50,6 +51,15 @@ android {
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'key'
+            keyPassword 'Yuvraj@3110'
+            storeFile file('keystore.jks')
+            storePassword 'Yuvraj@3110'
+        }
     }
 
     buildTypes {

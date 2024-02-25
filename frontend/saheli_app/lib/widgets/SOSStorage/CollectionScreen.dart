@@ -3,12 +3,12 @@ import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:saheli_app/FakeCaller/screens/scheduler.dart';
 import 'package:saheli_app/FakeCaller/screens/user_manual.dart';
+import 'package:saheli_app/widgets/SOSStorage/AudioListScreen.dart';
 import 'package:saheli_app/widgets/SOSStorage/AudioStore.dart';
 import 'package:saheli_app/widgets/SOSStorage/CameraStore.dart';
 import 'package:saheli_app/widgets/SOSStorage/sosCardChild.dart';
 import '../../FakeCaller/utilities/card_child.dart';
 import '../../FakeCaller/utilities/icon_content.dart';
-import 'AudioListFirstScreen.dart';
 
 class CollectionScreen extends StatefulWidget {
   @override
@@ -26,12 +26,16 @@ class _CallMenuState extends State<CollectionScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('SOS storage collection',)),
-      backgroundColor: Color.fromARGB(255, 255, 236, 208),
+      appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          title: const Text(
+            'SOS storage collection', style: TextStyle(color: Colors.white),
+          )),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -49,12 +53,9 @@ class _CallMenuState extends State<CollectionScreen> {
               padding: const EdgeInsets.only(
                   left: 30.0, top: 60.0, right: 30.0, bottom: 30.0),
               child: Column(children: [
-
                 const SizedBox(
                   height: 10.0,
                 ),
-
-
               ]),
             ),
             const SizedBox(
@@ -75,23 +76,17 @@ class _CallMenuState extends State<CollectionScreen> {
                       child: Row(
                         children: [
                           Expanded(
-
                             child: SOSCard(
-
                               cardChild: IconContent(
                                 icon: const IconData(0xf05bf,
                                     fontFamily: 'MaterialIcons'),
                                 text: "Audio Storage",
-
                               ),
                               onPress: () {
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => AudioListFirstScreen(
-
-                                    ),
+                                    builder: (context) => AudioListFirstScreen(),
                                   ),
                                 );
                               },
@@ -105,22 +100,18 @@ class _CallMenuState extends State<CollectionScreen> {
                                 text: 'Camera Storage',
                               ),
                               onPress: () {
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ImageListScreen()),
                                 );
-
                               },
                             ),
                           ),
                         ],
                       ),
                     ),
-
                   ],
-
                 ),
               ),
             ),
@@ -128,7 +119,6 @@ class _CallMenuState extends State<CollectionScreen> {
               height: 200.0,
             ),
           ],
-
         ),
       ),
     );

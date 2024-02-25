@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import 'NavigationScreen.dart';
-
-import 'package:flutter/material.dart';
-
 import 'NavigationScreen.dart';
 
 class SafeRoutesForm extends StatelessWidget {
@@ -15,14 +10,16 @@ class SafeRoutesForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 236, 208),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        backgroundColor: Colors.pinkAccent,
-        title: Text('Suspicious locations form', style: TextStyle(color: Colors.white),),
-        automaticallyImplyLeading: false,
+        iconTheme: const IconThemeData(
+          color: Colors.white
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        title: const Text('Suspicious locations form', style: TextStyle(color: Colors.white),),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -30,31 +27,31 @@ class SafeRoutesForm extends StatelessWidget {
 
               controller: _nameController,
 
-              decoration: InputDecoration(labelText: 'Name',labelStyle: TextStyle(color: Colors.black),focusedBorder: OutlineInputBorder(
+              decoration: const InputDecoration(labelText: 'Name',labelStyle: TextStyle(color: Colors.black),focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.black),
               ),),
 
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             TextFormField(
               controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Description/Situation of place',labelStyle: TextStyle(color: Colors.black),focusedBorder: OutlineInputBorder(
+              decoration: const InputDecoration(labelText: 'Description/Situation of place',labelStyle: TextStyle(color: Colors.black),focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.black),
               ),),
               maxLines: 3,
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             TextFormField(
               controller: _situationController,
-              decoration: InputDecoration(labelText: 'Any problems faced, if any',labelStyle: TextStyle(color: Colors.black),focusedBorder: OutlineInputBorder(
+              decoration: const InputDecoration(labelText: 'Any problems faced, if any',labelStyle: TextStyle(color: Colors.black),focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.black),
               ),),
 
               maxLines: 3,
             ),
-            SizedBox(height: 20.0),
-            Text('Select Location from Map', style: TextStyle(color: Colors.black, fontSize: 16),),
-            SizedBox(height: 5.0),
+            const SizedBox(height: 20.0),
+            const Text('Select Location from Map', style: TextStyle(color: Colors.black, fontSize: 16),),
+            const SizedBox(height: 5.0),
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.push(
@@ -64,25 +61,34 @@ class SafeRoutesForm extends StatelessWidget {
                   ),
                 );
               },
-              icon: Icon(Icons.place),
-              label: Text(
+              icon: const Icon(Icons.place),
+              label: const Text(
                 'Select Location',
                 style: TextStyle(color: Colors.white),
               ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.pinkAccent),
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                  EdgeInsets.symmetric(vertical: 8.0),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 25, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
-            SizedBox(height: 240.0),
+            const SizedBox(height: 240.0),
             ElevatedButton(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.pinkAccent),),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 25, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
               onPressed: () {
                 _submitForm(context);
               },
-              child: Text('Submit', style: TextStyle(color: Colors.white),),),
+              child: const Text('Submit', style: TextStyle(color: Colors.white),),),
 
           ],
         ),
@@ -99,14 +105,14 @@ class SafeRoutesForm extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Form Submitted'),
-          content: Text('Suspicous location details have been submitted successfully. Thank you for helping Saheli make women stronger and safer!'),
+          title: const Text('Form Submitted'),
+          content: const Text('Suspicous location details have been submitted successfully. Thank you for helping Saheli make women stronger and safer!'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -129,36 +135,36 @@ class _MyAppState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Submit suspicous locations'),
+        title: const Text('Submit suspicous locations'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
+          const Text(
             'Enter your location',
             style: TextStyle(fontSize: 40),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           TextField(
             controller: latController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'latitude',
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           TextField(
             controller: lngController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'longitude',
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Container(
@@ -168,7 +174,7 @@ class _MyAppState extends State<MapScreen> {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => MapPicker()));
                 },
-                child: Text('Get Directions')),
+                child: const Text('Get Directions')),
           ),
         ]),
       ),

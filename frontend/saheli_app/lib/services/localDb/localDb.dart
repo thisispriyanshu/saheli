@@ -6,8 +6,10 @@ class LocalDb{
   static const pKey = 'sadarbhvarev';
   static const rKey = 'awnfiawiufjkdsb';
   static const mKey = 'niaiewiaiuea';
+  static const nKey = 'sihsviueivsve';
   static const gKey = 'awbiaiubvabeva';
   static const dKey = ' ajbvuabawebjkwe';
+  static const tKey = ' abueuifgauiwgfi';
 
   static Future<bool> saveUserId(String uid) async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -33,13 +35,13 @@ class LocalDb{
 
   static Future<bool> saveName(String profile) async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.setString(pKey, profile);
+    return await preferences.setString(nKey, profile);
   }
 
   //gets name of user
   static Future<String?> getName() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getString(pKey);
+    return preferences.getString(nKey);
   }
 
   static Future<bool> saveMobile(String mobile) async{
@@ -69,6 +71,12 @@ class LocalDb{
     return await preferences.setString(dKey, dob);
   }
 
+  //gets name of user
+  static Future<String?> getAge() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(dKey);
+  }
+
   static Future<void> setFirstTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isFirstTime', false);
@@ -80,14 +88,30 @@ class LocalDb{
     return isFirstTime;
   }
 
-
-  //gets name of user
-  static Future<String?> getAge() async{
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getString(dKey);
-  }
   static Future<void> clearUserData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
+  }
+
+  static Future<bool> saveToken(String jwtToken) async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return await preferences.setString(tKey, jwtToken);
+  }
+
+  //gets jwt Token of user
+  static Future<String?> getToken() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(tKey);
+  }
+
+  static Future<bool> saveUrl(String profileUrl) async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return await preferences.setString(pKey, profileUrl);
+  }
+
+  //gets URL of user
+  static Future<String?> getUrl() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(pKey);
   }
 }

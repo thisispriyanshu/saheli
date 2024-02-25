@@ -11,12 +11,11 @@ class ArmyEmergency extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, bottom: 5),
       child: Card(
-        elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
         child: InkWell(
-          onTap: () => _callNumber('1090'),
+          onTap: () => _callNumber('100'),
           child: Container(
             height: 180,
             width: MediaQuery.of(context).size.width * 0.7,
@@ -47,7 +46,7 @@ class ArmyEmergency extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'State Women Welfare',
+                          'Police',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -55,7 +54,7 @@ class ArmyEmergency extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Women Helpline',
+                          'In case of emergency call',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: MediaQuery.of(context).size.width * 0.045,
@@ -70,7 +69,7 @@ class ArmyEmergency extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              '1 0 9 0',
+                              '1 0 0',
                               style: TextStyle(
                                 color: Colors.red[300],
                                 fontWeight: FontWeight.bold,

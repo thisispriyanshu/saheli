@@ -36,7 +36,7 @@ class _MapPickerState extends State<MapPicker> {
         child: FloatingActionButton.extended(
           onPressed: () {
 
-                  _openFormScreen(context);
+            _openFormScreen(context);
 
           },
           label: Text('Select Location'),
@@ -70,9 +70,9 @@ class _MapPickerState extends State<MapPicker> {
                             _controller.complete(controller);
                           },
                           onCameraMove: (CameraPosition newPosition) {
-                              setState(() {
-                                _selectedLocation = newPosition.target;
-                              });
+                            setState(() {
+                              _selectedLocation = newPosition.target;
+                            });
 
                             widget.value = newPosition.target;
                           },

@@ -52,21 +52,21 @@ Duration position=Duration.zero;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.redAccent,
-      appBar: AppBar(title: Text('SOS Mode'),),
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      appBar: AppBar(title: Text('SOS Audio Collection'),),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
               ClipRRect(borderRadius: BorderRadius.circular(20),
-              child: Image.network('https://unsplash.com/photos/white-cassette-tape-close-up-photography-mbGxz7pt0jM',
+              child: Image.asset('assets/audio_player.jpg',
               width: double.infinity,
               height: 350,
               fit: BoxFit.cover,),
 
               ),
-const SizedBox(height: 32),
+            const SizedBox(height: 32),
             const Text('sos_audio_17_02_2023',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,
 
@@ -76,17 +76,21 @@ const SizedBox(height: 32),
             const Text('Unknown Details',
             ),
             Slider(
-              min: 0,max: duration.inSeconds.toDouble(),value: position.inSeconds.toDouble(), onChanged: (value) async {  },
+              inactiveColor: Theme.of(context).colorScheme.tertiary,
+              min: 0,max: 09,value: position.inSeconds.toDouble(), onChanged: (value) async {  },
 
             ),
             Padding(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10,),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('$position'),
-                Text('$duration-$position'),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('00:00'),
+                  Text('00:09'),
 
-              ],
+                ],
+              ),
             ),
             ),
             CircleAvatar(radius: 35,
@@ -98,7 +102,7 @@ const SizedBox(height: 32),
                 // await audioPlayer.play(url);
               }
             }, icon: Icon(isPlaying? Icons.pause:Icons.play_arrow,),
-            iconSize: 50,
+            iconSize: 50,color: Theme.of(context).colorScheme.tertiary,
             ),
 
             )

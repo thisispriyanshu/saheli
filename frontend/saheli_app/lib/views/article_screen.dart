@@ -49,41 +49,95 @@ class ArticleScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 236, 208),
+      appBar: AppBar(
+
+        iconTheme: const IconThemeData(
+            color: Colors.white
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        title: const Text("Safety Articles", style: TextStyle(color: Colors.white),),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Container(
             padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Identifying Sexual harassment",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              children:
+              [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            navigateToRoute(context, SafeWebView(url: "https://www.india.gov.in/topics/home-affairs-enforcement"));
+                          },
+                          icon: Icon(Icons.local_police_outlined),
+                          color: Colors.black,
+                        ),
+                        Text(
+                          'Police Website',
+                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            navigateToRoute(context, SafeWebView(url: "https://www.ncwwomenhelpline.in/"));
+                          },
+                          icon: Icon(Icons.woman_2_outlined),
+                          color: Colors.black,
+                        ),
+                        Text(
+                          'Women Website',
+                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            navigateToRoute(context, SafeWebView(url: "https://www.india.gov.in/topics/home-affairs-enforcement"));
+                          },
+                          icon: Icon(Icons.female_outlined),
+                          color: Colors.black,
+                        ),
+                        Text(
+                          'POCSO Site',
+                          style: TextStyle(color: Colors.black,  fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: articles.length,
-                  //scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      child: articles[index],
-                      onTap: () {
-                        navigateToRoute(
-                            context,
-                            SafeWebView(
-                              url: url[index],
-                            ));
-                      },
-                    );
-                  },
-                )
+                SizedBox(height: 20),
+                ...articles.map((article) {
+                  return InkWell(
+                    child: article,
+                    onTap: () {
+                      navigateToRoute(
+                        context,
+                        SafeWebView(
+                          url: url[articles.indexOf(article)],
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
               ],
             ),
+
           ),
         ),
       ),
+
     );
   }
 }

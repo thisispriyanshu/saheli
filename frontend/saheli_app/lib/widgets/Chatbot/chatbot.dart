@@ -1,7 +1,8 @@
+import 'dart:convert';
+import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/material.dart';
-import 'package:dialog_flowtter/dialog_flowtter.dart';
-
-import 'geminiChatbot.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -12,45 +13,48 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatBotState extends State<ChatScreen> {
   Color clr1 = Colors.pinkAccent;
-  late DialogFlowtter instance;
-  final messageController = new TextEditingController();
-  Future<void> getInstance() async {
-    instance = await DialogFlowtter.fromFile(
-        path: "assets/dialog_flow_auth.json",
-        sessionId: "any_random_string_will_do");
-  }
+  final messageController = TextEditingController();
+  List<Map> messages = [];
 
-  @override
-  void initState() {
-    getInstance();
-    super.initState();
-  }
+  Future<void> getResponse(String userInput) async {
 
-  @override
-  void dispose() {
-    instance.dispose();
-    super.dispose();
-  }
+      setState(() {
+        messages.insert(0, {"data": 0, "message": "..."});
+      });
+      final response = await http.post(
+        Uri.parse("https://saheli-backend-ufs3.onrender.com/chat"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{'userInput': userInput}),
+      );
 
-  List<Map> messsages = [];
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        String textResponse = data['response'];
+        print(textResponse);
 
-  Future<void> getResponse() async {
-    DetectIntentResponse response = await instance.detectIntent(
-      queryInput: QueryInput(text: TextInput(text: messageController.text)),
-    );
-    String? textResponse = response.text;
-    print(textResponse);
-    setState(() {
-      messsages.insert(0, {"data": 0, "message": textResponse});
-    });
+        // Parse special characters and apply formatting
+        textResponse =
+            textResponse.replaceAll('', ''); // Remove the ** for bold text
+        textResponse = textResponse.replaceAll(
+            '\n\n', ''); // Split text by double newline to separate steps
+        textResponse = textResponse.replaceAll('*', '');
+        setState(() {
+          messages.removeAt(0);
+          messages.insert(0, {"data": 0, "message": textResponse});
+        });
+      } else {
+        throw Exception('Failed to load response');
+      }
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color.fromARGB(255, 255, 236, 208),
       appBar: AppBar(
-        title: Text('Chat with Saheli AI'),
+        title: Text('Chat with Sakha AI'),
         backgroundColor: Colors.pinkAccent,
       ),
       body: Stack(
@@ -60,12 +64,8 @@ class _ChatBotState extends State<ChatScreen> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/chat_pic.jpg', // Replace with your image path
-                height: 240,
-              ),
               Text(
-                'Saheli AI',
+                'Sakha AI',
                 style: TextStyle(
                     color: Colors.pinkAccent,
                     fontSize: 25,
@@ -77,16 +77,19 @@ class _ChatBotState extends State<ChatScreen> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 60, top: 0.0),
+            padding: const EdgeInsets.only(
+                left: 8.0, right: 8.0, bottom: 10, top: 0.0),
             child: Column(
               children: [
                 Flexible(
                   child: ListView.builder(
                     reverse: true,
-                    itemCount: messsages.length,
-                    itemBuilder: (context, index) => chat(
-                        messsages[index]["message"].toString(),
-                        messsages[index]["data"]),
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: EdgeInsets.symmetric(vertical: 4.0),
+                      child: chatBubble(messages[index]["message"].toString(),
+                          messages[index]["data"]),
+                    ),
                   ),
                 ),
                 Container(
@@ -99,7 +102,7 @@ class _ChatBotState extends State<ChatScreen> {
                       child: TextFormField(
                         controller: messageController,
                         decoration: InputDecoration(
-                            hintText: "Send Message",
+                            hintText: "Ask anything...",
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
@@ -111,11 +114,11 @@ class _ChatBotState extends State<ChatScreen> {
                     trailing: GestureDetector(
                       child: Icon(Icons.send_outlined, color: clr1),
                       onTap: () {
-                        getResponse();
                         setState(() {
-                          messsages.insert(
-                              0, {"data": 1, "message": messageController.text});
+                          messages.insert(0,
+                              {"data": 1, "message": messageController.text});
                         });
+                        getResponse(messageController.text);
                         messageController.clear();
                       },
                     ),
@@ -127,72 +130,20 @@ class _ChatBotState extends State<ChatScreen> {
           ),
         ],
       ),
-
     );
   }
 
-  Widget chat(String message, int data) {
-    return Container(
-      padding: EdgeInsets.only(left: 10, right: 10),
-      child: Row(
-        mainAxisAlignment:
-            data == 1 ? MainAxisAlignment.end : MainAxisAlignment.start,
-        children: [
-          data == 0
-              ? Container(
-                  height: 60,
-                  width: 60,
-                  child: CircleAvatar(
-                    backgroundColor: clr1,
-                    child: Text("Sakha", style: TextStyle(color: Colors.white)),
-                  ),
-                )
-              : Container(),
-          Padding(
-            padding: EdgeInsets.all(0.0),
-            child: Card(
-                color: data == 0 ? Colors.white : clr1,
-                elevation: 0.0,
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(right: 10.0, top: 10.0, bottom: 10.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Flexible(
-                          child: Container(
-                        constraints: BoxConstraints(maxWidth: 200),
-                        child: Text(
-                          message,
-                          style: data == 0
-                              ? TextStyle(
-                                  color: clr1, fontWeight: FontWeight.bold)
-                              : TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                        ),
-                      ))
-                    ],
-                  ),
-                )),
-          ),
-          data == 1
-              ? Container(
-                  child: CircleAvatar(
-                    minRadius: 30,
-                    child: CircleAvatar(
-                      minRadius: 29,
-                      backgroundColor: Colors.white,
-                      child: Text("You", style: TextStyle(color: clr1)),
-                    ),
-                    backgroundColor: clr1,
-                  ),
-                )
-              : Container(),
-        ],
+  Widget chatBubble(String message, int data) {
+    // final alignment = data == 1 ? CrossAxisAlignment.end : CrossAxisAlignment.start;
+
+    // / Add space on the left for received messages
+    return BubbleSpecialOne(
+      color: (data == 1) ? Colors.pinkAccent : Colors.pink,
+      isSender: data == 1,
+      text: message,
+      textStyle: TextStyle(
+        fontSize: 18,
+        color: Colors.white,
       ),
     );
   }

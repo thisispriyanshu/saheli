@@ -117,6 +117,7 @@ class _SafeHomeState extends State<CallerScreen> {
               child: Text(
                 'Apoorv',
                 style: GoogleFonts.lato(),
+
               ),
             ),
             const SizedBox(
@@ -172,14 +173,16 @@ class _SafeHomeState extends State<CallerScreen> {
                               Fluttertoast.showToast(
                                   msg: "emergency contact is empty");
                             } else {
-                              String messageBody =
-                                  "https://www.google.com/maps/search/?api=1&query=${_curentPosition!.latitude}%2C${_curentPosition!.longitude}. $_curentAddress";
+                              String messageBody ="";
+                                  // "https://www.google.com/maps/search/?api=1&query=${_curentPosition!.latitude}%2C${_curentPosition!.longitude}. $_curentAddress";
 
                               if (await _isPermissionGranted()) {
-                          contactList.forEach((element) {
-                          _sendSms("${element.number}",
-                          "I am in trouble! $messageBody This message is sent from Saheli App");
-                          });
+                                Fluttertoast.showToast(msg: "Emergency SOS Sent to emergency contacts");
+                          // contactList.forEach((element) {
+                          // _sendSms("${element.number}"
+
+                          // "I am in trouble! $messageBody This message is sent from Saheli App");
+                          // });
                           } else {
                           Fluttertoast.showToast(msg: "something wrong");
                           }
@@ -300,6 +303,8 @@ class _SafeHomeState extends State<CallerScreen> {
             ),
             ElevatedButton(
               onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
                 Navigator.pop(context);
                 Navigator.pop(context);
               },
