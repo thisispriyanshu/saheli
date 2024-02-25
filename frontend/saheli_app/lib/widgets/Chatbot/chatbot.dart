@@ -17,19 +17,7 @@ class _ChatBotState extends State<ChatScreen> {
   List<Map> messages = [];
 
   Future<void> getResponse(String userInput) async {
-    if (userInput == 'Hi') {
-      messages.insert(0, {
-        "data": 0,
-        "message":
-            "Hello! Welcome to Sakha, your Personalised Safety Assistant. How can Sakha help you today?"
-      });
-    } else if (userInput == 'Give me some safety tips') {
-      messages.insert(0, {
-        "data": 0,
-        "message":
-            "Sure! Here are some safety tips from Sakha: Always be aware of your surroundings, avoid poorly lit areas, and share your location with someone you trust when heading out."
-      });
-    } else {
+
       setState(() {
         messages.insert(0, {"data": 0, "message": "..."});
       });
@@ -59,7 +47,7 @@ class _ChatBotState extends State<ChatScreen> {
       } else {
         throw Exception('Failed to load response');
       }
-    }
+
   }
 
   @override

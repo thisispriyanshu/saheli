@@ -21,7 +21,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
   final TextEditingController _destinationController = TextEditingController();
   final Set<Marker> _markers = {};
 
-  final mapsApiKey = "AIzaSyBAC_OF_lWBfFr_Zjs-mO0Kwyr4f_faiMU";
+  final mapsApiKey = "YOUR_API_KEY";
   late GoogleMapController mapController;
 
   LatLng _currentLocation = const LatLng(28.59351217640707, 77.24437040849519);

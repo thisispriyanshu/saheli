@@ -8,6 +8,7 @@ import 'package:background_sms/background_sms.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
@@ -74,15 +75,6 @@ class AudioPlayerState extends State<AudioPlayer> {
     });
     isRecording = false;
     getAndSendSms();
-    ShakeDetector.autoStart(
-        onPhoneShake: () {
-          ScaffoldMessenger.of(context as BuildContext)
-              .showSnackBar(const SnackBar(content: Text('Shake ho gya')));
-        },
-        minimumShakeCount: 1,
-        shakeSlopTimeMS: 500,
-        shakeCountResetTime: 3000,
-        shakeThresholdGravity: 5.0);
   }
 
   _getPermission() async => await [Permission.sms].request();
@@ -362,6 +354,15 @@ class AudioPlayerState extends State<AudioPlayer> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Text(
+                  "SOS mode turned ON, now your location is being shared to saved emergency contacts, image and audio will be captured automatically and saved even when you're offline. \nCaptured images and audio can be accessed from profile->your sos collection" ,
+                  style: TextStyle(fontSize: 18),
+                ).animate().fadeIn(),
+              ),
+            ),
             SizedBox(
               height: 120.0,
             ),

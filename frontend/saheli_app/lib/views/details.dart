@@ -45,13 +45,15 @@ class _DetailsState extends State<Details> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondary,
-      body: SingleChildScrollView(
-        child: Column(
+      body: ListView(
+        shrinkWrap: true,
+        children: [Column(
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
+              width: 270,
+              height: 270,
               child: SingleChildScrollView(
+
                 child: Container(
                   margin: const EdgeInsets.all(12),
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -244,12 +246,15 @@ class _DetailsState extends State<Details> {
               ),
             ),
           ],
-        ),
+        ),],
       ),
     );
   }
   void submit(String mobile, String gender, String age) async {
     const CircularProgressIndicator();
+    await Future.delayed(Duration(seconds: 2));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const BottomNavBar()));
     if (_formkey.currentState!.validate()) {
       FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
       var user = _auth.currentUser;
@@ -262,8 +267,6 @@ class _DetailsState extends State<Details> {
       await LocalDb.saveAge(age);
       Fluttertoast.showToast(
           msg: "Details Submitted", toastLength: Toast.LENGTH_SHORT);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const BottomNavBar()));
     }
   }
 }

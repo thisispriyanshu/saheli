@@ -5,15 +5,15 @@ class ImageListScreen extends StatelessWidget {
   final List<String> imagePaths = [
     'assets/emergency1.jpg',
     'assets/emergency2.jpg',
+    'assets/SS12.jpg',
     'assets/emergency3.jpg',
-
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Photo Storage'),
+        title: Text('SOS Camera Collection'),
       ),
       body: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

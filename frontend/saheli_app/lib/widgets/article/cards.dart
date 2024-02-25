@@ -22,7 +22,7 @@ class _ArticleCardState extends State<ArticleCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.only(left:20, top:20, bottom: 20, right: 20),
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
@@ -36,7 +36,7 @@ class _ArticleCardState extends State<ArticleCard> {
             color: Theme.of(context).colorScheme.secondary,
           ),
           SizedBox(
-            width: 270,
+            width: 220,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

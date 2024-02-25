@@ -80,18 +80,18 @@ class _BottomButtonState extends State<BottomButton>
                 onPanEnd: (details) {
                   setState(() {
                     if (_buttonPosition == -100.0) {
-                      // Navigator.popAndPushNamed(context, '/CallerScreen',
-                      //     arguments: {
-                      //       'name': widget.name,
-                      //     });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CallerScreen(
+                      Navigator.popAndPushNamed(context, '/CallerScreen',
+                          arguments: {
+                            'name': widget.name,
+                          });
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => CallerScreen(
+                      //
+                      //     ),
+                      //   ),
 
-                          ),
-                        ),
-                      );
                     } else {
                       _buttonPosition = 0.0;
                       _visibleAnimation = true;

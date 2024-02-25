@@ -26,6 +26,7 @@ Saheli, meaning 'female best friend' in Hindi, is an innovative mobile applicati
   
 - **Audio-Video Recording**: Activate automatic audio-video recording with SOS alerts, capturing real-time environment data for immediate assistance or legal evidence.
 
+
 ### How to use each feature in App visit : https://thisispriyanshu.github.io/saheli/
 
 ## Purpose:
@@ -34,6 +35,7 @@ Saheli aims to create a safer environment for women by leveraging technology and
 
 ## Architecture
 ![image](https://github.com/thisispriyanshu/saheli/assets/73881504/85655af2-4798-4f84-a291-4f5d7b181f2f)
+
 
 ## How to run the Frontend(Flutter):
 
@@ -46,7 +48,6 @@ Saheli aims to create a safer environment for women by leveraging technology and
    audioplayers:
     path: E:\saheli\audioplayers-main\packages\audioplayers
    ```
-   
 5. Get dependencies
 Run the following command to fetch dependencies using pub:<br>
    ```flutter pub get```

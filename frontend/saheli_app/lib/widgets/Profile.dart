@@ -23,9 +23,9 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  String? userName = 'null';
-  String userEmail = 'null';
-  String profileUrl = 'null';
+  String? userName = 'Aditi agrawal';
+  String userEmail = 'a@gmail.com';
+  String profileUrl = '';
 
   Future<void> _loadUserDetails() async {
     await LocalDb.getName().then((value) {
@@ -66,54 +66,16 @@ class _ProfileState extends State<Profile> {
         color: Colors.white54,
         child: Column(
           children: [
-            const SizedBox(
-              height: 15,
-            ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                profileUrl != 'null'
-                    ? CircleAvatar(
-                        backgroundImage: NetworkImage(profileUrl), maxRadius: 65)
-                    : const CircleAvatar(
-                        maxRadius: 65,
-                        backgroundImage: AssetImage("assets/profile.png"),
-                      ),
+              children: [Image.asset('assets/profile_pic.jpg', height: 200,)
               ],
             ),
+
+
             const SizedBox(
-              height: 15,
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage("assets/download.png"),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                CircleAvatar(
-                  backgroundImage: AssetImage("assets/GooglePlus-logo-red.png"),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                CircleAvatar(
-                  backgroundImage:
-                      AssetImage("assets/1_Twitter-new-icon-mobile-app.jpg"),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                CircleAvatar(
-                  backgroundImage:
-                      AssetImage("assets/600px-LinkedIn_logo_initials.png"),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 20,
+              height: 0,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -132,6 +94,10 @@ class _ProfileState extends State<Profile> {
             const SizedBox(
               height: 15,
             ),
+            Text('A passionate wanderer decoding happiness', style:TextStyle(fontWeight: FontWeight.bold, fontSize: 19),),
+            const SizedBox(
+              height: 15,
+            ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -141,9 +107,7 @@ class _ProfileState extends State<Profile> {
                 )
               ],
             ),
-            const SizedBox(
-              height: 15,
-            ),
+
             Container(
               child: Expanded(
                 child: ListView(
@@ -151,7 +115,7 @@ class _ProfileState extends State<Profile> {
                     Card(
                       color: Theme.of(context).colorScheme.secondary,
                       margin: const EdgeInsets.only(
-                          left: 35, right: 35, bottom: 10),
+                          left: 15, right: 15, bottom: 10),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       child: ListTile(
@@ -186,7 +150,7 @@ class _ProfileState extends State<Profile> {
                     Card(
                       color: Theme.of(context).colorScheme.secondary,
                       margin: const EdgeInsets.only(
-                          left: 35, right: 35, bottom: 10),
+                          left: 15, right: 15, bottom: 10),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       child: ListTile(
@@ -217,7 +181,7 @@ class _ProfileState extends State<Profile> {
                     Card(
                       color: Theme.of(context).colorScheme.secondary,
                       margin: const EdgeInsets.only(
-                          left: 35, right: 35, bottom: 10),
+                          left: 15, right: 15, bottom: 10),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       child: ListTile(
@@ -247,8 +211,71 @@ class _ProfileState extends State<Profile> {
                       height: 10,
                     ),
                     Card(
+                      color: Theme.of(context).colorScheme.secondary,
                       margin: const EdgeInsets.only(
-                          left: 35, right: 35, bottom: 10),
+                          left: 15, right: 15, bottom: 10),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ArticleScreen(),
+                            ),
+                          );
+                        },
+                        leading: Icon(Icons.read_more,
+                            color: Theme.of(context).colorScheme.tertiary),
+                        title: const Text(
+                          'Explore Safety Articles',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                      color: Theme.of(context).colorScheme.secondary,
+                      margin: const EdgeInsets.only(
+                          left: 15, right: 15, bottom: 10),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.add_reaction_sharp,
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                        title: const Text(
+                          'Invite a Friend',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        onTap: () {
+                          openSharePanel();
+                        },
+                        trailing: Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                      margin: const EdgeInsets.only(
+                          left: 15, right: 15, bottom: 10),
                       color: Theme.of(context).colorScheme.secondary,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
@@ -284,70 +311,7 @@ class _ProfileState extends State<Profile> {
                     Card(
                       color: Theme.of(context).colorScheme.secondary,
                       margin: const EdgeInsets.only(
-                          left: 35, right: 35, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ArticleScreen(),
-                            ),
-                          );
-                        },
-                        leading: Icon(Icons.read_more,
-                            color: Theme.of(context).colorScheme.tertiary),
-                        title: const Text(
-                          'Explore Safety Articles',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      margin: const EdgeInsets.only(
-                          left: 35, right: 35, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.add_reaction_sharp,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                        title: const Text(
-                          'Invite a Friend',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        onTap: () {
-                          openSharePanel();
-                        },
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      margin: const EdgeInsets.only(
-                          left: 35, right: 35, bottom: 10),
+                          left: 15, right: 15, bottom: 10),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       child: ListTile(

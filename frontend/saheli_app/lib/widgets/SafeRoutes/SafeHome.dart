@@ -146,7 +146,7 @@ class _SafeHomeState extends State<SafeHome> {
                           if (await _isPermissionGranted()) {
                             contactList.forEach((element) {
                               _sendSms("${element.number}",
-                                  "i am in trouble $messageBody");
+                                  "I am in trouble! $messageBody This message is sent from Saheli App");
                             });
                           } else {
                             Fluttertoast.showToast(msg: "something wrong");

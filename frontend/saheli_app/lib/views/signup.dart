@@ -247,12 +247,14 @@ class _SignupPageState extends State<SignupPage> {
 
   void signUp(String name, String email, String password) async {
     const CircularProgressIndicator();
-    if (_formkey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore(name, email)})
-          .catchError((e) {});
-    }
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Details()));
+    // if (_formkey.currentState!.validate()) {
+    //   await _auth
+    //       .createUserWithEmailAndPassword(email: email, password: password)
+    //       .then((value) => {postDetailsToFirestore(name, email)})
+    //       .catchError((e) {});
+    // }
   }
 
   postDetailsToFirestore(String name, String email) async {

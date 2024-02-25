@@ -111,6 +111,7 @@ class _ContactsPageState extends State<ContactsPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                 autofocus: true,
                 controller: searchController,
                 decoration: const InputDecoration(

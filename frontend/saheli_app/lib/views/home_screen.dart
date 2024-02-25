@@ -17,12 +17,12 @@ import 'package:saheli_app/widgets/custom_widgets/CustomCarousel.dart';
 import 'package:saheli_app/widgets/custom_widgets/custom_appBar.dart';
 import 'package:shake/shake.dart';
 import 'package:telephony/telephony.dart';
-import 'package:volume_watcher/volume_watcher.dart';
 
 import '../db/databases.dart';
 import '../model/PhoneContact.dart';
 import '../widgets/NearbyLocations/nearby_places.dart';
 import '../widgets/emergency.dart';
+import 'community.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -93,10 +93,75 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 10),
                     Container(
                       alignment: Alignment.center,
                         child: const LiveSafe()),
+
+                    const SizedBox(height: 10),
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Join Community",
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5,),
+                    Card(
+                      margin: EdgeInsets.only(left: 20,right: 20),
+                      color: Theme.of(context).colorScheme.secondary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => CommunitySection()),
+                            );
+                          },
+                          child: Card(
+                            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                            color: Theme.of(context).primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            child: Container(
+                              width: 300,
+                              height: 150,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.group,
+                                    size: 50,
+                                    color: Colors.pinkAccent,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    'Community',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    'Join the women community and share your thoughts!',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 10),
                     const Align(
                       alignment: Alignment.centerLeft,

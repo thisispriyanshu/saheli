@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:saheli_app/views/googleSignIn.dart';
+import 'package:saheli_app/views/login.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -13,6 +14,7 @@ class OnboardingScreen extends StatelessWidget {
     return CupertinoOnboarding(
       bottomButtonColor: Theme.of(context).colorScheme.secondary,
       onPressedOnLastPage: () => Navigator.pushReplacement(context,
+
           PageTransition(child: GoogleSignIn(), type: PageTransitionType.rightToLeftWithFade)),
       pages: [
         WhatsNewPage(

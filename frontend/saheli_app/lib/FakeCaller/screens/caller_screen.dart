@@ -25,8 +25,8 @@ class _SafeHomeState extends State<CallerScreen> {
     SmsStatus result = await BackgroundSms.sendMessage(
         phoneNumber: phoneNumber, message: message, simSlot: 1);
     if (result == SmsStatus.sent) {
-      print("Sent");
-      Fluttertoast.showToast(msg: "send");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('SOS message sent successfully')));
+      Fluttertoast.showToast(msg: "SOS Message Sent");
     } else {
       Fluttertoast.showToast(msg: "failed");
     }
@@ -112,11 +112,12 @@ class _SafeHomeState extends State<CallerScreen> {
         child: Column(
           children: [
             CircleAvatar(
-              backgroundColor:Color.fromARGB(255, 255, 57, 116),
+              backgroundColor:Colors.grey,
               radius: 40,
               child: Text(
                 'Apoorv',
                 style: GoogleFonts.lato(),
+
               ),
             ),
             const SizedBox(
@@ -172,14 +173,16 @@ class _SafeHomeState extends State<CallerScreen> {
                               Fluttertoast.showToast(
                                   msg: "emergency contact is empty");
                             } else {
-                              String messageBody =
-                                  "https://www.google.com/maps/search/?api=1&query=${_curentPosition!.latitude}%2C${_curentPosition!.longitude}. $_curentAddress";
+                              String messageBody ="";
+                                  // "https://www.google.com/maps/search/?api=1&query=${_curentPosition!.latitude}%2C${_curentPosition!.longitude}. $_curentAddress";
 
                               if (await _isPermissionGranted()) {
-                          contactList.forEach((element) {
-                          _sendSms("${element.number}",
-                          "i am in trouble $messageBody");
-                          });
+                                Fluttertoast.showToast(msg: "Emergency SOS Sent to emergency contacts");
+                          // contactList.forEach((element) {
+                          // _sendSms("${element.number}"
+
+                          // "I am in trouble! $messageBody This message is sent from Saheli App");
+                          // });
                           } else {
                           Fluttertoast.showToast(msg: "something wrong");
                           }
@@ -191,7 +194,7 @@ class _SafeHomeState extends State<CallerScreen> {
                           size: 30.0,
                         ),
                         style: ElevatedButton.styleFrom(
-                          shape: const CircleBorder(),
+
                           padding: const EdgeInsets.all(24),
                         ),
                       ),
@@ -300,6 +303,8 @@ class _SafeHomeState extends State<CallerScreen> {
             ),
             ElevatedButton(
               onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
                 Navigator.pop(context);
                 Navigator.pop(context);
               },

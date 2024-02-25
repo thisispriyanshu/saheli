@@ -32,6 +32,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+
     // height
     double height = MediaQuery.of(context).size.height;
     // width
@@ -40,7 +41,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
       floatingActionButton: _selectedIndex != 2
           ? FloatingActionButton(
-              backgroundColor: Theme.of(context).colorScheme.tertiary,
+          heroTag: "btn2",
+              backgroundColor: Colors.red,
+
               onPressed: () {
                 Navigator.push(
                   context,
@@ -49,7 +52,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   ),
                 );
               },
-              child: Icon(Icons.crisis_alert_outlined),
+              child: Text('SOS', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+
             )
           : null, // Render FAB only for the Search tab (index 1)
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -102,8 +106,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   GButton(
                     iconSize: 25,
                     icon: _selectedIndex == 2
-                        ? Icons.chat
-                        : Icons.chat_bubble_outline,
+                        ? Icons.auto_awesome
+                        : Icons.auto_awesome_outlined,
                     text: 'Sakha',
                   ),
                   GButton(
