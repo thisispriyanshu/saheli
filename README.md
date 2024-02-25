@@ -1,6 +1,6 @@
 # Saheli - Your Ultimate Safety Companion
 
-Saheli, meaning 'female best friend' in Hindi, is an innovative mobile application designed to ensure the safety and security of women, empowering them to navigate through various situations confidently. Developed as a part of the Google Solution Challenge hackathon, Saheli app is built using Flutter and integrating cutting-edge technologies and thoughtful features to address the pressing issue of women's safety.
+Saheli, meaning 'female best friend' in Hindi, is an innovative mobile application designed to ensure the safety and security of women, empowering them to navigate through various situations confidently. Developed as a part of the Google Solution Challenge hackathon 2024, Saheli app is built using Flutter and integrating cutting-edge technologies and thoughtful features to address the pressing issue of women's safety.
 
 [![Watch the video](http://i3.ytimg.com/vi/c8pdFwBinEU/hqdefault.jpg)](https://www.youtube.com/embed/APOPm01BVrk)
 
@@ -131,8 +131,8 @@ Run the main.dart file using the flutter run command:<br>
 Contributions to Saheli are welcome! If you have ideas for new features, improvements, or bug fixes, please feel free to submit a pull request.
 
 ## About Team
- - [Priyanshu Agrawal](https://www.linkedin.com/in/priyanshu-agrawal-5a00651b1/)
  - [Apoorv Yash](https://www.linkedin.com/in/apoorv-yash-75b130230/)
+ - [Priyanshu Agrawal](https://www.linkedin.com/in/priyanshu-agrawal-5a00651b1/)
  - [Yuvraj Singh](https://www.linkedin.com/in/yuvraj-singh-5198441aa/)
  - [Agrim Saxena](https://www.linkedin.com/in/agrim-saxena-29529b223/)
 
