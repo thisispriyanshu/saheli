@@ -73,10 +73,12 @@ class ArticleScreen extends StatelessWidget {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: () {
-                            navigateToRoute(context, SafeWebView(url: "https://www.india.gov.in/topics/home-affairs-enforcement"));
                           icon: Icon(Icons.local_police_outlined),
-                          color: Colors.black,
+                            color: Colors.black,
+                          onPressed: () {
+                            navigateToRoute(context, SafeWebView(
+                                url: "https://www.india.gov.in/topics/home-affairs-enforcement"));
+                          }
                         ),
                         Text(
                           'Police Website',

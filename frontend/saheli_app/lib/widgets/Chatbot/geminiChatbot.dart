@@ -95,8 +95,7 @@
 //     });
 //     const headers = {'Content-Type': 'application/json'};
 //     const url =
-//         "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyB9wY7EcrOyFtCAABT3-LT5hL9nH_JGW94";
-//
+
 //     var body = {
 //       "contents": [
 //         {
