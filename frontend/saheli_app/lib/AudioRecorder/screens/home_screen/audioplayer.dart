@@ -75,15 +75,6 @@ class AudioPlayerState extends State<AudioPlayer> {
     });
     isRecording = false;
     getAndSendSms();
-    // ShakeDetector.autoStart(
-    //     onPhoneShake: () {
-    //       ScaffoldMessenger.of(context as BuildContext)
-    //           // .showSnackBar(const SnackBar(content: Text('Shake ho gya')));
-    //     },
-    //     minimumShakeCount: 1,
-    //     shakeSlopTimeMS: 500,
-    //     shakeCountResetTime: 3000,
-    //     shakeThresholdGravity: 5.0);
   }
 
   _getPermission() async => await [Permission.sms].request();

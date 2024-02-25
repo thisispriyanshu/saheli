@@ -26,7 +26,6 @@ import 'FakeCaller/screens/incoming_call.dart';
 import 'common/theme/theme.dart';
 import 'firebase_options.dart';
 
-
 class MyApp extends StatefulWidget {
   MyApp({super.key});
 
@@ -67,9 +66,7 @@ void main() async {
     home: MyApp(),
     routes: {'/CallerScreen': (context) =>  CallerScreen()}
   ));
-
 }
-
 
 class _MyAppState extends State<MyApp> {
   final PageController _pageController = PageController(); // Moved it here
@@ -86,6 +83,7 @@ class _MyAppState extends State<MyApp> {
       });
     });
   }
+
   void playRingtone() {
     FlutterRingtonePlayer.playRingtone(asAlarm: true);
   }
@@ -99,25 +97,26 @@ class _MyAppState extends State<MyApp> {
     AndroidVolumeButtons.listenForVolumeButtons((volume) {
       Fluttertoast.showToast(msg: "Volume changed: $volume");
     });
+    print(isLogin);
+    super.initState();
     ShakeDetector.autoStart(
-        onPhoneShake: () {
-          // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('shaked')));
-          playRingtone();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => IncomingCall(
-                name: "Unknown",
-                number: "(410) 0679 890",
-              ),
+      onPhoneShake: () {
+        // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('shaked')));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => IncomingCall(
+              name: "Unknown",
+              number: "(410) 0679 890",
             ),
-          );
-          // playRingtone();
-        },
-        minimumShakeCount: 2,
-        shakeSlopTimeMS: 500,
-        shakeCountResetTime: 3000,
-        shakeThresholdGravity: 5.0
+          ),
+        );
+        // playRingtone();
+      },
+      minimumShakeCount: 2,
+      shakeSlopTimeMS: 200,
+      shakeThresholdGravity: 3.0,
+      shakeCountResetTime: 3000,
     );
     print(isLogin);
 
@@ -164,6 +163,7 @@ class _MyAppState extends State<MyApp> {
           routes: {
             '/CallerScreen': (context) => CallerScreen(),
           }),
+      ),
     );
   }
 
@@ -180,15 +180,13 @@ class _MyAppState extends State<MyApp> {
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return
-      Scaffold(
+    return Scaffold(
       backgroundColor: const Color.fromARGB(255, 238, 30, 128),
       body: Center(
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               Center(
                 child: Container(
                   height: 250,

@@ -14,7 +14,8 @@ class OnboardingScreen extends StatelessWidget {
     return CupertinoOnboarding(
       bottomButtonColor: Theme.of(context).colorScheme.secondary,
       onPressedOnLastPage: () => Navigator.pushReplacement(context,
-          PageTransition(child: LoginPage(), type: PageTransitionType.rightToLeftWithFade)),
+
+          PageTransition(child: GoogleSignIn(), type: PageTransitionType.rightToLeftWithFade)),
       pages: [
         WhatsNewPage(
           title: const Text("Welcome To Saheli").animate().fade(duration: 500.milliseconds).shimmer(duration: 2.seconds),
