@@ -32,7 +32,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+
+    // height
     double height = MediaQuery.of(context).size.height;
+    // width
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -40,6 +43,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ? FloatingActionButton(
           heroTag: "btn2",
               backgroundColor: Colors.red,
+
               onPressed: () {
                 Navigator.push(
                   context,
@@ -49,6 +53,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 );
               },
               child: Text('SOS', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+
             )
           : null, // Render FAB only for the Search tab (index 1)
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

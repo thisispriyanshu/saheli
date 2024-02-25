@@ -115,7 +115,6 @@ class _ContactsPageState extends State<ContactsPage> {
                 autofocus: true,
                 controller: searchController,
                 decoration: const InputDecoration(
-
                     hintText: "Search contact",
                     prefixIcon: Icon(Icons.search)),
               ),

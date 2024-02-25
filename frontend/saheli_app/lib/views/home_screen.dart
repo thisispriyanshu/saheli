@@ -97,6 +97,8 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       alignment: Alignment.center,
                         child: const LiveSafe()),
+
+                    const SizedBox(height: 10),
                     const Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(

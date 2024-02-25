@@ -75,7 +75,6 @@ class ArticleScreen extends StatelessWidget {
                         IconButton(
                           onPressed: () {
                             navigateToRoute(context, SafeWebView(url: "https://www.india.gov.in/topics/home-affairs-enforcement"));
-                          },
                           icon: Icon(Icons.local_police_outlined),
                           color: Colors.black,
                         ),
@@ -105,6 +104,7 @@ class ArticleScreen extends StatelessWidget {
                         IconButton(
                           onPressed: () {
                             navigateToRoute(context, SafeWebView(url: "https://www.india.gov.in/topics/home-affairs-enforcement"));
+
                           },
                           icon: Icon(Icons.female_outlined),
                           color: Colors.black,
