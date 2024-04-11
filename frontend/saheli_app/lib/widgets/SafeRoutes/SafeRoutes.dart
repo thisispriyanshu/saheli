@@ -1,12 +1,13 @@
 import 'dart:async';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 import '../../api/safeways.dart';
 
 class SafeRoutes extends StatefulWidget {
@@ -21,8 +22,13 @@ class _SafeRoutesState extends State<SafeRoutes> {
   final TextEditingController _destinationController = TextEditingController();
   final Set<Marker> _markers = {};
 
-  final mapsApiKey = "YOUR_API_KEY";
+  final mapsApiKey = "AIzaSyBAC_OF_lWBfFr_Zjs-mO0Kwyr4f_faiMU";
   late GoogleMapController mapController;
+  var _controller = TextEditingController();
+  var _controller2 = TextEditingController();
+  var uuid = new Uuid();
+  String _sessionToken="";
+  List<dynamic> _placeList = [];
 
   LatLng _currentLocation = const LatLng(28.59351217640707, 77.24437040849519);
   List<LatLng> polyLineCoordinates = [];
@@ -84,6 +90,12 @@ class _SafeRoutesState extends State<SafeRoutes> {
   void initState() {
     // _getCurrentLocation();
     getPolyPoints();
+    _controller.addListener(() {
+      _onChanged();
+    });
+    _controller2.addListener(() {
+      _onChanged2();
+    });
     //setCustomMarker();
     super.initState();
   }
@@ -103,6 +115,40 @@ class _SafeRoutesState extends State<SafeRoutes> {
     });
   }
 
+  _onChanged() {
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getSuggestion(_controller.text);
+  }
+
+  _onChanged2() {
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getSuggestion(_controller2.text);
+  }
+  void getSuggestion(String input) async {
+    String kPLACES_API_KEY = "AIzaSyBAC_OF_lWBfFr_Zjs-mO0Kwyr4f_faiMU";
+    String type = '(regions)';
+    String baseURL =
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    String request =
+        '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessionToken';
+    var response = await http.get(Uri.parse(request));
+    if (response.statusCode == 200) {
+      setState(() {
+        // String textResponse =jsonDecode(response.body);
+        _placeList = jsonDecode(response.body)['predictions'];
+      });
+    } else {
+      throw Exception('Failed to load predictions');
+    }
+  }
   void _showCoordinates(String placeName) async {
     try {
       var locations = await locationFromAddress(placeName);
@@ -154,11 +200,11 @@ class _SafeRoutesState extends State<SafeRoutes> {
           padding: const EdgeInsets.only(bottom: 20.0),
           child: FloatingActionButton.extended(
             onPressed: () {
-              // String location = _locationController.text;
-              // String destination = _destinationController.text;
-              // _showCoordinates(location);
-              // _showCoordinates(destination);
-              // getPolyPoints();
+              String location = _locationController.text;
+              String destination = _destinationController.text;
+              _showCoordinates(location);
+              _showCoordinates(destination);
+              getPolyPoints();
               _launchMapsUrl();
             },
             label: Text('Start journey'),
@@ -170,6 +216,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
         body: Stack(
 
             children: [
+
 
               GoogleMap(
                 onMapCreated: _onMapCreated,
@@ -223,91 +270,97 @@ class _SafeRoutesState extends State<SafeRoutes> {
                   ),
                 ),
               Positioned(
-                top: 60,
-                right: 15,
-                left: 15,
-                child: Container(
-                  color: Colors.white,
-                  child: Row(
-                    children: <Widget>[
-                      IconButton(
-                        splashColor: Colors.grey,
-                        icon: Icon(Icons.flag
-                        ),
-                        onPressed: () {},
-                      ),
-                      Expanded(
-                        child: TextField(
-                          onTap: () async {
-                            //   Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) =>
-                            //   ),
-                            // );
-                          },
-                          cursorColor: Colors.black,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.go,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding:
-                              EdgeInsets.symmetric(horizontal: 15),
-                              hintText: "Search destination location..."),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.search),
-
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
                 top: 10,
                 right: 15,
                 left: 15,
                 child: Container(
                   color: Colors.white,
-                  child: Row(
-                    children: <Widget>[
-                      IconButton(
-                        splashColor: Colors.grey,
-                        icon: Icon(Icons.directions_run
-                        ),
-                        onPressed: () {},
-                      ),
-                      Expanded(
-                        child: TextField(
-                          onTap: () async {
-                            //   Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) =>
-                            //   ),
-                            // );
-                          },
-                          cursorColor: Colors.black,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.go,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding:
-                              EdgeInsets.symmetric(horizontal: 15),
-                              hintText: "Search start location..."),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.search),
+                  child: Center(
+                  child: Column(
 
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: TextField(
+                          controller: _controller2,
+                          decoration: InputDecoration(
+                            hintText: "Search start location",
+                            focusColor: Colors.white,
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            prefixIcon: Icon(Icons.add_location_alt),
+                            suffixIcon: IconButton(
+                              onPressed: (){},
+                              icon: Icon(Icons.cancel),
+                            ),
+                          ),
+                        ),
                       ),
+                      ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: _placeList.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(_placeList[index]["description"]),
+                          );
+                        },
+                      )
                     ],
+                  ),
+                ),
+                ),
+              ),
+              Positioned(
+                top: 60,
+                right: 15,
+                left: 15,
+                child: Container(
+                  color: Colors.white,
+                  child: Center(
+                    child: Column(
+
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: TextField(
+                            controller: _controller,
+                            decoration: InputDecoration(
+                              hintText: "Search destination location",
+                              focusColor: Colors.white,
+                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                              prefixIcon: Icon(Icons.map),
+                              suffixIcon: IconButton(
+                                onPressed: (){},
+                                icon: Icon(Icons.cancel),
+                              ),
+                            ),
+                          ),
+                        ),
+                        ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: _placeList.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Text(_placeList[index]["description"]),
+                            );
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
             ]));
   }
 }
+// class MyHomePage extends StatefulWidget {
+//   MyHomePage({Key key, this.title}) : super(key: key);
+//
+//   final String title;
+//
+//   @override
+//   _MyHomePageState createState() => _MyHomePageState();
+// }

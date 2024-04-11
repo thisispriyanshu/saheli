@@ -22,17 +22,17 @@ class _ChatBotState extends State<ChatScreen> {
         messages.insert(0, {"data": 0, "message": "..."});
       });
       final response = await http.post(
-        Uri.parse("https://saheli-backend-ufs3.onrender.com/chat"),
+        Uri.parse("https://gemini-chatbot-e4no.onrender.com/chat"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{'userInput': userInput}),
+        body: jsonEncode(<String, String>{'query': userInput}),
       );
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> data = jsonDecode(response.body);
-        String textResponse = data['response'];
-        print(textResponse);
+        // Map<String, dynamic> data = jsonDecode(response.body);
+        // String textResponse = data['response'];
+        String textResponse =jsonDecode(response.body);
 
         // Parse special characters and apply formatting
         textResponse =

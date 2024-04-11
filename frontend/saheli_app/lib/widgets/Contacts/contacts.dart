@@ -103,6 +103,7 @@ class _ContactsPageState extends State<ContactsPage> {
     bool isSearchIng = searchController.text.isNotEmpty;
     bool listItemExit = (contactsFiltered.length > 0 || contacts.length > 0);
     return Scaffold(
+      appBar: AppBar(title: Text('Add Emergency contacts'),automaticallyImplyLeading: false, backgroundColor: Theme.of(context).primaryColor,),
       body: contacts.length == 0
           ? Center(child: CircularProgressIndicator())
           : SafeArea(
@@ -131,9 +132,6 @@ class _ContactsPageState extends State<ContactsPage> {
                       : contacts[index];
                   return ListTile(
                     title: Text(contact.displayName ?? 'Untitled'),
-
-                    // subtitle:Text(contact.phones!.elementAt(0)
-                    // .value!) ,
                     leading: contact.avatar != null &&
                         contact.avatar!.length > 0
                         ? CircleAvatar(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:saheli_app/services/auth/fireDb.dart';
@@ -9,7 +10,10 @@ final GoogleSignIn googleSignIn = GoogleSignIn();
 Future<String?> signInWithGoogle() async {
   try {
     final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
+    await GoogleSignIn(
+      scopes: ['email', 'profile'],
+      hostedDomain: '',
+    ).signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount!.authentication;
 
@@ -44,27 +48,27 @@ Future<String?> signInWithGoogle() async {
     return jwtToken;
   } catch (e) {
     print("Error Occurred In Google Auth!");
-    print(e);
+    print(e.toString());
     return null;
   }
 }
 
 // //if user exists already
-// Future<bool> getUser() async{
-//   final User? currentUser = _auth.currentUser;
-//   String user = "";
-//
-//   await FirebaseFirestore.instance.collection("User").doc(currentUser!.uid).get().then((value) =>
-//   {
-//     user = value.data().toString()  //if user does not exists it returns null
-//   });
-//   if(user == "null"){
-//     return false;
-//   }
-//   else {
-//     return true;
-//   }
-// }
+Future<bool> getUser() async{
+  final User? currentUser = _auth.currentUser;
+  String user = "";
+
+  await FirebaseFirestore.instance.collection("User").doc(currentUser!.uid).get().then((value) =>
+  {
+    user = value.data().toString()  //if user does not exists it returns null
+  });
+  if(user == "null"){
+    return false;
+  }
+  else {
+    return true;
+  }
+}
 
 Future<String> signOut() async {
   await googleSignIn.signOut();
