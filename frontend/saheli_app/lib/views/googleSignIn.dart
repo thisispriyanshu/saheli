@@ -5,6 +5,7 @@ import 'package:saheli_app/widgets/bottomNavBar.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
 import '../services/auth/googleAuth.dart';
+import 'OTPLogin/OTPlogin.dart';
 
 class GoogleSignIn extends StatefulWidget {
   GoogleSignIn({super.key});
@@ -67,8 +68,8 @@ class _GoogleSignInState extends State<GoogleSignIn> {
                                   type: PageTransitionType.fade));
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              const Color(0xffF5F5F5)), // Change the button color as needed
+                          backgroundColor: MaterialStateProperty.all(const Color(
+                              0xffF5F5F5)), // Change the button color as needed
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -80,7 +81,8 @@ class _GoogleSignInState extends State<GoogleSignIn> {
                             const SizedBox(width: 10.0),
                             const Text(
                               'Sign in with Google',
-                              style: TextStyle(fontSize: 16.0, color: Colors.black),
+                              style: TextStyle(
+                                  fontSize: 16.0, color: Colors.black),
                             ),
                           ],
                         ),
@@ -98,9 +100,56 @@ class _GoogleSignInState extends State<GoogleSignIn> {
                 //   Navigator.pushReplacement(context, PageTransition(child: const BottomNavBar(), type: PageTransitionType.fade));
                 // }),
                 ),
+            Container(
+              height: 40,
+              alignment: Alignment.bottomCenter,
+              child: isLoading
+                  ? const SpinKitDoubleBounce(
+                      color: Colors.white,
+                      size: 50.0,
+                    )
+                  : ElevatedButton(
+                      onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        // await Future.delayed(Duration(seconds: 2));
+                        // setState(() {
+                        //   isLoading = false;
+                        // });
+                        //await _googleSignInManager.signIn();
+
+                        Navigator.pushReplacement(
+                            context,
+                            PageTransition(
+                                child:  PhoneAuth(),
+                                type: PageTransitionType.fade));
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(const Color(
+                            0xffF5F5F5)), // Change the button color as needed
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(
+                            'assets/otp_pic.jpg', // Replace with the path to your Google logo asset
+                            height: 20.0, // Adjust the height as needed
+                          ),
+                          const SizedBox(width: 10.0),
+                          const Text(
+                            'Sign in using OTP',
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+            )
           ],
         ),
       ),
     );
   }
 }
+
