@@ -332,6 +332,7 @@ class AudioPlayerState extends State<AudioPlayer> {
 
       // Get download URL
       final url = await (await uploadTask).ref.getDownloadURL();
+      ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text('Captured image'+url)));
     } else {
       Fluttertoast.showToast(msg: "No image captured");
     }

@@ -30,12 +30,12 @@ class _ProfileState extends State<Profile> {
   Future<void> _loadUserDetails() async {
     await LocalDb.getName().then((value) {
       setState(() {
-        // userName = _auth.currentUser!.displayName;
+        userName = _auth.currentUser!.displayName;
       });
     });
     await LocalDb.getEmail().then((value) {
       setState(() {
-        // userEmail = _auth.currentUser!.email!;
+        userEmail = _auth.currentUser!.email!;
       });
     });
     await LocalDb.getUrl().then((value) {
