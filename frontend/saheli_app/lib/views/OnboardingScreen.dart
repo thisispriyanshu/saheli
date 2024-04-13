@@ -12,7 +12,7 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoOnboarding(
-      bottomButtonColor: Theme.of(context).colorScheme.secondary,
+      bottomButtonColor: Theme.of(context).colorScheme.primary,
       onPressedOnLastPage: () => Navigator.pushReplacement(context,
 
           PageTransition(child: GoogleSignIn(), type: PageTransitionType.rightToLeftWithFade)),
@@ -23,7 +23,7 @@ class OnboardingScreen extends StatelessWidget {
             WhatsNewFeature(
               icon: Icon(
                 CupertinoIcons.location,
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.primary,
               ),
               title: const Text(
                 'Send SOS',
@@ -40,7 +40,7 @@ class OnboardingScreen extends StatelessWidget {
             WhatsNewFeature(
               icon: Icon(
                 CupertinoIcons.map,
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.primary,
               ),
               title: const Text(
                 'Quick Access',
@@ -57,7 +57,7 @@ class OnboardingScreen extends StatelessWidget {
             WhatsNewFeature(
               icon: Icon(
                 CupertinoIcons.phone,
-                color: CupertinoColors.systemRed.resolveFrom(context),
+                color: Theme.of(context).colorScheme.primary,
               ),
               title: const Text(
                 'Incase Of Emergency',
@@ -75,11 +75,11 @@ class OnboardingScreen extends StatelessWidget {
         ),
         CupertinoOnboardingPage(
             title: const Text('Safely Reach Home with Safe Routes').animate().fadeIn().shimmer(),
-            body: Image.asset("assets/safe_route.jpg")),
+            body: Image.asset("lib/assets/images/safe_route.jpg")),
         CupertinoOnboardingPage(
             title: const Text('Self Awareness about Self Defense').animate().fadeIn().shimmer(),
             body: Image.asset(
-              "assets/selfdefense.jpg",
+              "lib/assets/images/selfdefense.jpg",
             )),
       ],
     );

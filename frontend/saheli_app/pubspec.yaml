@@ -113,6 +113,7 @@ dependencies:
   chat_bubbles: any
   google_places_flutter: any
   flutter_polyline_points: any
+  fl_country_code_picker: ^0.1.9+1
 
 
 dev_dependencies:
@@ -139,7 +140,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/
+    - lib/assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -155,7 +156,7 @@ flutter:
   fonts:
     - family: font
       fonts:
-        - asset: assets/fonts/font.ttf
+        - asset: lib/assets/fonts/font.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

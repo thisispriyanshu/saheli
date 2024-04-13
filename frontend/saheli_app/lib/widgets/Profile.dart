@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:saheli_app/FakeCaller/screens/call_menu.dart';
 import 'package:saheli_app/services/auth/googleAuth.dart';
@@ -7,6 +8,7 @@ import 'package:saheli_app/services/localDb/localDb.dart';
 import 'package:saheli_app/views/OnboardingScreen.dart';
 import 'package:saheli_app/views/googleSignIn.dart';
 import 'package:saheli_app/widgets/PrivacyPolicy.dart';
+import 'package:saheli_app/widgets/profileAssistCard.dart';
 import 'package:share/share.dart';
 
 import '../views/article_screen.dart';
@@ -53,293 +55,127 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    final w = MediaQuery.of(context).size.width;
+
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
       appBar: AppBar(
-        title: const Text(
+        centerTitle: true,
+        title: Text(
           "Profile",
-          style: TextStyle(color: Colors.white),
+          style: GoogleFonts.outfit(
+              fontWeight: FontWeight.w600, fontSize: 24),
         ),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
       ),
-      body: Container(
-        padding: const EdgeInsets.all(10),
-        color: Colors.white54,
+      body: SingleChildScrollView(
         child: Column(
           children: [
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Image.asset('assets/profile_pic.jpg', height: 200,)
-              ],
-            ),
-
-
-            const SizedBox(
-              height: 0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  userName!,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w900, fontSize: 26),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Text(userEmail)],
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Text('A passionate wanderer decoding happiness', style:TextStyle(fontWeight: FontWeight.bold, fontSize: 19),),
-            const SizedBox(
-              height: 15,
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "",
-                  style: TextStyle(fontSize: 20),
-                )
-              ],
-            ),
-
+            const SizedBox(height: 25,),
             Container(
-              child: Expanded(
-                child: ListView(
-                  children: [
-                    Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      margin: const EdgeInsets.only(
-                          left: 15, right: 15, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CallMenu(),
-                            ),
-                          );
-                        },
-                        leading: Icon(
-                          Icons.call,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                        title: const Text(
-                          'Fake Caller',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      margin: const EdgeInsets.only(
-                          left: 15, right: 15, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SafeRoutesForm(),
-                            ),
-                          );
-                        },
-                        leading: const Icon(
-                          Icons.dangerous,
-                          color: Colors.black54,
-                        ),
-                        title: const Text(
-                          'Report Suspicious Places',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        trailing: const Icon(Icons.arrow_forward_ios_outlined),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      margin: const EdgeInsets.only(
-                          left: 15, right: 15, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CollectionScreen(),
-                            ),
-                          );
-                        },
-                        leading: const Icon(
-                          Icons.storage,
-                          color: Colors.black54,
-                        ),
-                        title: const Text(
-                          'Your SOS Collection',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        trailing: const Icon(Icons.arrow_forward_ios_outlined),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      margin: const EdgeInsets.only(
-                          left: 15, right: 15, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ArticleScreen(),
-                            ),
-                          );
-                        },
-                        leading: Icon(Icons.read_more,
-                            color: Theme.of(context).colorScheme.tertiary),
-                        title: const Text(
-                          'Explore Safety Articles',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      margin: const EdgeInsets.only(
-                          left: 15, right: 15, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.add_reaction_sharp,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                        title: const Text(
-                          'Invite a Friend',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        onTap: () {
-                          openSharePanel();
-                        },
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Card(
-                      margin: const EdgeInsets.only(
-                          left: 15, right: 15, bottom: 10),
-                      color: Theme.of(context).colorScheme.secondary,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.privacy_tip_sharp,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                        title: const Text(
-                          'Privacy Policy',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PrivacyPolicyPage(),
-                            ),
-                          );
-                        },
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      margin: const EdgeInsets.only(
-                          left: 15, right: 15, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.logout,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                        title: const Text(
-                          'Logout',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                        onTap: () async{
-                          //logout(context);
-                          await signOut();
-                          Navigator.pushReplacement(context, PageTransition(child: OnboardingScreen(), type: PageTransitionType.leftToRight));
-                        },
-                      ),
-                    )
-                  ],
-                ),
+              decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                color: Colors.white
               ),
+              width: 96,
+              height: 96,
+              child: Image.asset(
+                'lib/assets/images/profile.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 20,),
+            Text(
+              userName!,
+              style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 24,
+                  ),
+            ),
+            const SizedBox(height: 5,),
+            Text(
+              userEmail,
+              style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 16,
+                  ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Column(
+              children: [
+                ProfileAssistCard(
+                    icon: Icons.call,
+                    title: 'Fake Caller',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CallMenu(),
+                        ),
+                      );
+                    }),
+                ProfileAssistCard(
+                    icon: Icons.dangerous,
+                    title: 'Report Suspicious Places',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SafeRoutesForm(),
+                        ),
+                      );
+                    }),
+                ProfileAssistCard(
+                    icon: Icons.storage,
+                    title: 'Your SOS Collection',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CollectionScreen(),
+                        ),
+                      );
+                    }),
+                ProfileAssistCard(
+                    icon: Icons.read_more,
+                    title: 'Explore Safety Articles',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ArticleScreen(),
+                        ),
+                      );
+                    }),
+                ProfileAssistCard(
+                    icon: Icons.add_reaction_sharp,
+                    title: 'Invite a Friend',
+                    onTap: () {
+                      openSharePanel();
+                    }),
+                ProfileAssistCard(
+                    icon: Icons.privacy_tip_sharp,
+                    title: 'Privacy Policy',
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrivacyPolicyPage()));
+                    }),
+                ProfileAssistCard(
+                    icon: Icons.logout,
+                    title: 'Logout',
+                    onTap: () async {
+                      await signOut();
+                      Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                              child: const OnboardingScreen(),
+                              type: PageTransitionType.leftToRight));
+                    }),
+              ],
             )
           ],
         ),

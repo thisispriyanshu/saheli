@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:saheli_app/widgets/article/cards.dart';
 import 'package:saheli_app/widgets/custom_widgets/safewebview.dart';
 
@@ -50,14 +51,14 @@ class ArticleScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-
-        iconTheme: const IconThemeData(
-            color: Colors.white
+        title: Text(
+          'Safety Articles',
+          style: GoogleFonts.outfit(
+              fontWeight: FontWeight.w600, fontSize: 24),
         ),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        title: const Text("Safety Articles", style: TextStyle(color: Colors.white),),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

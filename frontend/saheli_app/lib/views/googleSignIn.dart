@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:saheli_app/widgets/bottomNavBar.dart';
 import 'package:sign_in_button/sign_in_button.dart';
@@ -20,7 +21,7 @@ class _GoogleSignInState extends State<GoogleSignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.secondary,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       //backgroundColor: Colors.white,
       body: Center(
         child: Column(
@@ -32,10 +33,10 @@ class _GoogleSignInState extends State<GoogleSignIn> {
                     margin: const EdgeInsets.all(50),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(200),
-                        child: Image.asset("assets/img.png"))),
-                const Text(
+                        child: Image.asset("lib/assets/images/img.png"))),
+                Text(
                   'S A H E L I',
-                  style: TextStyle(
+                  style: GoogleFonts.outfit(
                       color: Colors.white,
                       fontSize: 40,
                       fontWeight: FontWeight.bold),
@@ -75,7 +76,7 @@ class _GoogleSignInState extends State<GoogleSignIn> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Image.asset(
-                              'assets/google.jpg', // Replace with the path to your Google logo asset
+                              'lib/assets/images/google.jpg', // Replace with the path to your Google logo asset
                               height: 20.0, // Adjust the height as needed
                             ),
                             const SizedBox(width: 10.0),
@@ -133,7 +134,7 @@ class _GoogleSignInState extends State<GoogleSignIn> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Image.asset(
-                            'assets/otp_pic.jpg', // Replace with the path to your Google logo asset
+                            'lib/assets/images/otp_pic.jpg', // Replace with the path to your Google logo asset
                             height: 20.0, // Adjust the height as needed
                           ),
                           const SizedBox(width: 10.0),
