@@ -108,7 +108,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     icon: _selectedIndex == 2
                         ? Icons.auto_awesome
                         : Icons.auto_awesome_outlined,
-                    text: 'Sakha',
+                    text: 'Kiran',
                   ),
                   GButton(
                     iconSize: 25,
