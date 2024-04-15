@@ -69,7 +69,7 @@ class _DuringCallBodyState extends State<DuringCallBody> {
               // Implement call hang-up functionality
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.red,
+              backgroundColor: Colors.red,
               padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 40.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0),

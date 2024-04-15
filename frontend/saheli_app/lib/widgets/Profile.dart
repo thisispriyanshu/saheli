@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
@@ -27,29 +29,48 @@ class _ProfileState extends State<Profile> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? userName = 'Aditi agrawal';
   String userEmail = 'a@gmail.com';
-  String profileUrl = '';
+  String photoUrl = '';
 
-  Future<void> _loadUserDetails() async {
-    await LocalDb.getName().then((value) {
-      setState(() {
-        userName = _auth.currentUser!.displayName;
-      });
-    });
-    await LocalDb.getEmail().then((value) {
-      setState(() {
-        userEmail = _auth.currentUser!.email!;
-      });
-    });
-    await LocalDb.getUrl().then((value) {
-      setState(() {
-        profileUrl = value.toString();
-      });
-    });
+  // Future<void> _loadUserDetails() async {
+  //   await LocalDb.getName().then((value) {
+  //     setState(() {
+  //       userName = _auth.currentUser!.displayName;
+  //     });
+  //   });
+  //   await LocalDb.getEmail().then((value) {
+  //     setState(() {
+  //       userEmail = _auth.currentUser!.email!;
+  //     });
+  //   });
+  //   await LocalDb.getUrl().then((value) {
+  //     setState(() {
+  //       profileUrl = value.toString();
+  //     });
+  //   });
+  // }
+
+  void fetchUserData() {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        userName = user.displayName;
+        userEmail = user.email!;
+        photoUrl = user.photoURL!;
+        print('User Display Name: $userName');
+        print('User Email: $userEmail');
+        print('User Photo URL: $photoUrl');
+      } else {
+        print('User is not signed in.');
+      }
+    } catch (e) {
+      print('Error while fetching user data: $e');
+    }
   }
 
   @override
   void initState() {
-    _loadUserDetails();
+    //_loadUserDetails();
+    fetchUserData();
     super.initState();
   }
 
@@ -72,16 +93,13 @@ class _ProfileState extends State<Profile> {
         child: Column(
           children: [
             const SizedBox(height: 25,),
-            Container(
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                color: Colors.white
-              ),
-              width: 96,
-              height: 96,
-              child: Image.asset(
-                'lib/assets/images/profile.png',
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: CachedNetworkImage(
+                imageUrl: photoUrl,
                 fit: BoxFit.cover,
+                height: 96,
+                width: 96,
               ),
             ),
             const SizedBox(height: 20,),

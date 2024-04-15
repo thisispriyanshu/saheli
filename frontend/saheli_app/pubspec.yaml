@@ -114,6 +114,7 @@ dependencies:
   google_places_flutter: any
   flutter_polyline_points: any
   fl_country_code_picker: ^0.1.9+1
+  icons_plus: ^5.0.0
 
 
 dev_dependencies:

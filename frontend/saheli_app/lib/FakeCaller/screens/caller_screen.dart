@@ -10,6 +10,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../db/databases.dart';
 import '../../model/PhoneContact.dart';
+
 class CallerScreen extends StatefulWidget {
   @override
   State<CallerScreen> createState() => _SafeHomeState();
@@ -25,7 +26,8 @@ class _SafeHomeState extends State<CallerScreen> {
     SmsStatus result = await BackgroundSms.sendMessage(
         phoneNumber: phoneNumber, message: message, simSlot: 1);
     if (result == SmsStatus.sent) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('SOS message sent successfully')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('SOS message sent successfully')));
       Fluttertoast.showToast(msg: "SOS Message Sent");
     } else {
       Fluttertoast.showToast(msg: "failed");
@@ -65,8 +67,8 @@ class _SafeHomeState extends State<CallerScreen> {
     final hasPermission = await _handleLocationPermission();
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-        forceAndroidLocationManager: true)
+            desiredAccuracy: LocationAccuracy.high,
+            forceAndroidLocationManager: true)
         .then((Position position) {
       setState(() {
         _curentPosition = position;
@@ -77,13 +79,13 @@ class _SafeHomeState extends State<CallerScreen> {
       Fluttertoast.showToast(msg: e.toString());
     });
   }
+
   @override
   void initState() {
     super.initState();
 
     _getCurrentLocation();
   }
-
 
   _getAddressFromLatLon() async {
     try {
@@ -93,12 +95,13 @@ class _SafeHomeState extends State<CallerScreen> {
       Placemark place = placemarks[0];
       setState(() {
         _curentAddress =
-        "${place.locality},${place.postalCode},${place.street},";
+            "${place.locality},${place.postalCode},${place.street},";
       });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
   }
+
   static const routeName = '/CallerScreen';
   @override
   Widget build(BuildContext context) {
@@ -112,19 +115,18 @@ class _SafeHomeState extends State<CallerScreen> {
         child: Column(
           children: [
             CircleAvatar(
-              backgroundColor:Colors.grey,
+              backgroundColor: Colors.grey,
               radius: 40,
               child: Text(
                 'Apoorv',
                 style: GoogleFonts.lato(),
-
               ),
             ),
             const SizedBox(
               height: 5.0,
             ), //CircleAvatar
             Text(
-             'Yash',
+              'Yash',
               style: GoogleFonts.lato(),
               textAlign: TextAlign.center,
             ),
@@ -163,38 +165,37 @@ class _SafeHomeState extends State<CallerScreen> {
                   Column(
                     children: [
                       ElevatedButton(
-                        onPressed:
-                          () async {
-                            String recipients = "";
-                            List<TContact> contactList =
-                                await DatabaseHelper().getContactList();
-                            print(contactList.length);
-                            if (contactList.isEmpty) {
-                              Fluttertoast.showToast(
-                                  msg: "emergency contact is empty");
-                            } else {
-                              String messageBody ="";
-                                  // "https://www.google.com/maps/search/?api=1&query=${_curentPosition!.latitude}%2C${_curentPosition!.longitude}. $_curentAddress";
-
-                              if (await _isPermissionGranted()) {
-                                Fluttertoast.showToast(msg: "Emergency SOS Sent to emergency contacts");
-                          // contactList.forEach((element) {
-                          // _sendSms("${element.number}"
-
-                          // "I am in trouble! $messageBody This message is sent from Saheli App");
-                          // });
+                        onPressed: () async {
+                          String recipients = "";
+                          List<TContact> contactList =
+                              await DatabaseHelper().getContactList();
+                          print(contactList.length);
+                          if (contactList.isEmpty) {
+                            Fluttertoast.showToast(
+                                msg: "emergency contact is empty");
                           } else {
-                          Fluttertoast.showToast(msg: "something wrong");
-                          }
-                        }
+                            String messageBody = "";
+                            // "https://www.google.com/maps/search/?api=1&query=${_curentPosition!.latitude}%2C${_curentPosition!.longitude}. $_curentAddress";
 
+                            if (await _isPermissionGranted()) {
+                              Fluttertoast.showToast(
+                                  msg:
+                                      "Emergency SOS Sent to emergency contacts");
+                              // contactList.forEach((element) {
+                              // _sendSms("${element.number}"
+
+                              // "I am in trouble! $messageBody This message is sent from Saheli App");
+                              // });
+                            } else {
+                              Fluttertoast.showToast(msg: "something wrong");
+                            }
+                          }
                         },
                         child: const Icon(
                           IconData(0xe1ce, fontFamily: 'MaterialIcons'),
                           size: 30.0,
                         ),
                         style: ElevatedButton.styleFrom(
-
                           padding: const EdgeInsets.all(24),
                         ),
                       ),
@@ -251,7 +252,7 @@ class _SafeHomeState extends State<CallerScreen> {
                       ),
                       Text(
                         "Add Call",
-                        style:GoogleFonts.lato(),
+                        style: GoogleFonts.lato(),
                       ),
                     ],
                   ),
@@ -314,8 +315,8 @@ class _SafeHomeState extends State<CallerScreen> {
               ),
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
+                backgroundColor: Colors.red,
                 padding: const EdgeInsets.all(24),
-                primary: Colors.red,
               ),
             ),
             const SizedBox(
@@ -326,7 +327,6 @@ class _SafeHomeState extends State<CallerScreen> {
       ),
     );
   }
-
 }
 
 class TickingTimer extends StatefulWidget {
