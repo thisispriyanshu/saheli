@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "839782813332-3sqdnc2v22g5apj99mlhcjmfergt15qb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.saheli_app",
+            "certificate_hash": "db61a3b13b77af7fcf7fd89d94155acf0cff03e7"
+          }
+        },
+        {
           "client_id": "839782813332-t48qvhe8e153kqh4sernmrhguh34n470.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

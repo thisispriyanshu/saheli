@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'NavigationScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class SafeRoutesForm extends StatelessWidget {
   TextEditingController _nameController = TextEditingController();
@@ -10,13 +13,20 @@ class SafeRoutesForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme
+          .of(context)
+          .colorScheme
+          .primary,
       appBar: AppBar(
         iconTheme: const IconThemeData(
-          color: Colors.white
+            color: Colors.white
         ),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        title: const Text('Suspicious locations form', style: TextStyle(color: Colors.white),),
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .secondary,
+        title: const Text(
+          'Suspicious locations form', style: TextStyle(color: Colors.white),),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -27,30 +37,39 @@ class SafeRoutesForm extends StatelessWidget {
 
               controller: _nameController,
 
-              decoration: const InputDecoration(labelText: 'Name',labelStyle: TextStyle(color: Colors.black),focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black),
-              ),),
+              decoration: const InputDecoration(labelText: 'Name',
+                labelStyle: TextStyle(color: Colors.black),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),),
 
             ),
             const SizedBox(height: 20.0),
             TextFormField(
               controller: _descriptionController,
-              decoration: const InputDecoration(labelText: 'Description/Situation of place',labelStyle: TextStyle(color: Colors.black),focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black),
-              ),),
+              decoration: const InputDecoration(
+                labelText: 'Description/Situation of place',
+                labelStyle: TextStyle(color: Colors.black),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),),
               maxLines: 3,
             ),
             const SizedBox(height: 20.0),
             TextFormField(
               controller: _situationController,
-              decoration: const InputDecoration(labelText: 'Any problems faced, if any',labelStyle: TextStyle(color: Colors.black),focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black),
-              ),),
+              decoration: const InputDecoration(
+                labelText: 'Any problems faced, if any',
+                labelStyle: TextStyle(color: Colors.black),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),),
 
               maxLines: 3,
             ),
             const SizedBox(height: 20.0),
-            const Text('Select Location from Map', style: TextStyle(color: Colors.black, fontSize: 16),),
+            const Text('Select Location from Map',
+              style: TextStyle(color: Colors.black, fontSize: 16),),
             const SizedBox(height: 5.0),
             ElevatedButton.icon(
               onPressed: () {
@@ -67,7 +86,10 @@ class SafeRoutesForm extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                backgroundColor: Theme
+                    .of(context)
+                    .colorScheme
+                    .tertiary,
                 padding: const EdgeInsets.symmetric(
                     horizontal: 25, vertical: 15),
                 shape: RoundedRectangleBorder(
@@ -78,7 +100,10 @@ class SafeRoutesForm extends StatelessWidget {
             const SizedBox(height: 240.0),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                backgroundColor: Theme
+                    .of(context)
+                    .colorScheme
+                    .tertiary,
                 padding: const EdgeInsets.symmetric(
                     horizontal: 25, vertical: 15),
                 shape: RoundedRectangleBorder(
@@ -88,7 +113,8 @@ class SafeRoutesForm extends StatelessWidget {
               onPressed: () {
                 _submitForm(context);
               },
-              child: const Text('Submit', style: TextStyle(color: Colors.white),),),
+              child: const Text(
+                'Submit', style: TextStyle(color: Colors.white),),),
 
           ],
         ),
@@ -96,34 +122,75 @@ class SafeRoutesForm extends StatelessWidget {
     );
   }
 
-  void _submitForm(BuildContext context) {
-    // Implement submission logic here
-    // You can access the form data using _nameController.text, _descriptionController.text, _situationController.text
 
-    // For demonstration purposes, let's just show an alert dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Form Submitted'),
-          content: const Text('Suspicous location details have been submitted successfully. Thank you for helping Saheli make women stronger and safer!'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+  void _submitForm(BuildContext context) async {
+    // Access the form data
+    String name = _nameController.text;
+    String description = _descriptionController.text;
+    String situation = _situationController.text;
+
+    // Access Firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      // Add data to Firestore
+      await firestore.collection('complaints').add({
+        'name': name,
+        'description': description,
+        'situation': situation,
+        'timestamp': FieldValue.serverTimestamp(),
+        'location': GeoPoint(position.latitude, position.longitude),
+      });
+
+      // Show a success message
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Success'),
+            content: Text('Complaint submitted successfully!'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      // Show an error message if submission fails
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text(
+                'Failed to submit complaint. Please try again later.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      print('Error submitting complaint: $e');
+    }
   }
 }
 
 
 
-class MapScreen extends StatefulWidget {
+
+  class MapScreen extends StatefulWidget {
   @override
   State<MapScreen> createState() => _MyAppState();
 }

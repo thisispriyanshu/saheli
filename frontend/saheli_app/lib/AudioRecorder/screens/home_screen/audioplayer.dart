@@ -275,10 +275,10 @@ class AudioPlayerState extends State<AudioPlayer> {
     final Reference ref = FirebaseStorage.instance
         .ref()
         .child('audio')
-        .child('audio_${DateTime.now()}.mp3');
+        .child('audio_${DateTime.now()}.3gp');
     final UploadTask uploadTask = ref.putFile(
       audioFile,
-      SettableMetadata(contentType: 'audio/mp3'),
+      SettableMetadata(contentType: 'audio/3gp'),
     );
 
     uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
@@ -318,7 +318,7 @@ class AudioPlayerState extends State<AudioPlayer> {
     if (image != null) {
       final File file = File(image.path);
       final Reference ref =
-          FirebaseStorage.instance.ref().child('images').child(image.path);
+          FirebaseStorage.instance.ref().child('images').child('image_${DateTime.now()}.mp3');
       final UploadTask uploadTask = ref.putFile(
         file,
         SettableMetadata(contentType: 'image/jpeg'),
@@ -330,7 +330,6 @@ class AudioPlayerState extends State<AudioPlayer> {
         });
       });
 
-      // Get download URL
       final url = await (await uploadTask).ref.getDownloadURL();
       ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: Text('Captured image'+url)));
     } else {
