@@ -1,23 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../services/auth/fireDb.dart';
 import '../../services/localDb/localDb.dart';
 
-class VerifyScreen extends StatelessWidget {
+class VerifyScreen extends StatefulWidget {
   final String phoneNumber;
   final String verificationId;
-  FirebaseAuth _auth = FirebaseAuth.instance;
 
   VerifyScreen({required this.phoneNumber, required this.verificationId});
 
+  @override
+  State<VerifyScreen> createState() => _VerifyScreenState();
+}
+
+class _VerifyScreenState extends State<VerifyScreen> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
   String smsCode = '';
+
+  final pinController = TextEditingController();
 
   Future<void> verifyOTP(BuildContext context) async {
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId,
+        verificationId: widget.verificationId,
         smsCode: smsCode,
       );
       await FirebaseAuth.instance.signInWithCredential(credential).then((user) async {
@@ -64,29 +74,90 @@ class VerifyScreen extends StatelessWidget {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    pinController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Verify OTP'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          TextField(
-            decoration: InputDecoration(hintText: 'Enter OTP'),
-            onChanged: (value) {
-              smsCode = value;
-            },
-          ),
-          SizedBox(height: 16.0),
-          ElevatedButton(
-            onPressed: () {
-              verifyOTP(context);
-            },
-            child: Text('Verify OTP'),
-          )
-        ],
+    final defaultPinTheme = PinTheme(
+      width: 56,
+      height: 56,
+      textStyle: GoogleFonts.outfit(fontSize: 20, fontWeight: FontWeight.w600),
+      decoration: BoxDecoration(
+        border: Border.all(),
+        borderRadius: BorderRadius.circular(20),
       ),
     );
+
+    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+      border: Border.all(color: const Color(0xffF55442)),
+      borderRadius: BorderRadius.circular(20),
+    );
+
+    final submittedPinTheme = defaultPinTheme.copyWith(
+      decoration: defaultPinTheme.decoration!.copyWith(
+        color: const Color(0xffFEECEB),
+      ),
+    );
+
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Verification', style: GoogleFonts.outfit(fontSize: 24, fontWeight: FontWeight.bold),),
+            const SizedBox(height: 10,),
+            Text('Enter the code sent to your number \n ${widget.phoneNumber}', textAlign: TextAlign.center, style: GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.w300),),
+            const SizedBox(height: 30,),
+            Pinput(
+              length: 6,
+              defaultPinTheme: defaultPinTheme,
+              focusedPinTheme: focusedPinTheme,
+              submittedPinTheme: submittedPinTheme,
+              androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
+              controller: pinController,
+              validator: (s) {
+                verifyOTP(context);
+                return null;
+              },
+              pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+              showCursor: true,
+              onCompleted: (pin) {
+                smsCode = pin;
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     title: Text('Verify OTP'),
+    //   ),
+    //   body: Column(
+    //     mainAxisAlignment: MainAxisAlignment.center,
+    //     children: <Widget>[
+    //       TextField(
+    //         decoration: InputDecoration(hintText: 'Enter OTP'),
+    //         onChanged: (value) {
+    //           smsCode = value;
+    //         },
+    //       ),
+    //       SizedBox(height: 16.0),
+    //       ElevatedButton(
+    //         onPressed: () {
+    //           verifyOTP(context);
+    //         },
+    //         child: Text('Verify OTP'),
+    //       )
+    //     ],
+    //   ),
+    // );
   }
 }
