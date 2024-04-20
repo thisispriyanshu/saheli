@@ -122,50 +122,90 @@ class SafeRoutesForm extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 50,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _submitForm(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    'Submit',
-                    style:
-                        GoogleFonts.outfit(color: Colors.white, fontSize: 18),
-                  ),
+            ),
+            const SizedBox(height: 240.0),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 25, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
-            ],
-          ),
+              onPressed: () {
+                _submitForm(context);
+              },
+              child: const Text('Submit', style: TextStyle(color: Colors.white),),),
+
+          ],
         ),
       ),
     );
   }
 
-  void _submitForm(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Form Submitted', style:
-          GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.w300),),
-          content: Text(
-              'Suspicious location details have been submitted successfully. Thank you for helping Saheli make women stronger and safer!', style:
-          GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.w300),),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+
+  void _submitForm(BuildContext context) async {
+    // Access the form data
+    String name = _nameController.text;
+    String description = _descriptionController.text;
+    String situation = _situationController.text;
+
+    // Access Firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      // Add data to Firestore
+      await firestore.collection('complaints').add({
+        'name': name,
+        'description': description,
+        'situation': situation,
+        'timestamp': FieldValue.serverTimestamp(),
+        'location': GeoPoint(position.latitude, position.longitude),
+      });
+
+      // Show a success message
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Success'),
+            content: Text('Complaint submitted successfully!'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      // Show an error message if submission fails
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text(
+                'Failed to submit complaint. Please try again later.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      print('Error submitting complaint: $e');
+    }
   }
 }
 
