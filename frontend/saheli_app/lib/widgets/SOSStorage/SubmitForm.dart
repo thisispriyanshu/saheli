@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'NavigationScreen.dart';
@@ -122,28 +124,30 @@ class SafeRoutesForm extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 240.0),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.tertiary,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 25, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+              const SizedBox(height: 240.0),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.tertiary,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  _submitForm(context);
+                },
+                child: const Text(
+                  'Submit',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
-              onPressed: () {
-                _submitForm(context);
-              },
-              child: const Text('Submit', style: TextStyle(color: Colors.white),),),
-
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
-
 
   void _submitForm(BuildContext context) async {
     // Access the form data
@@ -191,8 +195,8 @@ class SafeRoutesForm extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Error'),
-            content: Text(
-                'Failed to submit complaint. Please try again later.'),
+            content:
+                Text('Failed to submit complaint. Please try again later.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -208,8 +212,6 @@ class SafeRoutesForm extends StatelessWidget {
     }
   }
 }
-
-
 
 class MapScreen extends StatefulWidget {
   @override
@@ -259,8 +261,8 @@ class _MyAppState extends State<MapScreen> {
             width: double.infinity,
             child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => MapPicker()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MapPicker()));
                 },
                 child: const Text('Get Directions')),
           ),
