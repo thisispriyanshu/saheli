@@ -5,10 +5,26 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'NavigationScreen.dart';
 
-class SafeRoutesForm extends StatelessWidget {
+class SafeRoutesForm extends StatefulWidget {
+  SafeRoutesForm({super.key});
+
+  @override
+  State<SafeRoutesForm> createState() => _SafeRoutesFormState();
+}
+
+class _SafeRoutesFormState extends State<SafeRoutesForm> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _situationController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _nameController.dispose();
+    _descriptionController.dispose();
+    _situationController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,22 +140,18 @@ class SafeRoutesForm extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 240.0),
+              const SizedBox(height: 50.0),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.tertiary,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
                 onPressed: () {
                   _submitForm(context);
                 },
-                child: const Text(
-                  'Submit',
-                  style: TextStyle(color: Colors.white),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    'Submit',
+                    style:
+                        GoogleFonts.outfit(color: Colors.white, fontSize: 18),
+                  ),
                 ),
               ),
             ],
@@ -175,14 +187,14 @@ class SafeRoutesForm extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Success'),
-            content: Text('Complaint submitted successfully!'),
+            title: const Text('Success'),
+            content: const Text('Complaint submitted successfully!'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -194,15 +206,15 @@ class SafeRoutesForm extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
+            title: const Text('Error'),
             content:
-                Text('Failed to submit complaint. Please try again later.'),
+                const Text('Failed to submit complaint. Please try again later.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
