@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -135,8 +136,11 @@ class SafeRoutesForm extends StatelessWidget {
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
-      // Add data to Firestore
-      await firestore.collection('complaints').add({
+      FirebaseAuth _auth=FirebaseAuth.instance;
+      String? id=_auth.currentUser?.uid;
+
+
+      await firestore.collection('users').doc(id).collection('complaints').add({
         'name': name,
         'description': description,
         'situation': situation,

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -21,7 +22,11 @@ class _SafeRoutesState extends State<SafeRoutes> {
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
   final Set<Marker> _markers = {};
-
+  Future<BitmapDescriptor> getCustomMarkerIcon(String assetName) async {
+    final ByteData byteData = await rootBundle.load(assetName);
+    final Uint8List imageData = byteData.buffer.asUint8List();
+    return BitmapDescriptor.fromBytes(imageData);
+  }
   final mapsApiKey = "AIzaSyBAC_OF_lWBfFr_Zjs-mO0Kwyr4f_faiMU";
   late GoogleMapController mapController;
   var _controller = TextEditingController();
@@ -106,11 +111,12 @@ class _SafeRoutesState extends State<SafeRoutes> {
     super.dispose();
   }
   void _addMarker(LatLng position) {
-    setState(() {
+    setState(() async {
       _markers.clear();
       _markers.add(Marker(
         markerId: MarkerId(position.toString()),
         position: position,
+          icon: await getCustomMarkerIcon('assets/human_marker.jpg'),
       ));
     });
   }

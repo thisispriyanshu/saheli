@@ -260,7 +260,7 @@ class _SchedulerState extends State<Scheduler> {
                                   },
                                   child: const Text("OK"),
                                   style: TextButton.styleFrom(
-                                    primary: Colors.red,
+                                    foregroundColor: Colors.red,
                                   ),
                                 ),
                               ]);
