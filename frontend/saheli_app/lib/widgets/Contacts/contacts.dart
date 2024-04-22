@@ -1,6 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../db/databases.dart';
@@ -37,7 +38,7 @@ class _ContactsPageState extends State<ContactsPage> {
     _contacts.addAll(contacts);
     if (searchController.text.isNotEmpty) {
       _contacts.retainWhere((element) {
-        String searchTerm= searchController.text.toLowerCase();
+        String searchTerm = searchController.text.toLowerCase();
         String searchTermFlattren = flattenPhoneNumber(searchTerm);
         String contactName = element.displayName ?? 'Untitled'.toLowerCase();
         bool nameMatch = contactName.contains(searchTerm);
@@ -92,7 +93,7 @@ class _ContactsPageState extends State<ContactsPage> {
 
   getAllContacts() async {
     List<Contact> _contacts =
-    await ContactsService.getContacts(withThumbnails: false);
+        await ContactsService.getContacts(withThumbnails: false);
     setState(() {
       contacts = _contacts;
     });
@@ -101,70 +102,94 @@ class _ContactsPageState extends State<ContactsPage> {
   @override
   Widget build(BuildContext context) {
     bool isSearchIng = searchController.text.isNotEmpty;
-    bool listItemExit = (contactsFiltered.length > 0 || contacts.length > 0);
+    bool listItemExit = (contactsFiltered.isNotEmpty || contacts.isNotEmpty);
     return Scaffold(
-      appBar: AppBar(title: Text('Add Emergency contacts'),automaticallyImplyLeading: false, backgroundColor: Theme.of(context).primaryColor,),
-      body: contacts.length == 0
-          ? Center(child: CircularProgressIndicator())
-          : SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
-                autofocus: true,
-                controller: searchController,
-                decoration: const InputDecoration(
-                    hintText: "Search contact",
-                    prefixIcon: Icon(Icons.search)),
-              ),
-            ),
-            listItemExit == true
-                ? Expanded(
-              child: ListView.builder(
-                itemCount: isSearchIng == true
-                    ? contactsFiltered.length
-                    : contacts.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Contact contact = isSearchIng == true
-                      ? contactsFiltered[index]
-                      : contacts[index];
-                  return ListTile(
-                    title: Text(contact.displayName ?? 'Untitled'),
-                    leading: contact.avatar != null &&
-                        contact.avatar!.length > 0
-                        ? CircleAvatar(
-                      backgroundColor: primaryColor,
-                      backgroundImage:
-                      MemoryImage(contact.avatar!),
-                    )
-                        : CircleAvatar(
-                      backgroundColor: primaryColor,
-                      child: Text(contact.initials()),
-                    ),
-                    onTap: () {
-                      if (contact.phones!.length > 0) {
-                        final String phoneNum =
-                        contact.phones!.elementAt(0).value!;
-                        final String name = contact.displayName!;
-                        _addContact(TContact(phoneNum, name));
-                      } else {
-                        Fluttertoast.showToast(
-                            msg:
-                            "Oops! phone number of this contact does exist");
-                      }
-                    },
-                  );
-                },
-              ),
-            )
-                : Container(
-              child: Text("searching"),
-            ),
-          ],
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back)),
+        title: Text(
+          "Add Emergency Contacts",
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w400, fontSize: 20),
         ),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        automaticallyImplyLeading: false,
       ),
+      body: contacts.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      style: GoogleFonts.outfit(
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.primary),
+                      autofocus: true,
+                      controller: searchController,
+                      decoration: const InputDecoration(
+                          hintText: "Search contact",
+                          prefixIcon: Icon(Icons.search)),
+                    ),
+                  ),
+                  listItemExit == true
+                      ? Expanded(
+                          child: ListView.builder(
+                            itemCount: isSearchIng == true
+                                ? contactsFiltered.length
+                                : contacts.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Contact contact = isSearchIng == true
+                                  ? contactsFiltered[index]
+                                  : contacts[index];
+                              return ListTile(
+                                title: Text(
+                                  contact.displayName ?? 'Untitled',
+                                  style: GoogleFonts.outfit(
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                leading: contact.avatar != null &&
+                                        contact.avatar!.isNotEmpty
+                                    ? CircleAvatar(
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        backgroundImage:
+                                            MemoryImage(contact.avatar!),
+                                      )
+                                    : CircleAvatar(
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        child: Text(
+                                          contact.initials(),
+                                          style: GoogleFonts.outfit(
+                                              color: Colors.black87),
+                                        ),
+                                      ),
+                                onTap: () {
+                                  if (contact.phones!.isNotEmpty) {
+                                    final String phoneNum =
+                                        contact.phones!.elementAt(0).value!;
+                                    final String name = contact.displayName!;
+                                    _addContact(TContact(phoneNum, name));
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            "Oops! phone number of this contact does exist");
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        )
+                      : const Text("searching"),
+                ],
+              ),
+            ),
     );
   }
 

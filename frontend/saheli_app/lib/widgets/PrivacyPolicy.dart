@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.white
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        title: Text(
+          'Privacy Policy',
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 24),
         ),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        title: Text('Privacy Policy', style: TextStyle(color: Colors.white),),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,12 +43,14 @@ class PrivacyPolicyPage extends StatelessWidget {
               style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 8.0),
-            Text('1. Personal Information:', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text('1. Personal Information:',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             Text(
               '   - Name, email address, phone number, and other contact information.',
               style: TextStyle(fontSize: 16.0),
             ),
-            Text('2. Location Information:', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text('2. Location Information:',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             Text(
               '   - We may collect your location data to provide safety features.',
               style: TextStyle(fontSize: 16.0),
@@ -63,8 +66,10 @@ class PrivacyPolicyPage extends StatelessWidget {
               style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 8.0),
-            Text('- To enhance user experience and personalize content.', style: TextStyle(fontSize: 16.0)),
-            Text('- To provide and maintain our women\'s safety features.', style: TextStyle(fontSize: 16.0)),
+            Text('- To enhance user experience and personalize content.',
+                style: TextStyle(fontSize: 16.0)),
+            Text('- To provide and maintain our women\'s safety features.',
+                style: TextStyle(fontSize: 16.0)),
             SizedBox(height: 16.0),
             Text(
               'Security',

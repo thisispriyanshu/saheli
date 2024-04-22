@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-Color primaryColor = Color(0xfffc3b77);
-
 void goTo(BuildContext context, Widget nextScreen) {
   Navigator.push(
       context,
@@ -22,7 +20,7 @@ dialogueBox(BuildContext context, String text) {
 Widget progressIndicator(BuildContext context) {
   return Center(
       child: CircularProgressIndicator(
-        backgroundColor: primaryColor,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         color: Colors.red,
         strokeWidth: 7,
       ));

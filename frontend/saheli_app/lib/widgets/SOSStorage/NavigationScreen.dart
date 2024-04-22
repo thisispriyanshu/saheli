@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:saheli_app/widgets/SOSStorage/SubmitForm.dart';
 // import 'package:google_maps_flutter_web/google_maps_flutter_web.dart' as webGM;
@@ -17,8 +18,8 @@ class MapPicker extends StatefulWidget {
 
   MapPicker(
       {Key? key,
-        this.initZoom = DEFAULT_ZOOM,
-        this.initCoordinates = KINSHASA_LOCATION})
+      this.initZoom = DEFAULT_ZOOM,
+      this.initCoordinates = KINSHASA_LOCATION})
       : super(key: key);
 
   @override
@@ -35,9 +36,7 @@ class _MapPickerState extends State<MapPicker> {
         padding: const EdgeInsets.only(bottom: 16.0),
         child: FloatingActionButton.extended(
           onPressed: () {
-
             _openFormScreen(context);
-
           },
           label: Text('Select Location'),
           icon: Icon(Icons.location_on),
@@ -45,7 +44,13 @@ class _MapPickerState extends State<MapPicker> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      appBar: AppBar(title: Text('Select the suspicious location', style: TextStyle(color: Colors.white),),backgroundColor: Colors.pinkAccent,automaticallyImplyLeading: false,),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        title: Text(
+          'Select location',
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w400, fontSize: 20),
+        ),
+      ),
       body: Center(
         child: SizedBox(
           // width: 400,
@@ -96,10 +101,10 @@ class _MapPickerState extends State<MapPicker> {
                       Positioned(
                         bottom: maxHeight / 2,
                         right: (maxWidth - 30) / 2,
-                        child: const Icon(
+                        child: Icon(
                           Icons.person_pin_circle_sharp,
                           size: 30,
-                          color: Colors.pinkAccent,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
 
@@ -112,11 +117,11 @@ class _MapPickerState extends State<MapPicker> {
                             onPressed: () async {
                               var position = await _determinePosition();
                               final GoogleMapController controller =
-                              await _controller.future;
+                                  await _controller.future;
                               controller.animateCamera(
                                   CameraUpdate.newCameraPosition(CameraPosition(
-                                      target: LatLng(
-                                          position.latitude, position.longitude),
+                                      target: LatLng(position.latitude,
+                                          position.longitude),
                                       zoom: widget.initZoom)));
                             },
                             icon: const Icon(Icons.my_location),
@@ -133,7 +138,6 @@ class _MapPickerState extends State<MapPicker> {
                       // ),
                     ],
                   ),
-
                 ],
               );
             },
@@ -167,20 +171,27 @@ class _MapPickerState extends State<MapPicker> {
 
     return await Geolocator.getCurrentPosition();
   }
-  Future<void> _openFormScreen(BuildContext context, ) async {
+
+  Future<void> _openFormScreen(
+    BuildContext context,
+  ) async {
     if (_selectedLocation != null) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Location fetched successfully'),
-            content: Text('Location selected was:  37/38, New Municipal Market, Sainath Road, Malad (west), coordinates: $_selectedLocation'),
+            content: Text(
+                'Location selected was:  37/38, New Municipal Market, Sainath Road, Malad (west), coordinates: $_selectedLocation'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK', style: TextStyle(color: Colors.pinkAccent),),
+                child: Text(
+                  'OK',
+                  style: TextStyle(color: Colors.pinkAccent),
+                ),
               ),
             ],
           );
@@ -189,14 +200,9 @@ class _MapPickerState extends State<MapPicker> {
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SafeRoutesForm(
-
-          ),
+          builder: (context) => SafeRoutesForm(),
         ),
       );
-    } else {
-
-    }
+    } else {}
   }
-
 }

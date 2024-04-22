@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:saheli_app/widgets/bottomNavBar.dart';
 import 'package:sign_in_button/sign_in_button.dart';
@@ -15,45 +17,60 @@ class GoogleSignIn extends StatefulWidget {
 }
 
 class _GoogleSignInState extends State<GoogleSignIn> {
-  bool isLoading = false;
+  bool isLoadingGoogleSignin = false;
+  bool isLoadingOtp = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.secondary,
-      //backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              children: [
-                Container(
-                    margin: const EdgeInsets.all(50),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(200),
-                        child: Image.asset("assets/img.png"))),
-                const Text(
-                  'S A H E L I',
-                  style: TextStyle(
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              SizedBox(
+                  height: 196,
+                  width: 196,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(200),
+                      child: Image.asset("lib/assets/images/img.png"))),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                'S A H E L I',
+                style: GoogleFonts.outfit(
+                    color: Colors.white,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Create your account to save your information securely',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.outfit(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              isLoadingGoogleSignin
+                  ? const SpinKitDoubleBounce(
                       color: Colors.white,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            Container(
-                height: 40,
-                alignment: Alignment.bottomCenter,
-                child: isLoading
-                    ? const SpinKitDoubleBounce(
-                        color: Colors.white,
-                        size: 50.0,
-                      )
-                    : ElevatedButton(
+                      size: 50.0,
+                    )
+                  : SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton.icon(
+                        icon: Brand(Brands.google),
                         onPressed: () async {
                           setState(() {
-                            isLoading = true;
+                            isLoadingGoogleSignin = true;
                           });
                           // await Future.delayed(Duration(seconds: 2));
                           // setState(() {
@@ -68,88 +85,76 @@ class _GoogleSignInState extends State<GoogleSignIn> {
                                   type: PageTransitionType.fade));
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(const Color(
-                              0xffF5F5F5)), // Change the button color as needed
+                          backgroundColor: isLoadingOtp
+                              ? MaterialStateProperty.all(
+                                  Theme.of(context).colorScheme.tertiary)
+                              : MaterialStateProperty.all(Theme.of(context)
+                                  .colorScheme
+                                  .secondary), // Change the button color as needed
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(
-                              'assets/google.jpg', // Replace with the path to your Google logo asset
-                              height: 20.0, // Adjust the height as needed
-                            ),
-                            const SizedBox(width: 10.0),
-                            const Text(
-                              'Sign in with Google',
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.black),
-                            ),
-                          ],
+                        label: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text(
+                            'Sign in with Google',
+                            style: GoogleFonts.outfit(
+                                fontSize: 18.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w300),
+                          ),
                         ),
-                      )
-                // SignInButton(Buttons.google, onPressed: () async {
-                //   setState(() {
-                //     isLoading = true;
-                //   });
-                //   // await Future.delayed(Duration(seconds: 2));
-                //   // setState(() {
-                //   //   isLoading = false;
-                //   // });
-                //   //await _googleSignInManager.signIn();
-                //   await signInWithGoogle();
-                //   Navigator.pushReplacement(context, PageTransition(child: const BottomNavBar(), type: PageTransitionType.fade));
-                // }),
-                ),
-            Container(
-              height: 40,
-              alignment: Alignment.bottomCenter,
-              child: isLoading
+                      ),
+                    ),
+              const SizedBox(
+                height: 30,
+              ),
+              isLoadingOtp
                   ? const SpinKitDoubleBounce(
                       color: Colors.white,
                       size: 50.0,
                     )
-                  : ElevatedButton(
-                      onPressed: () async {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        // await Future.delayed(Duration(seconds: 2));
-                        // setState(() {
-                        //   isLoading = false;
-                        // });
-                        //await _googleSignInManager.signIn();
+                  : SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton.icon(
+                        icon: const Icon(Icons.password_rounded),
+                        onPressed: () async {
+                          setState(() {
+                            isLoadingOtp = true;
+                          });
+                          // await Future.delayed(Duration(seconds: 2));
+                          // setState(() {
+                          //   isLoading = false;
+                          // });
+                          //await _googleSignInManager.signIn();
 
-                        Navigator.pushReplacement(
-                            context,
-                            PageTransition(
-                                child:  PhoneAuth(),
-                                type: PageTransitionType.fade));
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(const Color(
-                            0xffF5F5F5)), // Change the button color as needed
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            'assets/otp_pic.jpg', // Replace with the path to your Google logo asset
-                            height: 20.0, // Adjust the height as needed
-                          ),
-                          const SizedBox(width: 10.0),
-                          const Text(
+                          Navigator.pushReplacement(
+                              context,
+                              PageTransition(
+                                  child: PhoneAuth(),
+                                  type: PageTransitionType.fade));
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: isLoadingGoogleSignin
+                              ? MaterialStateProperty.all(
+                                  Theme.of(context).colorScheme.tertiary)
+                              : MaterialStateProperty.all(
+                                  Theme.of(context).colorScheme.secondary),
+                        ),
+                        label: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text(
                             'Sign in using OTP',
-                            style:
-                                TextStyle(fontSize: 16.0, color: Colors.black),
+                            style: GoogleFonts.outfit(
+                                fontSize: 18.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w300),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-            )
-          ],
+                    )
+            ],
+          ),
         ),
       ),
     );
   }
 }
-

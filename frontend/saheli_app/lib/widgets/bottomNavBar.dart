@@ -25,10 +25,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   final List<Widget> navBarList = [
     HomePage(),
-    AddContactsPage(),
-    ChatScreen(),
-    SafeRoutes(),
-    Profile(),
+    const AddContactsPage(),
+    const ChatScreen(),
+    const SafeRoutes(),
+    const Profile(),
   ];
 
   @override
@@ -53,7 +53,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   ),
                 );
               },
-              child: Text('SOS', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+              child: const Text('SOS', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
 
             )
           : null, // Render FAB only for the Search tab (index 1)
@@ -88,7 +88,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 duration: const Duration(milliseconds: 400),
-                tabBackgroundColor: Theme.of(context).colorScheme.tertiary,
+                tabBackgroundColor: Theme.of(context).colorScheme.primary,
                 // textStyle: Colors.white,
                 tabs: [
                   GButton(
@@ -109,7 +109,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     icon: _selectedIndex == 2
                         ? Icons.auto_awesome
                         : Icons.auto_awesome_outlined,
-                    text: 'Sakha',
+                    text: 'Kiran',
                   ),
                   GButton(
                     iconSize: 25,

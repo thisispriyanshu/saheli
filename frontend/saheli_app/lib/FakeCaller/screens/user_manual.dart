@@ -7,38 +7,62 @@ class UserManual extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Shake to Make a Fake Call", textAlign: TextAlign.left, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-                const SizedBox(
-                  height: 20,
-                ),
-                Image.asset("assets/fakeCall.jpg"),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text("How to Use:", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text("Step1:- Shake your phone to get a fake call.", style: TextStyle(fontSize: 18),),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text("Step2:- Receive the call.", style: TextStyle(fontSize: 18),),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text("Step3:- Allow your current location to be sent to your saved contacts.", style: TextStyle(fontSize: 18),)
-              ],
-            ),
+      appBar: AppBar(
+        title: Text(
+          'How Fake Caller Works',
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w400, fontSize: 20),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+      ),
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Shake to Make a Fake Call",
+                    style: GoogleFonts.outfit(
+                        fontSize: 24, fontWeight: FontWeight.w500),
+                  )),
+              const SizedBox(
+                height: 20,
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                  child: Image.asset("lib/assets/images/fakeCall.jpg")),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                "How to Use:",
+                style: GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Step1:- Shake your phone to get a fake call.",
+                style: GoogleFonts.outfit(fontSize: 16),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Step2:- Receive the call.",
+                style: GoogleFonts.outfit(fontSize: 16),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Step3:- Allow your current location to be sent to your saved contacts.",
+                style: GoogleFonts.outfit(fontSize: 16),
+              )
+            ],
           ),
         ),
       ),

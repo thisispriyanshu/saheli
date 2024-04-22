@@ -26,7 +26,7 @@ class _ArticleCardState extends State<ArticleCard> {
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
-          border: Border.all(color: Theme.of(context).colorScheme.tertiary, width: 1.5),
+          border: Border.all(color: Theme.of(context).colorScheme.secondary, width: 1.5),
           borderRadius: BorderRadius.circular(10)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

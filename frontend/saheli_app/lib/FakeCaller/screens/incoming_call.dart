@@ -41,8 +41,8 @@ class _IncomingCallState extends State<IncomingCall> {
                   height: 10.0,
                 ),
                 Text(
-                  "Mobile +" + widget.number,
-                  style: GoogleFonts.lato(),
+                  "Mobile: " + widget.number,
+                  style: GoogleFonts.outfit(),
                   textAlign: TextAlign.center,
                 ),
               ],

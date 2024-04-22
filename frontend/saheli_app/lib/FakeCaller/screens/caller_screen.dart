@@ -10,6 +10,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../db/databases.dart';
 import '../../model/PhoneContact.dart';
+
 class CallerScreen extends StatefulWidget {
   @override
   State<CallerScreen> createState() => _SafeHomeState();
@@ -25,7 +26,8 @@ class _SafeHomeState extends State<CallerScreen> {
     SmsStatus result = await BackgroundSms.sendMessage(
         phoneNumber: phoneNumber, message: message, simSlot: 1);
     if (result == SmsStatus.sent) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('SOS message sent successfully')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('SOS message sent successfully')));
       Fluttertoast.showToast(msg: "SOS Message Sent");
     } else {
       Fluttertoast.showToast(msg: "failed");
@@ -313,8 +315,9 @@ class _SafeHomeState extends State<CallerScreen> {
                 size: 30.0,
               ),
               style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(), backgroundColor: Colors.red,
+                shape: const CircleBorder(),
                 padding: const EdgeInsets.all(24),
+                primary: Colors.red,
               ),
             ),
             const SizedBox(

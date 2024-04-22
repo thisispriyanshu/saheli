@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:location/location.dart';
 import 'package:saheli_app/widgets/Live_location/main.dart';
 import 'package:share/share.dart';
@@ -27,7 +28,7 @@ class _AddContactsPageState extends State<AddContactsPage> {
     Future<Database> dbFuture = databasehelper.initializeDatabase();
     dbFuture.then((database) {
       Future<List<TContact>> contactListFuture =
-      databasehelper.getContactList();
+          databasehelper.getContactList();
       contactListFuture.then((value) {
         setState(() {
           this.contactList = value;
@@ -60,96 +61,185 @@ class _AddContactsPageState extends State<AddContactsPage> {
       contactList = [];
     }
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
       appBar: AppBar(
-        title: const Text("Contacts", style: TextStyle(color: Colors.white),),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        centerTitle: true,
+        title: Text(
+          "Contacts",
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 24),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: "btn1",
-      onPressed: ( ) {
-        openSharePanel();
-    },
-        label: Text('Send location to group'),
-        icon: FaIcon(FontAwesomeIcons.whatsapp),
-        backgroundColor: Color.fromARGB(255, 37,211,102),
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primary,
+            width: 2,
+          ),
+        ),
+        child: FloatingActionButton.extended(
+          heroTag: "btn1",
+          onPressed: () {
+            openSharePanel();
+          },
+          label: Text(
+            'Send location to group',
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.w300,
+              fontSize: 16,
+              color: Colors.black,
+            ),
+          ),
+          icon: const FaIcon(
+            FontAwesomeIcons.whatsapp,
+            color: Colors.green,
+          ),
+          elevation: 0,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      backgroundColor: Color.fromARGB(255, 255, 236, 208),
       body: SafeArea(
         child: Container(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             child: Column(
               children: [
-                PrimaryButton(
-                    title: "Add Trusted Contacts",
-                    onPressed: () async {
-                      bool result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ContactsPage(),
-                          ));
-                      if (result == true) {
-                        showList();
-                      }
-                    }),
-                Expanded(
-                  child: ListView.builder(
-                    // shrinkWrap: true,
-                    itemCount: count,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Card(
-                        margin: const EdgeInsets.all(8.0),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8.0, top: 8.0, bottom: 8.0),
-                          child: ListTile(
-                            title: Text(contactList![index].name),
-                            trailing: Container(
-                              width: 100,
-
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () async {
-                                        await FlutterPhoneDirectCaller.callNumber(
-                                            contactList![index].number);
-                                      },
-
-                                      icon: Icon(
-                                        Icons.call,
-                                        color: Colors.pinkAccent,
-                                      )),
-                                  IconButton(
-                                      onPressed: () {
-                                        deleteContact(contactList![index]);
-                                      },
-                                      icon: Icon(
-                                        Icons.delete,
-                                        color: Colors.pinkAccent,
-                                      )),
-                                ],
+                Container(
+                  height: 250,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Image.asset(
+                          'lib/assets/images/trustedContacts.jpg',
+                          color: Colors.black.withOpacity(0.4),
+                          colorBlendMode: BlendMode.multiply,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Add Trusted Contacts',
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 24,
                               ),
                             ),
-                          ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              'Add only those contacts that you can trust and can help you in danger situation. Ex- Family members and close friends.',
+                              style: GoogleFonts.outfit(
+                                  fontSize: 16, color: Colors.white),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            ElevatedButton(
+                                onPressed: () async {
+                                  bool result = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ContactsPage(),
+                                    ),
+                                  );
+                                  if (result == true) {
+                                    showList();
+                                  }
+                                },
+                                child: Text(
+                                  'Add Contacts',
+                                  style: GoogleFonts.outfit(
+                                      fontSize: 16, color: Colors.white),
+                                )),
+                          ],
                         ),
-                      );
-                    },
+                      ),
+                    ],
                   ),
+                ),
+                Expanded(
+                  child: contactList!.isEmpty
+                      ? Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Text(
+                            'Your added contacts will appear here...',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.outfit(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 16,
+                            ),
+                          ),
+                      )
+                      : ListView.builder(
+                          // shrinkWrap: true,
+                          itemCount: count,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Card(
+                              margin: const EdgeInsets.all(8.0),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, top: 8.0, bottom: 8.0),
+                                child: ListTile(
+                                  title: Text(contactList![index].name),
+                                  trailing: Container(
+                                    width: 100,
+                                    child: Row(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () async {
+                                              await FlutterPhoneDirectCaller
+                                                  .callNumber(
+                                                      contactList![index]
+                                                          .number);
+                                            },
+                                            icon: const Icon(
+                                              Icons.call,
+                                              color: Colors.pinkAccent,
+                                            )),
+                                        IconButton(
+                                            onPressed: () {
+                                              deleteContact(
+                                                  contactList![index]);
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.pinkAccent,
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                 ),
               ],
             )),
       ),
     );
-
   }
 
   void openSharePanel() {
     DateTime now = DateTime.now();
     String formattedTime = '${now.hour}:${now.minute}:${now.second}';
 
-    String message = "Hi! I am going out at $formattedTime, here's my current location, https://www.google.com/maps/search/?api=1&query=28.59351217640707,77.24437040849519 \n-Sent from Saheli app";
+    String message =
+        "Hi! I am going out at $formattedTime, here's my current location, https://www.google.com/maps/search/?api=1&query=28.59351217640707,77.24437040849519 \n-Sent from Saheli app";
 
-    Share.share(message
-    );
+    Share.share(message);
   }
   // Future<void> shareCurrentLocation() async {
   //
@@ -162,9 +252,9 @@ class _AddContactsPageState extends State<AddContactsPage> {
   //
   //      Share.share(message
   //     );
-    // } catch (e) {
-      // Handle location access or sharing errors
-      // print("Error: $e");
-    // }
+  // } catch (e) {
+  // Handle location access or sharing errors
+  // print("Error: $e");
+  // }
   // }
 }

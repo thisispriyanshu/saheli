@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -53,23 +54,37 @@ class _ChatBotState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Chat with Sakha AI'),
-        backgroundColor: Colors.pinkAccent,
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: Text(
+      //     "Kiran",
+      //     style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 24),
+      //   ),
+      //   backgroundColor: Theme.of(context).colorScheme.tertiary,
+      // ),
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background image
+          Expanded(
+              child: Image.asset('lib/assets/images/KiranBg.png', fit: BoxFit.cover,)),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Sakha AI',
-                style: TextStyle(
-                    color: Colors.pinkAccent,
-                    fontSize: 25,
+                'Kiran AI',
+                style: GoogleFonts.outfit(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold),
+              ),
+              Text(
+                'Your personalised chat bot \n'
+                    'ready to help you anytime',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.outfit(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500),
               ),
               SizedBox(
                 height: 30,
@@ -97,12 +112,13 @@ class _ChatBotState extends State<ChatScreen> {
                     title: Container(
                       padding: EdgeInsets.only(left: 10),
                       decoration: BoxDecoration(
-                          color: Color(0xffF2F4F6),
+                          color: Theme.of(context).colorScheme.tertiary,
                           borderRadius: BorderRadius.all(Radius.circular(15))),
                       child: TextFormField(
                         controller: messageController,
                         decoration: InputDecoration(
                             hintText: "Ask anything...",
+                            hintStyle: GoogleFonts.outfit(),
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
