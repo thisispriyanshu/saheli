@@ -315,9 +315,8 @@ class _SafeHomeState extends State<CallerScreen> {
                 size: 30.0,
               ),
               style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
+                shape: const CircleBorder(), backgroundColor: Colors.red,
                 padding: const EdgeInsets.all(24),
-                primary: Colors.red,
               ),
             ),
             const SizedBox(
