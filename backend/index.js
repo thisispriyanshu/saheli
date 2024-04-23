@@ -8,13 +8,15 @@ const { safeRouteJson } = require('./safeRoute');
 require("dotenv").config();
 const axios = require('axios');
 
-
-
-
 // Initialize Express
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+// // Use user routes
+// app.use('/users', userRoutes);
+
+// // use chat routes
+// app.use('/chat', chatRoutes);
 
 // Google Maps API Key
 const API_KEY = process.env.GOOGLE_MAPS_API_KEY;
