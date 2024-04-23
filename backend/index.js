@@ -1,7 +1,6 @@
 const express = require('express');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
-const chatRoutes = require('./routes/chatRoutes');
 const {Client} = require("@googlemaps/google-maps-services-js");
 const bodyParser = require('body-parser');
 const { safeRouteJson } = require('./safeRoute');
@@ -15,8 +14,6 @@ const PORT = process.env.PORT || 8080;
 // // Use user routes
 // app.use('/users', userRoutes);
 
-// // use chat routes
-// app.use('/chat', chatRoutes);
 
 // Google Maps API Key
 const API_KEY = process.env.GOOGLE_MAPS_API_KEY;
