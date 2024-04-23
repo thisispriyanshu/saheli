@@ -17,27 +17,27 @@ google_api_key=os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=google_api_key)
 
 # Load the documents
-documents=SimpleDirectoryReader("./data")
-doc=documents.load_data()
+documents = SimpleDirectoryReader("./data")
+doc = documents.load_data()
 
 # Create a Gemini instance
-model=Gemini(models='gemini-pro',api_key=google_api_key)
+model = Gemini(models='gemini-pro', api_key=google_api_key)
 
 # Create a GeminiEmbedding instance
-gemini_embed_model=GeminiEmbedding(model_name="models/embedding-001")
+gemini_embed_model = GeminiEmbedding(model_name="models/embedding-001")
 
 # Create a VectorStoreIndex instance
 # Configure Service Context
-service_context = ServiceContext.from_defaults(llm=model,embed_model=gemini_embed_model, chunk_size=800, chunk_overlap=20)
+service_context = ServiceContext.from_defaults(llm=model, embed_model=gemini_embed_model, chunk_size=800, chunk_overlap=20)
 
 # Configure Storage Context
-index = VectorStoreIndex.from_documents(doc,service_context=service_context)
+index = VectorStoreIndex.from_documents(doc, service_context=service_context)
 
 # Save the index
-index.storage_context.persist()
+# index.storage_context.persist()
 
 # Load the index
-query_engine=index.as_query_engine()
+query_engine = index.as_query_engine()
 
 # define a function to return query_engine
 def return_query(query):

@@ -8,5 +8,6 @@ llama-index-embeddings-gemini
 streamlit
 fastapi
 uvicorn
+watchdog<2.0.0,>=1.0.0
 
 #-e .
