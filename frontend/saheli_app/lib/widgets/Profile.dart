@@ -202,7 +202,7 @@ class _ProfileState extends State<Profile> {
   }
 
   void openSharePanel() {
-    String linkToShare = "saheli.dev";
+    String linkToShare = "https://sakhi-nextjs-website.vercel.app";
     Share.share(linkToShare);
   }
 

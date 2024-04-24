@@ -18,37 +18,35 @@ class _ChatBotState extends State<ChatScreen> {
   List<Map> messages = [];
 
   Future<void> getResponse(String userInput) async {
+    setState(() {
+      messages.insert(0, {"data": 0, "message": "..."});
+    });
+    final response = await http.post(
+      Uri.parse("https://gemini-chatbot-e4no.onrender.com/chat"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{'query': userInput}),
+    );
 
+    if (response.statusCode == 200) {
+      // Map<String, dynamic> data = jsonDecode(response.body);
+      // String textResponse = data['response'];
+      String textResponse = jsonDecode(response.body);
+
+      // Parse special characters and apply formatting
+      textResponse =
+          textResponse.replaceAll('', ''); // Remove the ** for bold text
+      textResponse = textResponse.replaceAll(
+          '\n\n', ''); // Split text by double newline to separate steps
+      textResponse = textResponse.replaceAll('*', '');
       setState(() {
-        messages.insert(0, {"data": 0, "message": "..."});
+        messages.removeAt(0);
+        messages.insert(0, {"data": 0, "message": textResponse});
       });
-      final response = await http.post(
-        Uri.parse("https://gemini-chatbot-e4no.onrender.com/chat"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{'query': userInput}),
-      );
-
-      if (response.statusCode == 200) {
-        // Map<String, dynamic> data = jsonDecode(response.body);
-        // String textResponse = data['response'];
-        String textResponse =jsonDecode(response.body);
-
-        // Parse special characters and apply formatting
-        textResponse =
-            textResponse.replaceAll('', ''); // Remove the ** for bold text
-        textResponse = textResponse.replaceAll(
-            '\n\n', ''); // Split text by double newline to separate steps
-        textResponse = textResponse.replaceAll('*', '');
-        setState(() {
-          messages.removeAt(0);
-          messages.insert(0, {"data": 0, "message": textResponse});
-        });
-      } else {
-        throw Exception('Failed to load response');
-      }
-
+    } else {
+      throw Exception('Failed to load response');
+    }
   }
 
   @override
@@ -66,12 +64,17 @@ class _ChatBotState extends State<ChatScreen> {
         fit: StackFit.expand,
         children: [
           Expanded(
-              child: Image.asset('lib/assets/images/KiranBg.png', fit: BoxFit.cover,)),
+              child: Image.asset(
+            'lib/assets/images/KiranBg.png',
+            fit: BoxFit.cover,
+            color: Colors.black.withOpacity(0.2),
+            colorBlendMode: BlendMode.multiply,
+          )),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Kiran AI',
+                'Sakha AI',
                 style: GoogleFonts.outfit(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 24,
@@ -79,7 +82,7 @@ class _ChatBotState extends State<ChatScreen> {
               ),
               Text(
                 'Your personalised chat bot \n'
-                    'ready to help you anytime',
+                'ready to help you anytime',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.outfit(
                     color: Theme.of(context).colorScheme.primary,
@@ -113,7 +116,7 @@ class _ChatBotState extends State<ChatScreen> {
                       padding: EdgeInsets.only(left: 10),
                       decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.tertiary,
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: TextFormField(
                         controller: messageController,
                         decoration: InputDecoration(
@@ -154,12 +157,12 @@ class _ChatBotState extends State<ChatScreen> {
 
     // / Add space on the left for received messages
     return BubbleSpecialOne(
-      color: (data == 1) ? Colors.pinkAccent : Colors.pink,
+      color: (data == 1) ? Color(0xffFEECEB) : Color(0xffF7EDF5),
       isSender: data == 1,
       text: message,
-      textStyle: TextStyle(
+      textStyle: GoogleFonts.outfit(
         fontSize: 18,
-        color: Colors.white,
+        color: Colors.black54,
       ),
     );
   }

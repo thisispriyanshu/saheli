@@ -18,7 +18,7 @@ class CardChild extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(18),
               child: Image.asset(
                 imagePath,
                 height: 160,

@@ -26,7 +26,7 @@ class _ProfileAssistCardState extends State<ProfileAssistCard> {
         decoration: BoxDecoration(
             //color: Theme.of(context).colorScheme.secondary,
           color: Colors.white,
-            borderRadius: BorderRadius.circular(30)),
+            borderRadius: BorderRadius.circular(18)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

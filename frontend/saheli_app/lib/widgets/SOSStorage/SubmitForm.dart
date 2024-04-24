@@ -26,7 +26,7 @@ class SafeRoutesForm extends StatelessWidget {
               color: Theme.of(context).colorScheme.secondary,
               border: Border.all(
                   color: Theme.of(context).colorScheme.primary, width: 1),
-              borderRadius: BorderRadius.circular(30)),
+              borderRadius: BorderRadius.circular(18)),
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -53,7 +53,7 @@ class SafeRoutesForm extends StatelessWidget {
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                         color: Theme.of(context).colorScheme.primary),
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(18),
                   ),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(
