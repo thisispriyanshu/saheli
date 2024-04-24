@@ -57,7 +57,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
             )
           : null, // Render FAB only for the Search tab (index 1)
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       backgroundColor: Theme.of(context).bottomAppBarTheme.color,
       key: _scaffoldKey,
       // body: _pages[_selectedIndex],
@@ -109,7 +109,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     icon: _selectedIndex == 2
                         ? Icons.auto_awesome
                         : Icons.auto_awesome_outlined,
-                    text: 'Kiran',
+                    text: 'Sakha',
                   ),
                   GButton(
                     iconSize: 25,

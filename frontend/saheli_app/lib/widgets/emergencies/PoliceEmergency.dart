@@ -11,14 +11,14 @@ class PoliceEmergency extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(18),
       ),
       elevation: 10,
       child: InkWell(
         onTap: () => _callNumber('1090'),
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(18),
               gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -59,7 +59,7 @@ class PoliceEmergency extends StatelessWidget {
                 width: 80,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(18),
                 ),
                 child: Center(
                   child: Text(

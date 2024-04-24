@@ -23,7 +23,7 @@ class CustomAppBar extends StatelessWidget {
           border: Border.all(
             color: Colors.black,
           ),
-          borderRadius: BorderRadius.circular(20).copyWith(
+          borderRadius: BorderRadius.circular(18).copyWith(
             topLeft: Radius.zero,
           ),
         ),

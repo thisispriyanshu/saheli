@@ -46,12 +46,12 @@ class _CallMenuState extends State<CollectionScreen> {
               Container(
                 height: 250,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(18),
                 ),
                 child: Stack(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(18),
                       child: Image.asset(
                         'lib/assets/images/audioStorage.jpg',
                         color: Colors.black.withOpacity(0.4),
@@ -109,12 +109,12 @@ class _CallMenuState extends State<CollectionScreen> {
               Container(
                 //height: 250,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(18),
                 ),
                 child: Stack(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(18),
                       child: Image.asset(
                         'lib/assets/images/cameraStorage.png',
                         color: Colors.black.withOpacity(0.4),

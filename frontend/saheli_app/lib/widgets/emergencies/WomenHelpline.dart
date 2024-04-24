@@ -11,7 +11,7 @@ class ArmyEmergency extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(18),
       ),
       elevation: 10,
       child: InkWell(
@@ -20,7 +20,7 @@ class ArmyEmergency extends StatelessWidget {
           //width: MediaQuery.of(context).size.width,
           width: 165,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(18),
               gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -62,7 +62,7 @@ class ArmyEmergency extends StatelessWidget {
                 width: 80,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(18),
                 ),
                 child: Center(
                   child: Text(
