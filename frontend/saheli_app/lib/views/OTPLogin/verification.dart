@@ -1,41 +1,34 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:pinput/pinput.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../services/auth/fireDb.dart';
 import '../../services/localDb/localDb.dart';
+import '../../widgets/bottomNavBar.dart';
 
-class VerifyScreen extends StatefulWidget {
+class VerifyScreen extends StatelessWidget {
   final String phoneNumber;
   final String verificationId;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
 
   VerifyScreen({required this.phoneNumber, required this.verificationId});
 
-  @override
-  State<VerifyScreen> createState() => _VerifyScreenState();
-}
-
-class _VerifyScreenState extends State<VerifyScreen> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-
   String smsCode = '';
-
-  final pinController = TextEditingController();
 
   Future<void> verifyOTP(BuildContext context) async {
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: widget.verificationId,
+        verificationId: verificationId,
         smsCode: smsCode,
       );
       await FirebaseAuth.instance.signInWithCredential(credential).then((user) async {
         // Authentication successful, handle the user or token retrieval here
         await storeToken('JWT_TOKEN', 'YOUR_SECRET_TOKEN');
         UserCredential userCredential = await _auth.signInWithCredential(credential);
-
-
         final User? user = userCredential.user;
         print(user);
 
@@ -74,90 +67,76 @@ class _VerifyScreenState extends State<VerifyScreen> {
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    pinController.dispose();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Verify OTP'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(hintText: 'Enter OTP'),
+            onChanged: (value) {
+              smsCode = value;
+            },
+          ),
+          SizedBox(height: 16.0),
+          ElevatedButton(
+            onPressed: () {
+              verifyOTP(context);
+            },
+            child: Text('Verify OTP'),
+          )
+        ],
+      ),
+    );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 56,
-      textStyle: GoogleFonts.outfit(fontSize: 20, fontWeight: FontWeight.w600),
-      decoration: BoxDecoration(
-        border: Border.all(),
-        borderRadius: BorderRadius.circular(20),
-      ),
-    );
+  void createUser(BuildContext context) async {
+    String name = _nameController.text.trim();
+    String email = _emailController.text.trim();
+    String gender = _genderController.text.trim();
+    String age = _ageController.text.trim();
 
-    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-      border: Border.all(color: const Color(0xffF55442)),
-      borderRadius: BorderRadius.circular(20),
-    );
+    if (name.isNotEmpty && email.isNotEmpty && gender.isNotEmpty && age.isNotEmpty) {
+      // Get the current user
+      User? user = FirebaseAuth.instance.currentUser;
 
-    final submittedPinTheme = defaultPinTheme.copyWith(
-      decoration: defaultPinTheme.decoration!.copyWith(
-        color: const Color(0xffFEECEB),
-      ),
-    );
+      if (user != null) {
+        // Update user profile with name and email
+        await user.updateDisplayName(name);
+        await user.updateEmail(email);
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.tertiary,
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Verification', style: GoogleFonts.outfit(fontSize: 24, fontWeight: FontWeight.bold),),
-            const SizedBox(height: 10,),
-            Text('Enter the code sent to your number \n ${widget.phoneNumber}', textAlign: TextAlign.center, style: GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.w300),),
-            const SizedBox(height: 30,),
-            Pinput(
-              length: 6,
-              defaultPinTheme: defaultPinTheme,
-              focusedPinTheme: focusedPinTheme,
-              submittedPinTheme: submittedPinTheme,
-              androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
-              controller: pinController,
-              validator: (s) {
-                verifyOTP(context);
-                return null;
-              },
-              pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-              showCursor: true,
-              onCompleted: (pin) {
-                smsCode = pin;
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+        // Create user document in Firestore
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'name': name,
+          'email': email,
+          'gender': gender,
+          'age': age,
+          // Add other fields as needed
+        });
 
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: Text('Verify OTP'),
-    //   ),
-    //   body: Column(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     children: <Widget>[
-    //       TextField(
-    //         decoration: InputDecoration(hintText: 'Enter OTP'),
-    //         onChanged: (value) {
-    //           smsCode = value;
-    //         },
-    //       ),
-    //       SizedBox(height: 16.0),
-    //       ElevatedButton(
-    //         onPressed: () {
-    //           verifyOTP(context);
-    //         },
-    //         child: Text('Verify OTP'),
-    //       )
-    //     ],
-    //   ),
-    // );
+        // Save user data locally
+        await LocalDb.saveName(name);
+        await LocalDb.saveEmail(email);
+        await LocalDb.saveGender(gender);
+        await LocalDb.saveAge(age);
+
+        // Navigate to the next screen
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => BottomNavBar()),
+        );
+
+        Fluttertoast.showToast(msg: 'User created successfully');
+      } else {
+        // User not found, show error message
+        Fluttertoast.showToast(msg: 'User not found');
+      }
+    } else {
+      // Show error message if any field is empty
+      Fluttertoast.showToast(msg: 'Please fill all fields');
+    }
   }
 }

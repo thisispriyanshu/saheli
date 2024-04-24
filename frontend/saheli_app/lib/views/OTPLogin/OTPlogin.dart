@@ -1,12 +1,17 @@
+
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:saheli_app/views/OTPLogin/verification.dart';
+import 'package:saheli_app/widgets/SOSStorage/AudioListScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
+import 'package:http/http.dart' as http;
 
+import '../../services/auth/fireDb.dart';
+import '../../services/localDb/localDb.dart';
 class PhoneAuth extends StatefulWidget {
   @override
   _PhoneAuthState createState() => _PhoneAuthState();
@@ -20,21 +25,17 @@ class _PhoneAuthState extends State<PhoneAuth> {
   String errorMessage = '';
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  String dialCode = '+91';
-
-  final countryPicker = const  FlCountryCodePicker();
-
   Future<void> verifyPhone() async {
     // pr.show();
     final PhoneCodeSent smsOTPSent = (String verId, [int? forceResendingToken]) {
-      verificationId = verId;
+      this.verificationId = verId;
       // pr.close();
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => VerifyScreen(
-            phoneNumber: phoneNo,
-            verificationId: verificationId,
+            phoneNumber: this.phoneNo,
+            verificationId: this.verificationId
           ),
         ),
       );
@@ -42,14 +43,13 @@ class _PhoneAuthState extends State<PhoneAuth> {
 
     try {
       await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNo,
+        phoneNumber: this.phoneNo,
         codeSent: smsOTPSent,
         timeout: const Duration(seconds: 30),
         verificationCompleted: (AuthCredential phoneAuthCredential) async {
           try {
 
           } catch (e) {
-            // Show error message if sign-in fails
             Fluttertoast.showToast(msg: 'Failed to Sign In');
           }
         },
@@ -113,79 +113,24 @@ class _PhoneAuthState extends State<PhoneAuth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.tertiary,
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      appBar: AppBar(
+        title: Text('Phone Authentication'),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Enter Phone Number', style: GoogleFonts.outfit(fontSize: 24, fontWeight: FontWeight.w500),),
-            SizedBox(height: 20,),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    final picked= await countryPicker.showPicker(context: context);
-                    dialCode = picked!.dialCode;
-                    setState(() {
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: Theme.of(context).colorScheme.primary, width: 1)
-                    ),
-                    child: Text(
-                      dialCode,
-                      style: GoogleFonts.outfit(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),),
-                  ),
-                ),
-                const SizedBox(width: 5,),
-                Expanded(
-                  child: TextField(
-                    style: GoogleFonts.outfit(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 18.0,
-                    ),
-                    keyboardType: TextInputType.number,
-                    textAlign: TextAlign.left,
-                    onChanged: (value) {
-                      phoneNo = dialCode+value;
-                    },
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                        BorderSide(color: Theme.of(context).colorScheme.primary),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide:
-                        BorderSide(color: Theme.of(context).colorScheme.primary),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+          children: <Widget>[
+            TextField(
+              decoration: InputDecoration(hintText: 'Phone Number'),
+              onChanged: (value) {
+                this.phoneNo = value;
+              },
             ),
-            const SizedBox(height: 20.0),
+            SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: verifyPhone,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Text(
-                  'Send OTP',
-                  style: GoogleFonts.outfit(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18),
-                ),
-              ),
+              child: Text('Send OTP'),
             )
           ],
         ),
