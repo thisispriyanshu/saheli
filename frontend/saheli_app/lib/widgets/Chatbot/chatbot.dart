@@ -16,6 +16,8 @@ class _ChatBotState extends State<ChatScreen> {
   Color clr1 = Colors.pinkAccent;
   final messageController = TextEditingController();
   List<Map> messages = [];
+  bool isChatLoaded = false;
+  bool progressBar = false;
 
   Future<void> getResponse(String userInput) async {
     setState(() {
@@ -41,6 +43,7 @@ class _ChatBotState extends State<ChatScreen> {
           '\n\n', ''); // Split text by double newline to separate steps
       textResponse = textResponse.replaceAll('*', '');
       setState(() {
+        isChatLoaded = true;
         messages.removeAt(0);
         messages.insert(0, {"data": 0, "message": textResponse});
       });
@@ -50,50 +53,57 @@ class _ChatBotState extends State<ChatScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isChatLoaded = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   title: Text(
-      //     "Kiran",
-      //     style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 24),
-      //   ),
-      //   backgroundColor: Theme.of(context).colorScheme.tertiary,
-      // ),
-      body: Stack(
+      appBar: AppBar(
+        title: Text(
+          "Sakha",
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 24),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+      ),
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
+      body: isChatLoaded ? Stack(
         fit: StackFit.expand,
         children: [
-          Expanded(
-              child: Image.asset(
-            'lib/assets/images/KiranBg.png',
-            fit: BoxFit.cover,
-            color: Colors.black.withOpacity(0.2),
-            colorBlendMode: BlendMode.multiply,
-          )),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Sakha AI',
-                style: GoogleFonts.outfit(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'Your personalised chat bot \n'
-                'ready to help you anytime',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.outfit(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500),
-              ),
-              SizedBox(
-                height: 30,
-              )
-            ],
-          ),
+          // Expanded(
+          //     child: Image.asset(
+          //   'lib/assets/images/KiranBg.png',
+          //   fit: BoxFit.cover,
+          //   color: Colors.black.withOpacity(0.2),
+          //   colorBlendMode: BlendMode.multiply,
+          // )),
+          // Column(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Text(
+          //       'Sakha AI',
+          //       style: GoogleFonts.outfit(
+          //           color: Theme.of(context).colorScheme.primary,
+          //           fontSize: 24,
+          //           fontWeight: FontWeight.bold),
+          //     ),
+          //     Text(
+          //       'Your personalised chat bot \n'
+          //       'ready to help you anytime',
+          //       textAlign: TextAlign.center,
+          //       style: GoogleFonts.outfit(
+          //           color: Theme.of(context).colorScheme.primary,
+          //           fontSize: 16,
+          //           fontWeight: FontWeight.w500),
+          //     ),
+          //     SizedBox(
+          //       height: 30,
+          //     )
+          //   ],
+          // ),
           Padding(
             padding: const EdgeInsets.only(
                 left: 8.0, right: 8.0, bottom: 10, top: 0.0),
@@ -122,7 +132,11 @@ class _ChatBotState extends State<ChatScreen> {
                         decoration: InputDecoration(
                             hintText: "Ask anything...",
                             hintStyle: GoogleFonts.outfit(),
-                            border: InputBorder.none,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,
@@ -148,7 +162,22 @@ class _ChatBotState extends State<ChatScreen> {
             ),
           ),
         ],
-      ),
+      ) : Center(
+        child: progressBar ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(),
+            SizedBox(height: 10,),
+            Text('Chat is loading', style: GoogleFonts.outfit(fontSize: 16),)
+          ],
+        ) : ElevatedButton(
+            onPressed: () async {
+              setState(() {
+                progressBar = true;
+              });
+          getResponse('hello');
+        }, child: Text('Load Chat', style: GoogleFonts.outfit(color: Colors.white, fontSize: 20),)),
+      ) ,
     );
   }
 

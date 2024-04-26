@@ -372,11 +372,11 @@ class _SafeRoutesState extends State<SafeRoutes> {
             left: 15,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Theme.of(context).colorScheme.secondary,
-                  border: Border.all(
-                      color: Theme.of(context).colorScheme.primary, width: 1)),
+              // decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(30),
+              //     color: Theme.of(context).colorScheme.secondary,
+              //     border: Border.all(
+              //         color: Theme.of(context).colorScheme.primary, width: 1)),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -389,7 +389,19 @@ class _SafeRoutesState extends State<SafeRoutes> {
                           hintText: "Search start location",
                           hintStyle: GoogleFonts.outfit(),
                           focusColor: Colors.white,
+                          fillColor: Theme.of(context).colorScheme.secondary,
+                          filled: true,
                           floatingLabelBehavior: FloatingLabelBehavior.never,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary),
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           prefixIcon: const Icon(Icons.add_location_alt),
                           suffixIcon: IconButton(
                             onPressed: () {
@@ -428,11 +440,11 @@ class _SafeRoutesState extends State<SafeRoutes> {
             left: 15,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Theme.of(context).colorScheme.secondary,
-                  border: Border.all(
-                      color: Theme.of(context).colorScheme.primary, width: 1)),
+              // decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(30),
+              //     color: Theme.of(context).colorScheme.secondary,
+              //     border: Border.all(
+              //         color: Theme.of(context).colorScheme.primary, width: 1)),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -464,6 +476,18 @@ class _SafeRoutesState extends State<SafeRoutes> {
                           focusColor: Colors.white,
 
                           floatingLabelBehavior: FloatingLabelBehavior.never,
+                          fillColor: Theme.of(context).colorScheme.secondary,
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary),
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           prefixIcon: const Icon(Icons.map),
                           suffixIcon: IconButton(
                             onPressed: () {
