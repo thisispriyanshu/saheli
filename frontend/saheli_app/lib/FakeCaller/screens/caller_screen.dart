@@ -7,7 +7,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import '../../db/databases.dart';
 import '../../model/PhoneContact.dart';
 
