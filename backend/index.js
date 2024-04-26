@@ -9,6 +9,7 @@ const axios = require('axios');
 
 // Initialize Express
 const app = express();
+app.use(express.json())
 const PORT = process.env.PORT || 8080;
 
 // // Use user routes
@@ -22,7 +23,7 @@ const API_KEY = process.env.GOOGLE_MAPS_API_KEY;
 app.post('/safest-route', async (req, res) => {
   try {
     // Get source and destination coordinates from the request
-    const { source, destination, mode } = req.query;
+    const { source, destination, mode } = req.body;
   
       // Get Routes from source to destination
       const response = await axios.get(`https://maps.googleapis.com/maps/api/directions/json`, {
