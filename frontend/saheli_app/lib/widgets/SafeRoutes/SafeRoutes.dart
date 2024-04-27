@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -12,6 +14,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import '../../api/safeways.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
 class SafeRoutes extends StatefulWidget {
   const SafeRoutes({super.key});
@@ -20,26 +25,37 @@ class SafeRoutes extends StatefulWidget {
 }
 
 class _SafeRoutesState extends State<SafeRoutes> {
+  bool flag = false;
   bool _isLoading = false;
+  String _selectedValue = '';
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
   final Set<Marker> _markers = {};
+  double previousAcceleration = 0.0;
+  late String _selectedTravelMethod='Walking';
+  late String _selectedStart='Select Start Location';
+  late String _selectedEnd='Select End Location';
+  double threshold = 5.0; // Adjust this threshold as needed
+  final sensorController = Get.put(SensorController());
   Future<BitmapDescriptor> getCustomMarkerIcon(String assetName) async {
     final ByteData byteData = await rootBundle.load(assetName);
     final Uint8List imageData = byteData.buffer.asUint8List();
     return BitmapDescriptor.fromBytes(imageData);
   }
-  final mapsApiKey = "AIzaSyBAC_OF_lWBfFr_Zjs-mO0Kwyr4f_faiMU";
+
+  final mapsApiKey = FlutterConfig.get('MAPS_API_KEY');
   late GoogleMapController mapController;
   var _controller = TextEditingController();
   var _controller2 = TextEditingController();
+  late String drivingMode;
   var uuid = new Uuid();
   String _sessionToken = "";
   List<dynamic> _placeList = [];
+  List<dynamic> _placeList2 = [];
 
   LatLng _currentLocation = const LatLng(28.59351217640707, 77.24437040849519);
   List<LatLng> polyLineCoordinates = [];
-  final LatLng destLocation =
+  LatLng destLocation =
       const LatLng(28.656948267717762, 77.24093718110075);
 
   //
@@ -79,7 +95,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
 
   void getPolyPoints() async {
     List? steps =
-        await makeSafeRouteRequest(_currentLocation, destLocation, "driving");
+        await makeSafeRouteRequest(_currentLocation, destLocation, drivingMode);
     if (steps!.isNotEmpty) {
       for (var step in steps) {
         polyLineCoordinates.add(
@@ -96,6 +112,22 @@ class _SafeRoutesState extends State<SafeRoutes> {
   @override
   void initState() {
     // _getCurrentLocation();
+    super.initState();
+
+    accelerometerEvents.listen((AccelerometerEvent event) {
+      double acceleration = event.y; // You can use other axes as needed
+      sensorController.currentAcceleration.value = acceleration;
+      if ((previousAcceleration - acceleration) >= threshold) {
+        // Harsh braking detected, take action here
+        print('Harsh braking detected!');
+        print('Please drive slowly!');
+        sensorController.isHarshBraking.value = true;
+        _showHarshBrakingDialog(); // Show dialog box when harsh braking is detected
+      } else {
+        sensorController.isHarshBraking.value = false;
+      }
+      previousAcceleration = acceleration;
+    });
     getPolyPoints();
     _controller.addListener(() {
       _onChanged();
@@ -104,13 +136,15 @@ class _SafeRoutesState extends State<SafeRoutes> {
       _onChanged2();
     });
     //setCustomMarker();
-    super.initState();
   }
 
   @override
   void dispose() {
     _locationController.dispose();
     _destinationController.dispose();
+
+    accelerometerEvents.drain();
+
     super.dispose();
   }
 
@@ -120,9 +154,45 @@ class _SafeRoutesState extends State<SafeRoutes> {
       _markers.add(Marker(
         markerId: MarkerId(position.toString()),
         position: position,
-          icon: await getCustomMarkerIcon('assets/human_marker.jpg'),
+        icon: await getCustomMarkerIcon('assets/human_marker.jpg'),
       ));
     });
+  }
+
+  void _showHarshBrakingDialog() {
+    if (flag) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Harsh Braking Detected'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning,
+                  color: Colors.red,
+                  size: 48,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Please drive slowly!',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   _onChanged() {
@@ -131,7 +201,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
         _sessionToken = uuid.v4();
       });
     }
-    getSuggestion(_controller.text);
+    getSuggestion(_controller.text, true);
   }
 
   _onChanged2() {
@@ -140,11 +210,11 @@ class _SafeRoutesState extends State<SafeRoutes> {
         _sessionToken = uuid.v4();
       });
     }
-    getSuggestion(_controller2.text);
+    getSuggestion(_controller2.text, false);
   }
 
-  void getSuggestion(String input) async {
-    String kPLACES_API_KEY = "AIzaSyBAC_OF_lWBfFr_Zjs-mO0Kwyr4f_faiMU";
+  void getSuggestion(String input, bool isDest) async {
+    String kPLACES_API_KEY = FlutterConfig.get('MAPS_API_KEY');
     String type = '(regions)';
     String baseURL =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
@@ -154,7 +224,19 @@ class _SafeRoutesState extends State<SafeRoutes> {
     if (response.statusCode == 200) {
       setState(() {
         // String textResponse =jsonDecode(response.body);
-        _placeList = jsonDecode(response.body)['predictions'];
+        if(isDest){
+          _placeList2 = jsonDecode(response.body)['predictions'];
+        }else {
+          _placeList = jsonDecode(response.body)['predictions'];
+        }
+        // if(isDest){
+        //   if (_placeList['result'] != null &&
+        //       _placeList['result']['geometry'] != null &&
+        //       _placeList['result']['geometry']['location'] != null) {
+        //     double latitude = _placeList['result']['geometry']['location']['lat'];
+        //     double longitude = _placeList['result']['geometry']['location']['lng'];
+        //   }
+        // }
       });
     } else {
       throw Exception('Failed to load predictions');
@@ -292,126 +374,257 @@ class _SafeRoutesState extends State<SafeRoutes> {
               ),
             ),
           Positioned(
-            top: 10,
-            right: 15,
-            left: 15,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              // decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(30),
-              //     color: Theme.of(context).colorScheme.secondary,
-              //     border: Border.all(
-              //         color: Theme.of(context).colorScheme.primary, width: 1)),
-              child: Center(
+            top: 0,
+              right: 0,
+              left: 0,
+              child: Container(
+                padding: EdgeInsets.all(20),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: TextField(
-                        controller: _controller2,
-                        decoration: InputDecoration(
-                          hintText: "Search start location",
-                          hintStyle: GoogleFonts.outfit(),
-                          focusColor: Colors.white,
-                          fillColor: Theme.of(context).colorScheme.secondary,
-                          filled: true,
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary),
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          prefixIcon: const Icon(Icons.add_location_alt),
-                          suffixIcon: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.cancel),
-                          ),
+                  children: [
+                    TextField(
+                      controller: _controller2,
+                      decoration: InputDecoration(
+                        hintText: "Search start location",
+                        hintStyle: GoogleFonts.outfit(),
+                        focusColor: Colors.white,
+                        fillColor: Theme.of(context).colorScheme.secondary,
+                        filled: true,
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        prefixIcon: const Icon(Icons.add_location_alt),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            _controller2.clear();
+                          },
+                          icon: const Icon(Icons.cancel),
                         ),
                       ),
                     ),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: _placeList.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(_placeList[index]["description"]),
-                        );
-                      },
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 80,
-            right: 15,
-            left: 15,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              // decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(30),
-              //     color: Theme.of(context).colorScheme.secondary,
-              //     border: Border.all(
-              //         color: Theme.of(context).colorScheme.primary, width: 1)),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: TextField(
-                        controller: _controller,
-                        decoration: InputDecoration(
-                          hintText: "Search destination location",
-                          hintStyle: GoogleFonts.outfit(),
-                          focusColor: Colors.white,
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          fillColor: Theme.of(context).colorScheme.secondary,
-                          filled: true,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary),
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          prefixIcon: const Icon(Icons.map),
-                          suffixIcon: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.cancel),
-                          ),
+                    SizedBox(height: 3,),
+                    _placeList.isEmpty ? SizedBox() : Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                          color: Color(0xffE4F3EC)
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _placeList.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            onTap: () {
+                              // Set the selected item in the text field
+                              setState(() {
+                                _controller2.text =
+                                _placeList[index]["description"];
+                                _placeList.clear();
+                              });
+                            },
+                            title: Text(_placeList[index]["description"]),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 3,),
+                    Obx(
+                          () => Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Visibility(
+                              visible: sensorController.isHarshBraking.value,
+                              child: const Text(
+                                "Harsh Braking",
+                                style:
+                                TextStyle(fontSize: 22, color: Colors.red),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: _placeList.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(_placeList[index]["description"]),
-                        );
-                      },
-                    )
+                    SizedBox(height: 3,),
+                    TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        hintText: "Search destination location",
+                        hintStyle: GoogleFonts.outfit(),
+                        focusColor: Colors.white,
+
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        fillColor: Theme.of(context).colorScheme.secondary,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        prefixIcon: const Icon(Icons.map),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            _controller.clear();
+                          },
+                          icon: const Icon(Icons.cancel),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 3,),
+                    _placeList2.isEmpty ? SizedBox() : Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                        color: Color(0xffE4F3EC)
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _placeList2.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            onTap: () {
+                              // Set the selected item in the text field
+                              setState(() {
+                                _controller.text =
+                                _placeList2[index]["description"];
+                                _placeList.clear();
+                              });
+                            },
+                            title: Text(_placeList2[index]["description"]),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 8,),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2(
+                          style: GoogleFonts.outfit(color: Colors.black, fontSize: 16),
+                          value: _selectedTravelMethod,
+                          hint: Text("Select travel method"),
+                          items: <String>['Driving', 'Walking'].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          buttonStyleData: ButtonStyleData(
+                            padding: EdgeInsets.symmetric(horizontal: 3),
+                            width: 180,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              color: Color(0xffFEECEB),
+                            ),
+                            elevation: 2,
+                          ),
+                          iconStyleData: const IconStyleData(
+                            iconSize: 24,
+                            iconDisabledColor: Colors.black26,
+                            iconEnabledColor: Colors.black,
+                          ),
+                          dropdownStyleData: DropdownStyleData(
+                            maxHeight: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              color: Color(0xffFEECEB),
+                            ),
+                            scrollbarTheme: ScrollbarThemeData(
+                              radius: const Radius.circular(40),
+                              thickness: MaterialStateProperty.all(6),
+                              thumbVisibility:
+                              MaterialStateProperty.all(true),
+                            ),
+                            elevation: 8,
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            height: 40,
+                            padding: EdgeInsets.only(left: 14, right: 14),
+                          ),
+                          onChanged: (String? newValue) {
+                            if (newValue == 'Driving') {
+                              if (!flag) {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Turn on accident prevention?"),
+                                        content: Text(
+                                            "Accident prevention detects and warns about harsh brakes, and thus keeps you safe during driving"),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                flag = true;
+                                                _selectedTravelMethod='Driving';
+                                                // ScaffoldMessenger.of(context)
+                                                //     .showSnackBar(SnackBar(
+                                                //     content: Text(
+                                                //         'Accident prevention turned on')));
+                                              });
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("Yes"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              // Cancel action
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("Cancel"),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content:
+                                    Text('Already turned prevention on!')));
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      'Switched to walking, Turned off prevention')));
+                              setState(() {
+                                flag = false;
+                                _selectedTravelMethod='Walking';
+                                // ScaffoldMessenger.of(context)
+                                //     .showSnackBar(SnackBar(
+                                //     content: Text(
+                                //         'Accident prevention turned on')));
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ),
-          ),
+              )),
         ]));
   }
 }
+
+class SensorController extends GetxController {
+  var currentAcceleration = 0.0.obs;
+  RxBool isHarshBraking = false.obs;
+}
+
 // class MyHomePage extends StatefulWidget {
 //   MyHomePage({Key key, this.title}) : super(key: key);
 //

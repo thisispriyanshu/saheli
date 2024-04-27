@@ -57,7 +57,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
             )
           : null, // Render FAB only for the Search tab (index 1)
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       backgroundColor: Theme.of(context).bottomAppBarTheme.color,
       key: _scaffoldKey,
       // body: _pages[_selectedIndex],
