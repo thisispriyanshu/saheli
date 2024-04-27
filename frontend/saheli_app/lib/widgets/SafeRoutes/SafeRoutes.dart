@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
@@ -41,13 +43,15 @@ class _SafeRoutesState extends State<SafeRoutes> {
     return BitmapDescriptor.fromBytes(imageData);
   }
 
-  final mapsApiKey = "AIzaSyBAC_OF_lWBfFr_Zjs-mO0Kwyr4f_faiMU";
+  final mapsApiKey = FlutterConfig.get('MAPS_API_KEY');
   late GoogleMapController mapController;
   var _controller = TextEditingController();
   var _controller2 = TextEditingController();
   late String drivingMode;
   var uuid = new Uuid();
   String _sessionToken = "";
+  List<dynamic> _placeList = [];
+  List<dynamic> _placeList2 = [];
 
   LatLng _currentLocation = const LatLng(28.59351217640707, 77.24437040849519);
   List<LatLng> polyLineCoordinates = [];
@@ -197,7 +201,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
         _sessionToken = uuid.v4();
       });
     }
-    getSuggestion(_controller.text, false);
+    getSuggestion(_controller.text, true);
   }
 
   _onChanged2() {
@@ -206,11 +210,11 @@ class _SafeRoutesState extends State<SafeRoutes> {
         _sessionToken = uuid.v4();
       });
     }
-    getSuggestion(_controller2.text, true);
+    getSuggestion(_controller2.text, false);
   }
 
   void getSuggestion(String input, bool isDest) async {
-    String kPLACES_API_KEY = "AIzaSyBAC_OF_lWBfFr_Zjs-mO0Kwyr4f_faiMU";
+    String kPLACES_API_KEY = FlutterConfig.get('MAPS_API_KEY');
     String type = '(regions)';
     String baseURL =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
@@ -220,16 +224,19 @@ class _SafeRoutesState extends State<SafeRoutes> {
     if (response.statusCode == 200) {
       setState(() {
         // String textResponse =jsonDecode(response.body);
-        _placeList = jsonDecode(response.body)['predictions'];
-        _placeList = jsonDecode(response.body)['predictions'];
         if(isDest){
-          if (_placeList['result'] != null &&
-              _placeList['result']['geometry'] != null &&
-              _placeList['result']['geometry']['location'] != null) {
-            double latitude = _placeList['result']['geometry']['location']['lat'];
-            double longitude = _placeList['result']['geometry']['location']['lng'];
-          }
+          _placeList2 = jsonDecode(response.body)['predictions'];
+        }else {
+          _placeList = jsonDecode(response.body)['predictions'];
         }
+        // if(isDest){
+        //   if (_placeList['result'] != null &&
+        //       _placeList['result']['geometry'] != null &&
+        //       _placeList['result']['geometry']['location'] != null) {
+        //     double latitude = _placeList['result']['geometry']['location']['lat'];
+        //     double longitude = _placeList['result']['geometry']['location']['lng'];
+        //   }
+        // }
       });
     } else {
       throw Exception('Failed to load predictions');
@@ -367,90 +374,69 @@ class _SafeRoutesState extends State<SafeRoutes> {
               ),
             ),
           Positioned(
-            top: 10,
-            right: 15,
-            left: 15,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              // decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(30),
-              //     color: Theme.of(context).colorScheme.secondary,
-              //     border: Border.all(
-              //         color: Theme.of(context).colorScheme.primary, width: 1)),
-              child: Center(
+            top: 0,
+              right: 0,
+              left: 0,
+              child: Container(
+                padding: EdgeInsets.all(20),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: TextField(
-                        controller: _controller2,
-                        decoration: InputDecoration(
-                          hintText: "Search start location",
-                          hintStyle: GoogleFonts.outfit(),
-                          focusColor: Colors.white,
-                          fillColor: Theme.of(context).colorScheme.secondary,
-                          filled: true,
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary),
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          prefixIcon: const Icon(Icons.add_location_alt),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              _controller2.clear();
-                            },
-                            icon: const Icon(Icons.cancel),
-                          ),
+                  children: [
+                    TextField(
+                      controller: _controller2,
+                      decoration: InputDecoration(
+                        hintText: "Search start location",
+                        hintStyle: GoogleFonts.outfit(),
+                        focusColor: Colors.white,
+                        fillColor: Theme.of(context).colorScheme.secondary,
+                        filled: true,
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        prefixIcon: const Icon(Icons.add_location_alt),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            _controller2.clear();
+                          },
+                          icon: const Icon(Icons.cancel),
                         ),
                       ),
                     ),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: _placeList.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () {
-                            // Set the selected item in the text field
-                            setState(() {
-                              _controller2.text =
-                                  _placeList[index]["description"];
-                            });
-                          },
-                          title: Text(_placeList[index]["description"]),
-                        );
-                      },
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 80,
-            right: 15,
-            left: 15,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              // decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(30),
-              //     color: Theme.of(context).colorScheme.secondary,
-              //     border: Border.all(
-              //         color: Theme.of(context).colorScheme.primary, width: 1)),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
+                    SizedBox(height: 3,),
+                    _placeList.isEmpty ? SizedBox() : Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                          color: Color(0xffE4F3EC)
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _placeList.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            onTap: () {
+                              // Set the selected item in the text field
+                              setState(() {
+                                _controller2.text =
+                                _placeList[index]["description"];
+                                _placeList.clear();
+                              });
+                            },
+                            title: Text(_placeList[index]["description"]),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 3,),
                     Obx(
-                      () => Center(
+                          () => Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -459,177 +445,177 @@ class _SafeRoutesState extends State<SafeRoutes> {
                               child: const Text(
                                 "Harsh Braking",
                                 style:
-                                    TextStyle(fontSize: 22, color: Colors.red),
+                                TextStyle(fontSize: 22, color: Colors.red),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: TextField(
-                        controller: _controller,
-                        decoration: InputDecoration(
-                          hintText: "Search destination location",
-                          hintStyle: GoogleFonts.outfit(),
-                          focusColor: Colors.white,
+                    SizedBox(height: 3,),
+                    TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        hintText: "Search destination location",
+                        hintStyle: GoogleFonts.outfit(),
+                        focusColor: Colors.white,
 
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          fillColor: Theme.of(context).colorScheme.secondary,
-                          filled: true,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary),
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          prefixIcon: const Icon(Icons.map),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              _controller.clear();
-                            },
-                            icon: const Icon(Icons.cancel),
-                          ),
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        fillColor: Theme.of(context).colorScheme.secondary,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        prefixIcon: const Icon(Icons.map),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            _controller.clear();
+                          },
+                          icon: const Icon(Icons.cancel),
                         ),
                       ),
                     ),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: _placeList.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () {
-                            // Set the selected item in the text field
-                            setState(() {
-                              _controller.text =
-                                  _placeList[index]["description"];
-                            });
-                          },
-                          title: Text(_placeList[index]["description"]),
-                        );
-                      },
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 150,
-            right: 105,
-            left: 15,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Theme.of(context).colorScheme.secondary,
-                  border: Border.all(
-                      color: Theme.of(context).colorScheme.primary, width: 1)),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    DropdownButton<String>(
-                      value: _selectedTravelMethod,
-                      hint: Text("Select travel method"),
-                      items: <String>['Driving', 'Walking'].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        if (newValue == 'Driving') {
-                          if (!flag) {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text("Turn on accident prevention?"),
-                                    content: Text(
-                                        "Accident prevention detects and warns about harsh brakes, and thus keeps you safe during driving"),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            flag = true;
-                                            _selectedTravelMethod='Driving';
-                                            // ScaffoldMessenger.of(context)
-                                            //     .showSnackBar(SnackBar(
-                                            //     content: Text(
-                                            //         'Accident prevention turned on')));
-                                          });
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Yes"),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          // Cancel action
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Cancel"),
-                                      ),
-                                    ],
-                                  );
-                                });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text('Already turned prevention on!')));
-                          }
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                  'Switched to walking, Turned off prevention')));
-                          setState(() {
-                            flag = false;
-                            _selectedTravelMethod='Walking';
-                            // ScaffoldMessenger.of(context)
-                            //     .showSnackBar(SnackBar(
-                            //     content: Text(
-                            //         'Accident prevention turned on')));
-                          });
-                        }
-                      },
+                    SizedBox(height: 3,),
+                    _placeList2.isEmpty ? SizedBox() : Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                        color: Color(0xffE4F3EC)
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _placeList2.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            onTap: () {
+                              // Set the selected item in the text field
+                              setState(() {
+                                _controller.text =
+                                _placeList2[index]["description"];
+                                _placeList.clear();
+                              });
+                            },
+                            title: Text(_placeList2[index]["description"]),
+                          );
+                        },
+                      ),
                     ),
-                    // Align(
-                    //   alignment: Alignment.topCenter,
-                    //   child: DropdownButton<String>(
-                    //     value: _selectedValue,
-                    //     icon: const Icon(Icons.keyboard_arrow_down),
-                    //     iconSize: 24,
-                    //     elevation: 16,
-                    //     style: GoogleFonts.outfit(),
-                    //     underline: Container(
-                    //       height: 2,
-                    //       color: Theme.of(context).colorScheme.primary,
-                    //     ),
-                    //     onChanged: (String? newValue) {
-                    //
-                    //     },
-                    //       items: <String>[
-                    //         'driving',
-                    //         'walking',
-                    //       ].map((String value) {
-                    //         return DropdownMenuItem<String>(
-                    //           value: value,
-                    //           child: Text(value),
-                    //         );
-                    //       }).toList(),
-                    //   ),
-                    // ),
+                    SizedBox(height: 8,),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                          color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2(
+                          style: GoogleFonts.outfit(color: Colors.black, fontSize: 16),
+                          value: _selectedTravelMethod,
+                          hint: Text("Select travel method"),
+                          items: <String>['Driving', 'Walking'].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          buttonStyleData: ButtonStyleData(
+                            padding: EdgeInsets.symmetric(horizontal: 3),
+                            width: 180,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              color: Color(0xffFEECEB),
+                            ),
+                            elevation: 2,
+                          ),
+                          iconStyleData: const IconStyleData(
+                            iconSize: 24,
+                            iconDisabledColor: Colors.black26,
+                            iconEnabledColor: Colors.black,
+                          ),
+                          dropdownStyleData: DropdownStyleData(
+                            maxHeight: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              color: Color(0xffFEECEB),
+                            ),
+                            scrollbarTheme: ScrollbarThemeData(
+                              radius: const Radius.circular(40),
+                              thickness: MaterialStateProperty.all(6),
+                              thumbVisibility:
+                              MaterialStateProperty.all(true),
+                            ),
+                            elevation: 8,
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            height: 40,
+                            padding: EdgeInsets.only(left: 14, right: 14),
+                          ),
+                          onChanged: (String? newValue) {
+                            if (newValue == 'Driving') {
+                              if (!flag) {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Turn on accident prevention?"),
+                                        content: Text(
+                                            "Accident prevention detects and warns about harsh brakes, and thus keeps you safe during driving"),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                flag = true;
+                                                _selectedTravelMethod='Driving';
+                                                // ScaffoldMessenger.of(context)
+                                                //     .showSnackBar(SnackBar(
+                                                //     content: Text(
+                                                //         'Accident prevention turned on')));
+                                              });
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("Yes"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              // Cancel action
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("Cancel"),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content:
+                                    Text('Already turned prevention on!')));
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      'Switched to walking, Turned off prevention')));
+                              setState(() {
+                                flag = false;
+                                _selectedTravelMethod='Walking';
+                                // ScaffoldMessenger.of(context)
+                                //     .showSnackBar(SnackBar(
+                                //     content: Text(
+                                //         'Accident prevention turned on')));
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ),
-          ),
+              )),
         ]));
   }
 }

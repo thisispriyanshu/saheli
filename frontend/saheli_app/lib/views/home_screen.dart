@@ -54,7 +54,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           "Home",
           style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 24),

@@ -81,7 +81,6 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.tertiary,
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           "Profile",
           style: GoogleFonts.outfit(
@@ -95,7 +94,13 @@ class _ProfileState extends State<Profile> {
             const SizedBox(height: 25,),
             ClipRRect(
               borderRadius: BorderRadius.circular(100),
-              child: CachedNetworkImage(
+              child: photoUrl.isEmpty ? Container(
+                height: 96,
+                width: 96,
+                decoration: const BoxDecoration(
+                    color: Color(0xffE6F4FD)
+                ),)
+                  : CachedNetworkImage(
                 imageUrl: photoUrl,
                 fit: BoxFit.cover,
                 height: 96,
@@ -194,7 +199,8 @@ class _ProfileState extends State<Profile> {
                               type: PageTransitionType.leftToRight));
                     }),
               ],
-            )
+            ),
+            SizedBox(height: 50,)
           ],
         ),
       ),
@@ -202,7 +208,7 @@ class _ProfileState extends State<Profile> {
   }
 
   void openSharePanel() {
-    String linkToShare = "https://sakhi-nextjs-website.vercel.app";
+    String linkToShare = "https://saheli-app.netlify.app/";
     Share.share(linkToShare);
   }
 

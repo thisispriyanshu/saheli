@@ -63,7 +63,6 @@ class _AddContactsPageState extends State<AddContactsPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.tertiary,
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           "Contacts",
           style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 24),
