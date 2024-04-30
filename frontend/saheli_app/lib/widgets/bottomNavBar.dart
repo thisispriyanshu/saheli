@@ -10,6 +10,7 @@ import '../api/safeways.dart';
 import 'Chatbot/chatbot.dart';
 import 'Contacts/new_contacts.dart';
 import 'Profile.dart';
+import 'SafeRoutes/BrakeDetection.dart';
 import 'SafeRoutes/SafeRoutes.dart';
 
 class BottomNavBar extends StatefulWidget {
