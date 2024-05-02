@@ -304,10 +304,10 @@ class _SafeHomeState extends State<CallerScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-                Navigator.pop(context);
-                Navigator.pop(context);
+                Navigator.popAndPushNamed(context, '/HomeScreen',
+                    arguments: {
+
+                    });
               },
               child: const Icon(
                 IconData(0xe127, fontFamily: 'MaterialIcons'),

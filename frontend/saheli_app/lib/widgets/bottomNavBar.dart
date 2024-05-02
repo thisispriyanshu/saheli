@@ -26,10 +26,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   final List<Widget> navBarList = [
     HomePage(),
-    const AddContactsPage(),
-    const ChatScreen(),
-    const SafeRoutes(),
-    const Profile(),
+    AddContactsPage(),
+    ChatScreen(),
+    SafeRoutes(),
+    Profile(),
   ];
 
   @override

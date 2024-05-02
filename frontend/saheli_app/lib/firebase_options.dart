@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,21 +43,43 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyA2GhrpFgTp9OTLDAOrhwXpMAPYwoXw-Bc',
+    appId: '1:556589186491:web:188592933a43a2087b189e',
+    messagingSenderId: '556589186491',
+    projectId: 'saheli-v2',
+    authDomain: 'saheli-v2.firebaseapp.com',
+    storageBucket: 'saheli-v2.appspot.com',
+    measurementId: 'G-RPN2LV746V',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBxwuQ-dLh_A7qMFwXu6Vq0NVbuDX0rgQE',
-    appId: '1:839782813332:android:5bd5c7509908e987e7ae81',
-    messagingSenderId: '839782813332',
-    projectId: 'able-current-375514',
-    storageBucket: 'able-current-375514.appspot.com',
+    apiKey: 'AIzaSyC4W_1I3rooA_x4zLmfzd_Uo6DWQ2NnBgs',
+    appId: '1:556589186491:android:64e96ebff313df657b189e',
+    messagingSenderId: '556589186491',
+    projectId: 'saheli-v2',
+    storageBucket: 'saheli-v2.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC58K4lrj4kYVobnsTn-7UwFKT87xZPY44',
-    appId: '1:839782813332:ios:449e706b1caabe78e7ae81',
-    messagingSenderId: '839782813332',
-    projectId: 'able-current-375514',
-    storageBucket: 'able-current-375514.appspot.com',
-    iosClientId: '839782813332-e8kjfiurqo0ferf4i3ddthjmtc658iko.apps.googleusercontent.com',
+    apiKey: 'AIzaSyCTr7Bg5qm9XO2V9LDFFKS-PI3Wqf5TDbw',
+    appId: '1:556589186491:ios:c14b113207f9a5367b189e',
+    messagingSenderId: '556589186491',
+    projectId: 'saheli-v2',
+    storageBucket: 'saheli-v2.appspot.com',
+    androidClientId: '556589186491-g5c8vr2taas988u0cujj1nrhccj499gb.apps.googleusercontent.com',
+    iosClientId: '556589186491-tac4p313l6vla8mioj2p2phbttnbgqek.apps.googleusercontent.com',
     iosBundleId: 'com.example.saheliApp',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyCTr7Bg5qm9XO2V9LDFFKS-PI3Wqf5TDbw',
+    appId: '1:556589186491:ios:9363b477186db3467b189e',
+    messagingSenderId: '556589186491',
+    projectId: 'saheli-v2',
+    storageBucket: 'saheli-v2.appspot.com',
+    androidClientId: '556589186491-g5c8vr2taas988u0cujj1nrhccj499gb.apps.googleusercontent.com',
+    iosClientId: '556589186491-p53q4rdp4oqlh7bsm7j89o882mt34tj4.apps.googleusercontent.com',
+    iosBundleId: 'com.example.saheliApp.RunnerTests',
   );
 }

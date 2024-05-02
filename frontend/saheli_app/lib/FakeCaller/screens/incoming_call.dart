@@ -2,19 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../utilities/bottom_button.dart';
 
 class IncomingCall extends StatefulWidget {
   final String name;
   final String number;
   IncomingCall({required this.name, required this.number});
-
   @override
   State<IncomingCall> createState() => _IncomingCallState();
 }
 
 class _IncomingCallState extends State<IncomingCall> {
+  @override
+  void initState(){
+    super.initState();
+  }
   @override
   void dispose() {
     FlutterRingtonePlayer.stop();
@@ -23,6 +25,7 @@ class _IncomingCallState extends State<IncomingCall> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterRingtonePlayer.play();
     return Material(
       type: MaterialType.transparency,
       child: Container(
