@@ -19,4 +19,6 @@ Saheli Backend is the backend server for the Saheli application, built using Nod
    ```
 5. Now in terminal we can run npm start to start the server on mentioned port in .env otherwise it will  by default run in PORT:8080:<br>
    ``` npm start ```
+
+That's it! Your Saheli Backend server is now up and running.
    
