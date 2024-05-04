@@ -1,6 +1,8 @@
-# Saheli Backend
+# Saheli Backend (Node.js)
 
-## How to run Saheli Backend(NodeJS) :
+Saheli Backend is the backend server for the Saheli application, built using Node.js.
+
+## How to Run Saheli Backend
 
 1. Clone the repository:<br>
     ``` git clone https://github.com/thisispriyanshu/saheli.git ```
@@ -17,3 +19,4 @@
    ```
 5. Now in terminal we can run npm start to start the server on mentioned port in .env otherwise it will  by default run in PORT:8080:<br>
    ``` npm start ```
+   
