@@ -30,24 +30,27 @@ This starts the development server and opens the application in your default bro
 
 ### Project Structure
 
+```
 Saheli/
-  ├── components/     # Reusable UI components
-  │   ├── Demo.tsx
-  │   ├── Feature.tsx
-  │   ├── loading-dots.tsx
-  │   ├── modal.tsx
-  │   ├── UserReviews.tsx
-  │   └── video-modal.tsx  
-  ├── pages/          # Application pages
-  │   ├── index.jsx   
-  │   ├── _app.jsx     
-  │   └── _documents.jsx  
-  ├── styles/         # Global and component-specific styles
-  │   └── global.css
-  ├── public/         # Static assets (images, fonts, etc.)
-  │   └── assests
-  ├── next.config.js  # Next.js configuration file
-  └── package.json    # Project dependencies and scripts
+|-- components/         # Reusable UI components
+|   |-- Demo.tsx
+|   |-- Feature.tsx
+|   |-- loading-dots.tsx
+|   |-- modal.tsx
+|   |-- UserReviews.tsx
+|   -- video-modal.tsx  
+|-- pages/              # Application pages
+|   |-- index.jsx   
+|   |-- _app.jsx     
+|   `-- _documents.jsx  
+|-- styles/             # Global and component-specific styles
+|   `-- global.css
+|-- public/             # Static assets (images, fonts, etc.)
+|   `-- assests
+|-- next.config.js      # Next.js configuration file
+`-- package.json        # Project dependencies and scripts
+```
+
 
 # Saheli - Empowering Women's Safety
 
