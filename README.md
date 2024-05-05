@@ -42,6 +42,15 @@ Saheli aims to create a safer environment for women by leveraging technology and
 ## Architecture
 ![architecture_diagram_new PNG](https://github.com/thisispriyanshu/saheli/assets/73881504/8fd971f9-ca7f-45c8-a54d-85e44973d918)
 
+## Folder Structure
+
+- **backend**: Backend code built in Nodejs and Expressjs and database as Google Firestore where it has all user routes as well safe route.
+- **frontend/saheli_app**: Flutter code of Saheli App.
+- **gemini-chatbot**: RAG Based chatbot built with Gemini AI and Llama_index.
+- **real-time-video-detection**: Machine learning code built with Tensforflow and Opencv to detect violence in video
+- **safe-route**: Safe-Route Model trained
+- **saheli_web**: Saheli Website code in Nextjs
+- **smart-glasses-feature**: Raspberry Pi code to connect smart glasses and take realtime videos as well send sos.
 
 
 ## How to run the Frontend(Flutter):
