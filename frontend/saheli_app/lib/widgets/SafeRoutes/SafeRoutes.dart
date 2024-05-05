@@ -1,9 +1,12 @@
 
 import 'dart:async';
+import 'dart:convert';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_config/flutter_config.dart';
-// import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -42,8 +45,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
   double threshold = 5.0; // Adjust this threshold as needed
   final sensorController = Get.put(SensorController());
 
-
-  final mapsApiKey = FlutterConfig.get("MAPS_API_KEY");
+  final mapsApiKey = FlutterConfig.get('MAPS_API_KEY');
   late GoogleMapController mapController;
   var _controller = TextEditingController();
   var _controller2 = TextEditingController();
@@ -54,6 +56,8 @@ class _SafeRoutesState extends State<SafeRoutes> {
   Timer? _timer;
   bool _isBottomSheetVisible = false;
   late Function sheetSetState;
+  List<dynamic> _placeList = [];
+  List<dynamic> _placeList2 = [];
 
   LatLng _currentLocation = LatLng(28.59351217640707, 77.24437040849519);
   List<LatLng> polyLineCoordinates = [];

@@ -134,7 +134,6 @@ dependencies:
   modal_bottom_sheet: ^3.0.0
 
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -145,6 +144,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.1
+
+flutter_launcher_icons:
+  ios: true
+  android: true
+  image_path_ios: "lib/assets/images/logo.png"
+  image_path_android: "lib/assets/images/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

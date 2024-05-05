@@ -81,177 +81,177 @@ class _ChatBotState extends State<ChatScreen> {
       backgroundColor: Theme.of(context).colorScheme.tertiary,
       body: isChatLoaded
           ? SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Wrap(
-                spacing: 2.0,
-                children: suggestions.map((text) {
-                  return ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xffF7EDF5),
-                          elevation: 0,
-                          side: BorderSide(color: Colors.black54)),
-                      onPressed: () {
-                        setState(() {
-                          messages.insert(0, {
-                            "data": 1,
-                            "message": text
-                          });
-                        });
-                        getResponse(text);
-                      },
-                      child: Text(
-                        text,
-                        style: GoogleFonts.outfit(color: Colors.black45),
-                      ));
-                }).toList(),
-              ),
-            ),
-            Container(
-              height: 495,
-              child: Stack(
-                //fit: StackFit.expand,
+              child: Column(
                 children: [
-                  // Expanded(
-                  //     child: Image.asset(
-                  //   'lib/assets/images/KiranBg.png',
-                  //   fit: BoxFit.cover,
-                  //   color: Colors.black.withOpacity(0.2),
-                  //   colorBlendMode: BlendMode.multiply,
-                  // )),
-                  // Column(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     Text(
-                  //       'Sakha AI',
-                  //       style: GoogleFonts.outfit(
-                  //           color: Theme.of(context).colorScheme.primary,
-                  //           fontSize: 24,
-                  //           fontWeight: FontWeight.bold),
-                  //     ),
-                  //     Text(
-                  //       'Your personalised chat bot \n'
-                  //       'ready to help you anytime',
-                  //       textAlign: TextAlign.center,
-                  //       style: GoogleFonts.outfit(
-                  //           color: Theme.of(context).colorScheme.primary,
-                  //           fontSize: 16,
-                  //           fontWeight: FontWeight.w500),
-                  //     ),
-                  //     SizedBox(
-                  //       height: 30,
-                  //     )
-                  //   ],
-                  // ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, right: 8.0, bottom: 10, top: 0.0),
-                    child: Column(
-                      children: [
-                        Flexible(
-                          child: ListView.builder(
-                            reverse: true,
-                            itemCount: messages.length,
-                            itemBuilder: (context, index) => Padding(
-                              padding:
-                              EdgeInsets.symmetric(vertical: 4.0),
-                              child: chatBubble(
-                                  messages[index]["message"].toString(),
-                                  messages[index]["data"]),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: ListTile(
-                            title: Container(
-                              padding: EdgeInsets.only(left: 10),
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .tertiary,
-                                  border: Border.all(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary,
-                                      width: 1),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(18))),
-                              child: TextFormField(
-                                controller: messageController,
-                                decoration: InputDecoration(
-                                    hintText: "Ask anything...",
-                                    hintStyle: GoogleFonts.outfit(),
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary),
-                                      borderRadius:
-                                      BorderRadius.circular(10),
-                                    ),
-                                    focusedBorder: InputBorder.none,
-                                    enabledBorder: InputBorder.none,
-                                    errorBorder: InputBorder.none,
-                                    disabledBorder: InputBorder.none),
-                                cursorColor: clr1,
-                              ),
-                            ),
-                            trailing: GestureDetector(
-                              child:
-                              Icon(Icons.send_outlined, color: clr1),
-                              onTap: () {
-                                setState(() {
-                                  messages.insert(0, {
-                                    "data": 1,
-                                    "message": messageController.text
-                                  });
+                    padding: const EdgeInsets.all(10.0),
+                    child: Wrap(
+                      spacing: 2.0,
+                      children: suggestions.map((text) {
+                        return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xffF7EDF5),
+                                elevation: 0,
+                                side: BorderSide(color: Colors.black54)),
+                            onPressed: () {
+                              setState(() {
+                                messages.insert(0, {
+                                  "data": 1,
+                                  "message": text
                                 });
-                                getResponse(messageController.text);
-                                messageController.clear();
-                              },
-                            ),
+                              });
+                              getResponse(text);
+                            },
+                            child: Text(
+                              text,
+                              style: GoogleFonts.outfit(color: Colors.black45),
+                            ));
+                      }).toList(),
+                    ),
+                  ),
+                  Container(
+                    height: 495,
+                    child: Stack(
+                      //fit: StackFit.expand,
+                      children: [
+                        // Expanded(
+                        //     child: Image.asset(
+                        //   'lib/assets/images/KiranBg.png',
+                        //   fit: BoxFit.cover,
+                        //   color: Colors.black.withOpacity(0.2),
+                        //   colorBlendMode: BlendMode.multiply,
+                        // )),
+                        // Column(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     Text(
+                        //       'Sakha AI',
+                        //       style: GoogleFonts.outfit(
+                        //           color: Theme.of(context).colorScheme.primary,
+                        //           fontSize: 24,
+                        //           fontWeight: FontWeight.bold),
+                        //     ),
+                        //     Text(
+                        //       'Your personalised chat bot \n'
+                        //       'ready to help you anytime',
+                        //       textAlign: TextAlign.center,
+                        //       style: GoogleFonts.outfit(
+                        //           color: Theme.of(context).colorScheme.primary,
+                        //           fontSize: 16,
+                        //           fontWeight: FontWeight.w500),
+                        //     ),
+                        //     SizedBox(
+                        //       height: 30,
+                        //     )
+                        //   ],
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8.0, right: 8.0, bottom: 10, top: 0.0),
+                          child: Column(
+                            children: [
+                              Flexible(
+                                child: ListView.builder(
+                                  reverse: true,
+                                  itemCount: messages.length,
+                                  itemBuilder: (context, index) => Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 4.0),
+                                    child: chatBubble(
+                                        messages[index]["message"].toString(),
+                                        messages[index]["data"]),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                child: ListTile(
+                                  title: Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                        border: Border.all(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            width: 1),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(18))),
+                                    child: TextFormField(
+                                      controller: messageController,
+                                      decoration: InputDecoration(
+                                          hintText: "Ask anything...",
+                                          hintStyle: GoogleFonts.outfit(),
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          focusedBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none),
+                                      cursorColor: clr1,
+                                    ),
+                                  ),
+                                  trailing: GestureDetector(
+                                    child:
+                                        Icon(Icons.send_outlined, color: clr1),
+                                    onTap: () {
+                                      setState(() {
+                                        messages.insert(0, {
+                                          "data": 1,
+                                          "message": messageController.text
+                                        });
+                                      });
+                                      getResponse(messageController.text);
+                                      messageController.clear();
+                                    },
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                            ],
                           ),
                         ),
-                        SizedBox(height: 10),
                       ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      )
-          : Center(
-        child: progressBar
-            ? Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const CircularProgressIndicator(),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Chat is loading...',
-              style: GoogleFonts.outfit(fontSize: 16),
             )
-          ],
-        )
-            : ElevatedButton(
-            onPressed: () async {
-              setState(() {
-                progressBar = true;
-              });
-              getResponse('hello');
-            },
-            child: Text(
-              'Load Chat',
-              style: GoogleFonts.outfit(
-                  color: Colors.white, fontSize: 20),
-            )),
-      ),
+          : Center(
+              child: progressBar
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const CircularProgressIndicator(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Chat is loading...',
+                          style: GoogleFonts.outfit(fontSize: 16),
+                        )
+                      ],
+                    )
+                  : ElevatedButton(
+                      onPressed: () async {
+                        setState(() {
+                          progressBar = true;
+                        });
+                        getResponse('hello');
+                      },
+                      child: Text(
+                        'Load Chat',
+                        style: GoogleFonts.outfit(
+                            color: Colors.white, fontSize: 20),
+                      )),
+            ),
     );
   }
 

@@ -13,7 +13,7 @@ class AmbulanceEmergency extends StatelessWidget {
       padding: const EdgeInsets.only(left: 10.0, bottom: 5),
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(18),
         ),
         elevation: 10,
         child: InkWell(
@@ -21,7 +21,7 @@ class AmbulanceEmergency extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(18),
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -61,7 +61,7 @@ class AmbulanceEmergency extends StatelessWidget {
                   width: 80,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(18),
                   ),
                   child: Center(
                     child: Text(
