@@ -34,7 +34,7 @@ class _GoogleSignInState extends State<GoogleSignIn> {
                   width: 196,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(200),
-                      child: Image.asset("lib/assets/images/img.png"))),
+                      child: Image.asset("lib/assets/images/logo.png"))),
               const SizedBox(
                 height: 20,
               ),

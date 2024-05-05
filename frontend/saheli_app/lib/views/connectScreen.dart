@@ -19,11 +19,7 @@
 //   bool isConnecting = false;
 //   bool isConnected = false;
 //
-//   @override
-//   void initState() {
-//     super.initState();
-//     _startScan();
-//   }
+
 //   _addDeviceTolist(final BluetoothDevice device) {
 //     if (!widget.devicesList.contains(device)) {
 //       setState(() {
@@ -223,6 +219,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class BluetoothDevice {
@@ -230,7 +227,8 @@ class BluetoothDevice {
   final String id;
   bool connected;
 
-  BluetoothDevice({required this.name, required this.id, this.connected = false});
+  BluetoothDevice(
+      {required this.name, required this.id, this.connected = false});
 }
 
 class BluetoothScreen extends StatefulWidget {
@@ -241,136 +239,169 @@ class BluetoothScreen extends StatefulWidget {
 
 class _BluetoothDeviceListWidgetState extends State<BluetoothScreen> {
   List<BluetoothDevice> devices = [
-    BluetoothDevice(name: "Device 1", id: "1"),
-    BluetoothDevice(name: "Device 2", id: "2"),
-    BluetoothDevice(name: "Device 3", id: "3"),
+    BluetoothDevice(name: "Samsung smart glass", id: "1"),
+    BluetoothDevice(name: "Saheli smart glass", id: "2"),
+    BluetoothDevice(name: "Airdopes 141", id: "3"),
   ];
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        loading = false;
+      });
+    });
+  }
 
   bool connecting = false;
-  bool loading=true;
+  bool loading = true;
   String? connectingToDevice;
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Bluetooth Devices"),
       ),
-      body: Column(
-        children: [
-      Column(
-
-      children: [
-      Text(
-      "Smart connect",
-        style: GoogleFonts.outfit(
-            fontSize: 24, fontWeight: FontWeight.w500),
-      ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(
-            height: 8,
-          ),
-          Container(
-            height: 220,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: Image.asset(
-                    'lib/assets/images/hardware_iot.jpg',
-                    width: 350,
-                    color: Colors.black.withOpacity(0.4),
-                    colorBlendMode: BlendMode.multiply,
-                    fit: BoxFit.fitWidth,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Connect smart device to Saheli',
-                        style: GoogleFonts.outfit(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                          fontSize: 24,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Connect your smart device with the app and unlock the real power of Saheli with built-in state-of-the-art artificial intelligence features!',
-                        style: GoogleFonts.outfit(
-                            fontSize: 16, color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-          loading
-              ? Center(
-            child: LoadingAnimationWidget.staggeredDotsWave( // LoadingAnimationwidget that call the
-              color: Colors.green,                          // staggereddotwave animation
-              size: 50,
-            ),
-          )
-              : ListView.builder(
-            itemCount: devices.length,
-            itemBuilder: (context, index) {
-              BluetoothDevice device = devices[index];
-              return Container(
-                  padding: EdgeInsets.all(20),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // const SizedBox(
+            //   height: 8,
+            // ),
+            Container(
+              //height: 220,
               decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
-              borderRadius: BorderRadius.circular(30),
-              border: Border.all(color: Theme.of(context).colorScheme.primary, width: 2)
-              ),child: Card(
-                child: ListTile(
-                  title: Text(device.name),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(device.connected ? 'Connected' : 'Disconnected', style: TextStyle(color: device.connected ? Colors.green : Colors.grey)),
-                      SizedBox(width: 10),
-                      IconButton(
-                        icon: Icon(Icons.bluetooth),
-                        onPressed: connecting
-                            ? null
-                            : () {
-                          setState(() {
-                            connecting = true;
-                            connectingToDevice = device.name;
-                          });
-                          _connectedToDevice(device);
-                        },
-                      ),
-                    ],
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(18),
+                    child: Image.asset(
+                      'lib/assets/images/smart_connect2.jpg',
+                      //width: 350,
+                      color: Colors.black.withOpacity(0.4),
+                      colorBlendMode: BlendMode.multiply,
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
-                ),),
-              );
-            },
-          ),
-        ],
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Connect smart device to Saheli',
+                          style: GoogleFonts.outfit(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            fontSize: 24,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          'Connect your smart device with the app and unlock the real power of Saheli with built-in state-of-the-art artificial intelligence features!',
+                          style: GoogleFonts.outfit(
+                              fontSize: 16, color: Colors.white),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 5,),
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Text(
+                "Available Devices",
+                textAlign: TextAlign.left,
+                style: GoogleFonts.outfit(
+                    fontSize: 24, fontWeight: FontWeight.w400),
+              ),
+            ),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return loading
+                    ? Center(
+                      child: LoadingAnimationWidget.staggeredDotsWave(
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 50,
+                      ),
+                    )
+                    : SingleChildScrollView(
+                        child: ListView.builder(
+                          itemCount: devices.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            BluetoothDevice device = devices[index];
+                            return Container(
+                              //padding: EdgeInsets.all(5),
+                              margin: EdgeInsets.symmetric(vertical: 5),
+                              decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  borderRadius: BorderRadius.circular(18),
+                                  border: Border.all(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 2)),
+                              child: Card(
+                                elevation: 0,
+                                child: ListTile(
+                                  tileColor:
+                                      Theme.of(context).colorScheme.secondary,
+                                  title: Text(device.name),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                          device.connected
+                                              ? 'Connected'
+                                              : 'Disconnected',
+                                          style: TextStyle(
+                                              color: device.connected
+                                                  ? Colors.green
+                                                  : Colors.grey)),
+                                      SizedBox(width: 10),
+                                      IconButton(
+                                        icon: Icon(Icons.bluetooth),
+                                        onPressed: connecting
+                                            ? null
+                                            : () {
+                                                setState(() {
+                                                  connecting = true;
+                                                  connectingToDevice =
+                                                      device.name;
+                                                });
+                                                _connectedToDevice(device);
+                                              },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+              },
+            ),
+          ],
+        ),
       ),
-    ],),
     );
   }
+
   void _connectedToDevice(BluetoothDevice device) {
     // Simulating connecting to the device
     showDialog(
@@ -383,7 +414,6 @@ class _BluetoothDeviceListWidgetState extends State<BluetoothScreen> {
           setState(() {
             device.connected = true;
             connecting = false;
-
           });
         });
         return AlertDialog(
@@ -391,7 +421,8 @@ class _BluetoothDeviceListWidgetState extends State<BluetoothScreen> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CircularProgressIndicator(),
+              LoadingAnimationWidget.fourRotatingDots(
+                  color: Colors.pinkAccent, size: 20),
               SizedBox(height: 10),
               Text("Connecting to ${connectingToDevice}..."),
             ],
@@ -400,28 +431,46 @@ class _BluetoothDeviceListWidgetState extends State<BluetoothScreen> {
       },
     );
   }
-    void _connectToDevice(BluetoothDevice device) {
-      // Simulating connecting to the device
 
-      Future.delayed(Duration(seconds: 2), () {
-        setState(() {
-          connecting = false;
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text("Connected"),
-                content: Text("Successfully connected to ${connectingToDevice}!"),
-              );
-            },
-          );
+  void _connectToDevice(BluetoothDevice device) {
+    // Simulating connecting to the device
 
-          Future.delayed(Duration(seconds: 1), () {
-            setState(() {
-              device.connected = true;
-            });
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        connecting = false;
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Connected"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.green,
+                        child: Icon(
+                          Icons.check,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Text("Successfully connected to $connectingToDevice!"),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+
+        Future.delayed(Duration(seconds: 1), () {
+          setState(() {
+            device.connected = true;
           });
         });
       });
-    }
+    });
   }
+}

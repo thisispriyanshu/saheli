@@ -1,14 +1,17 @@
 
 import 'dart:async';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 // import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:map_autocomplete_field/map_autocomplete_field.dart';
+import 'package:saheli_app/AudioRecorder/screens/home_screen/audioplayer.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
@@ -33,7 +36,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
   late double startlat, startlong, destlat, destlong;
   final Set<Marker> _markers = {};
   double previousAcceleration = 0.0;
-  late String _selectedTravelMethod='Walking';
+  late String _selectedTravelMethod='walking';
   late String _selectedStart='Select Start Location';
   late String _selectedEnd='Select End Location';
   double threshold = 5.0; // Adjust this threshold as needed
@@ -47,6 +50,10 @@ class _SafeRoutesState extends State<SafeRoutes> {
   late String drivingMode;
   var uuid = new Uuid();
   String _sessionToken = "";
+  int _countdown = 60;
+  Timer? _timer;
+  bool _isBottomSheetVisible = false;
+  late Function sheetSetState;
 
   LatLng _currentLocation = LatLng(28.59351217640707, 77.24437040849519);
   List<LatLng> polyLineCoordinates = [];
@@ -103,18 +110,128 @@ class _SafeRoutesState extends State<SafeRoutes> {
     }
   }
 
+  AlertTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      setState(() => _countdown--);
+      sheetSetState(() {
+        // No need to calculate duration here, just assign _countdown directly
+        final seconds = Duration().inSeconds + _countdown;
+        Duration() = Duration(seconds: seconds);
+      });
+      if (_countdown == 0) {
+        _timer!.cancel();
+        Navigator.of(context).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AudioPlayer()),
+        );
+      }
+    });
+  }
+
+  void showBottomSheet() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+            sheetSetState = setState; // Initialize sheetSetState
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              height: 300,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Safety assurance mode activated!",
+                      style: GoogleFonts.outfit(
+                          fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Text(
+                      "Are you safe?",
+                      style: GoogleFonts.outfit(
+                          fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            backgroundColor: Theme.of(context).colorScheme.primary,
+                            value: _countdown / 60),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            _countdown.toString(),
+                            style: GoogleFonts.outfit(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(48),
+                          backgroundColor:
+                          Theme.of(context).colorScheme.tertiary),
+                      onPressed: () {
+                        _timer!.cancel();
+                        Navigator.pop(context);
+                        //_isBottomSheetVisible = false;
+                      },
+                      child: Text(
+                        'Yes',
+                        style: GoogleFonts.outfit(
+                            color: Colors.black54, fontSize: 18),
+                      )),
+                  SizedBox(height: 10,),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(48),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AudioPlayer()));
+                      },
+                      child: Text(
+                        'No',
+                        style: GoogleFonts.outfit(
+                            color: Colors.white, fontSize: 18),
+                      )),
+                ],
+              ),
+            );
+          });
+        },
+      );
+    });
+  }
+
   @override
   void initState() {
     // _getCurrentLocation();
     super.initState();
-
+    _countdown=60;
     accelerometerEvents.listen((AccelerometerEvent event) {
       double acceleration = event.y; // You can use other axes as needed
       sensorController.currentAcceleration.value = acceleration;
       if ((previousAcceleration - acceleration) >= threshold) {
         // Harsh braking detected, take action here
-        print('Harsh braking detected!');
-        print('Please drive slowly!');
+
         sensorController.isHarshBraking.value = true;
         _showHarshBrakingDialog(); // Show dialog box when harsh braking is detected
       } else {
@@ -177,6 +294,9 @@ class _SafeRoutesState extends State<SafeRoutes> {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
+                  AlertTimer();
+                  showBottomSheet();
+                  // AlertDialog();
                 },
                 child: Text('OK'),
               ),
@@ -296,7 +416,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
               _launchMapsUrl();
             },
             label: Text('Start journey'),
-            icon: Icon(Icons.location_on),
+            icon: Icon(Icons.navigation),
             backgroundColor: Colors.blue,
           ),
         ),
@@ -347,20 +467,36 @@ class _SafeRoutesState extends State<SafeRoutes> {
                     ),
                   ),
                 ),
+              Obx(
+                () => Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Visibility(
+                        visible: sensorController.isHarshBraking.value,
+                        child: const Text(
+                          "Harsh Braking",
+                          style:
+                              TextStyle(fontSize: 22, color: Colors.red),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                height: 3,
+              ),
+
               Positioned(
                 top: 10,
                 right: 15,
                 left: 15,
-                child: Container(
-                  color: Colors.white,
+
                   child: Row(
                     children: <Widget>[
-                      IconButton(
-                        splashColor: Colors.grey,
-                        icon: Icon(Icons.directions_run
-                        ),
-                        onPressed: () {},
-                      ),
+
                       Expanded(
                         child: MapAutoCompleteField(
                           // cursorColor: Colors.black,
@@ -368,10 +504,30 @@ class _SafeRoutesState extends State<SafeRoutes> {
                           // textInputAction: TextInputAction.go,
                           controller: _locationController,
                           inputDecoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding:
-                              EdgeInsets.symmetric(horizontal: 15),
-                              hintText: "Search start location..."),
+                            hintText: "Search start location",
+                            hintStyle: GoogleFonts.outfit(),
+                            focusColor: Colors.white,
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            fillColor: Theme.of(context).colorScheme.secondary,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary),
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            prefixIcon: const Icon(Icons.location_on),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                _locationController.clear();
+                              },
+                              icon: const Icon(Icons.cancel),
+                            ),
+                          ),
                           googleMapApiKey: FlutterConfig.get("MAPS_API_KEY"),
                           // controller: addressCtrl,
                           itemBuilder: (BuildContext context, suggestion) {
@@ -380,7 +536,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
                             );
                           },
                           onSuggestionSelected: (suggestion) async {
-                            List<loc.Location> startloc = await locationFromAddress(_destinationController.text);
+                            List<loc.Location> startloc = await locationFromAddress(_locationController.text);
                             loc.Location firstLocation = startloc[0];
 
                             _currentLocation = LatLng(firstLocation.latitude, firstLocation.longitude);
@@ -389,29 +545,19 @@ class _SafeRoutesState extends State<SafeRoutes> {
                           },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.search),
 
-                      ),
                     ],
                   ),
-                ),
+
               ),
               Positioned(
-                top: 60,
+                top: 70,
                 right: 15,
                 left: 15,
-                child: Container(
-                  color: Colors.white,
+
                   child: Row(
                     children: <Widget>[
-                      IconButton(
-                        splashColor: Colors.grey,
-                        icon: Icon(Icons.flag
-                        ),
-                        onPressed: () {},
-                      ),
+
                       Expanded(
                         child:
                         MapAutoCompleteField(
@@ -420,10 +566,30 @@ class _SafeRoutesState extends State<SafeRoutes> {
                           // textInputAction: TextInputAction.go,
                           controller: _destinationController,
                           inputDecoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding:
-                              EdgeInsets.symmetric(horizontal: 15),
-                              hintText: "Search destination location..."),
+                            hintText: "Search destination location",
+                            hintStyle: GoogleFonts.outfit(),
+                            focusColor: Colors.white,
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            fillColor: Theme.of(context).colorScheme.secondary,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary),
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            prefixIcon: const Icon(Icons.map),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                _destinationController.clear();
+                              },
+                              icon: const Icon(Icons.cancel),
+                            ),
+                          ),
                           googleMapApiKey: FlutterConfig.get("MAPS_API_KEY"),
                           // controller: addressCtrl,
                           itemBuilder: (BuildContext context, suggestion) {
@@ -440,29 +606,146 @@ class _SafeRoutesState extends State<SafeRoutes> {
                             getPolyPoints();
                           },
                         ),
-                        // TextField(
-                        //   onTap: () async {
-                        //     //   Navigator.push(
-                        //     //   context,
-                        //     //   MaterialPageRoute(
-                        //     //     builder: (context) =>
-                        //     //   ),
-                        //     // );
-                        //   },
+    ),
 
-                        // ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.search),
 
-                      ),
+
+
                     ],
+                  ),
+
+              ),
+              Positioned(
+              top: 130,
+              left: 55,
+              right: 55,
+
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2(
+                    style: GoogleFonts.outfit(
+                        color: Colors.black, fontSize: 16),
+                    value: _selectedTravelMethod,
+                    hint: Text("Select travel method"),
+                    items: ['driving', 'walking']
+                        .map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    buttonStyleData: ButtonStyleData(
+                      padding: EdgeInsets.symmetric(horizontal: 3),
+                      width: 180,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        color: Color(0xffFEECEB),
+                      ),
+                      elevation: 2,
+                    ),
+                    iconStyleData: const IconStyleData(
+                      iconSize: 24,
+                      iconDisabledColor: Colors.black26,
+                      iconEnabledColor: Colors.black,
+                    ),
+                    dropdownStyleData: DropdownStyleData(
+                      maxHeight: 150,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        color: Color(0xffFEECEB),
+                      ),
+                      scrollbarTheme: ScrollbarThemeData(
+                        radius: const Radius.circular(40),
+                        thickness: MaterialStateProperty.all(6),
+                        thumbVisibility: MaterialStateProperty.all(true),
+                      ),
+                      elevation: 8,
+                    ),
+                    menuItemStyleData: const MenuItemStyleData(
+                      height: 40,
+                      padding: EdgeInsets.only(left: 14, right: 14),
+                    ),
+                    onChanged: (String? newValue) {
+
+                      if (newValue == 'driving') {
+                        if (!flag) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(
+                                      "Turn on accident prevention?"),
+                                  content: Text(
+                                      "Accident prevention detects and warns about harsh brakes, and thus keeps you safe during driving"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          flag = true;
+                                          _selectedTravelMethod =
+                                          'driving';
+                                          // ScaffoldMessenger.of(context)
+                                          //     .showSnackBar(SnackBar(
+                                          //     content: Text(
+                                          //         'Accident prevention turned on')));
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("Yes"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Cancel action
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("Cancel"),
+                                    ),
+                                  ],
+                                );
+                              });
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text(
+                                      'Already turned prevention on!')));
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                'Switched to walking, Turned off prevention')));
+                        setState(() {
+                          flag = false;
+                          _selectedTravelMethod = 'walking';
+                          // ScaffoldMessenger.of(context)
+                          //     .showSnackBar(SnackBar(
+                          //     content: Text(
+                          //         'Accident prevention turned on')));
+                        });
+                      }
+                    },
                   ),
                 ),
               ),
+              ),
+              // TextField(
+              //   onTap: () async {
+              //     //   Navigator.push(
+              //     //   context,
+              //     //   MaterialPageRoute(
+              //     //     builder: (context) =>
+              //     //   ),
+              //     // );
+              //   },
+
+              // ),
+
 
             ]));
   }
 }
+
 

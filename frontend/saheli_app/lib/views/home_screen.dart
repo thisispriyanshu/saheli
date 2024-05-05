@@ -31,7 +31,6 @@ class HomePage extends StatefulWidget {
   int qIndex = 0;
 
   HomePage({super.key});
-
   @override
   State<StatefulWidget> createState() => _HomePageState();
 }
@@ -78,7 +77,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 10),
               //SafeHome(),
         Column(
-
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Smart connect",
@@ -88,7 +87,6 @@ class _HomePageState extends State<HomePage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-
                 const SizedBox(
                   height: 8,
                 ),

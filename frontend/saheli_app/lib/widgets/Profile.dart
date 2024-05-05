@@ -95,11 +95,12 @@ class _ProfileState extends State<Profile> {
             const SizedBox(height: 25,),
             ClipRRect(
               borderRadius: BorderRadius.circular(100),
-              child: CachedNetworkImage(
-                imageUrl: photoUrl,
+              child: Image.asset(
+                // imageUrl: photoUrl,
+                'lib/assets/images/profile_pic.jpg',
                 fit: BoxFit.cover,
-                height: 96,
-                width: 96,
+                height: 126,
+                width: 126,
               ),
             ),
             const SizedBox(height: 20,),

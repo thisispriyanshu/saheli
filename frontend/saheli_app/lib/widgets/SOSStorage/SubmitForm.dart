@@ -17,17 +17,12 @@ class SafeRoutesForm extends StatelessWidget {
       backgroundColor: Theme
           .of(context)
           .colorScheme
-          .primary,
+          .tertiary,
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-            color: Colors.white
-        ),
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .secondary,
+
+
         title: const Text(
-          'Suspicious locations form', style: TextStyle(color: Colors.white),),
+          'Suspicious locations form', style: TextStyle(color: Colors.black),),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -84,13 +79,13 @@ class SafeRoutesForm extends StatelessWidget {
               icon: const Icon(Icons.place),
               label: const Text(
                 'Select Location',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme
                     .of(context)
                     .colorScheme
-                    .tertiary,
+                    .secondary,
                 padding: const EdgeInsets.symmetric(
                     horizontal: 25, vertical: 15),
                 shape: RoundedRectangleBorder(
@@ -104,7 +99,7 @@ class SafeRoutesForm extends StatelessWidget {
                 backgroundColor: Theme
                     .of(context)
                     .colorScheme
-                    .tertiary,
+                    .primary,
                 padding: const EdgeInsets.symmetric(
                     horizontal: 25, vertical: 15),
                 shape: RoundedRectangleBorder(
@@ -115,7 +110,7 @@ class SafeRoutesForm extends StatelessWidget {
                 _submitForm(context);
               },
               child: const Text(
-                'Submit', style: TextStyle(color: Colors.white),),),
+                'Submit', style: TextStyle(color: Colors.black, fontSize: 16),),),
 
           ],
         ),
@@ -207,9 +202,11 @@ class _MyAppState extends State<MapScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Submit suspicous locations'),
+
       ),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
+
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const Text(
             'Enter your location',

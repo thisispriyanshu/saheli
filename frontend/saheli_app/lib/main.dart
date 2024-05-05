@@ -63,6 +63,7 @@ class MyApp extends StatefulWidget {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
+  print(FlutterConfig.get('MAPS_API_KEY'));
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
