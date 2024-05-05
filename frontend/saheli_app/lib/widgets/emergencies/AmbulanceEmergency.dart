@@ -49,7 +49,7 @@ class AmbulanceEmergency extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'In case of medical emergency call',
+                  'In case of medical emergency click below',
                   style: GoogleFonts.outfit(
                     color: Colors.white,
                     fontSize: 16

@@ -103,8 +103,8 @@ class _ProfileState extends State<Profile> {
                   : CachedNetworkImage(
                 imageUrl: photoUrl,
                 fit: BoxFit.cover,
-                height: 96,
-                width: 96,
+                height: 126,
+                width: 126,
               ),
             ),
             const SizedBox(height: 20,),

@@ -25,12 +25,12 @@ import '../model/PhoneContact.dart';
 import '../widgets/NearbyLocations/nearby_places.dart';
 import '../widgets/emergency.dart';
 import 'community.dart';
+import 'connectScreen.dart';
 
 class HomePage extends StatefulWidget {
   int qIndex = 0;
 
   HomePage({super.key});
-
   @override
   State<StatefulWidget> createState() => _HomePageState();
 }
@@ -75,6 +75,85 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 10),
               //SafeHome(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Smart connect",
+              style: GoogleFonts.outfit(
+                  fontSize: 24, fontWeight: FontWeight.w500),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(
+                  height: 8,
+                ),
+                Container(
+                  height: 220,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Image.asset(
+                          'lib/assets/images/hardware_iot.jpg',
+                          width: 350,
+                          color: Colors.black.withOpacity(0.4),
+                          colorBlendMode: BlendMode.multiply,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Connect smart device to Saheli',
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 24,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              'Connect your smart device with the app and unlock the real power of Saheli with built-in state-of-the-art artificial intelligence features!',
+                              style: GoogleFonts.outfit(
+                                  fontSize: 16, color: Colors.white),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            ElevatedButton(
+                                onPressed: () async {
+                                  bool result = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          BluetoothScreen(),
+                                    ),
+                                  );
+
+                                },
+                                child: Text(
+                                  'Connect',
+                                  style: GoogleFonts.outfit(
+                                      fontSize: 16, color: Colors.white),
+                                )),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
               const SizedBox(height: 10),
               Text(
                 "Quick Emergency Services",
@@ -160,8 +239,13 @@ class _HomePageState extends State<HomePage> {
               const CustomCarouel(),
             ],
           ),
+        ],
         ),
       ),
-    );
+    ));
   }
+}
+
+class ConnectScreen {
+  const ConnectScreen();
 }

@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +18,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:saheli_app/services/localDb/localDb.dart';
 import 'package:saheli_app/views/OnboardingScreen.dart';
 import 'package:saheli_app/views/googleSignIn.dart';
+import 'package:saheli_app/views/home_screen.dart';
 import 'package:saheli_app/views/login.dart';
 import 'package:saheli_app/widgets/bottomNavBar.dart';
 import 'package:shake/shake.dart';
@@ -64,10 +67,32 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  try{
+    final url = Uri.parse(
+        'https://saheli-backend-ufs3.onrender.com/safest-route');
+    final requestBody = {
+      "source": "28.8162605,77.1306592",
+      "destination": "28.550121, 77.1866867",
+      "mode": "driving",
+    };
+    print(requestBody.toString());
+
+    final response = await http.post(
+      url,
+      body: {
+        "source": "28.8162605,77.1306592",
+        "destination": "28.550121, 77.1866867",
+        "mode": "driving",
+      }
+    );
+    print(response.body.toString());
+  } catch(e) {
+    print("error $e");
+  }
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: MyApp(),
-    routes: {'/CallerScreen': (context) =>  CallerScreen()}
+    routes: {'/CallerScreen': (context) =>  CallerScreen(), '/HomeScreen': (context) =>  HomePage()}
   ));
 }
 
@@ -106,7 +131,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    //getLoggedinState();
+    print('Success in safe route');
     checkUser();
     AndroidPhysicalButtons.listen((key) {
       print(key);

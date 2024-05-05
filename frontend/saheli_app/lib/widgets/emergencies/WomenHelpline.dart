@@ -18,7 +18,7 @@ class ArmyEmergency extends StatelessWidget {
         onTap: () => _callNumber('100'),
         child: Container(
           //width: MediaQuery.of(context).size.width,
-          width: 165,
+          width: 155,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
               gradient: const LinearGradient(

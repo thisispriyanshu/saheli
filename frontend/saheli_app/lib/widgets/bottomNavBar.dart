@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:saheli_app/views/home_screen.dart';
@@ -23,13 +26,16 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
-
+  int _countdown = 60;
+  Timer? _timer;
+  bool _isBottomSheetVisible = false;
+  late Function sheetSetState;
   final List<Widget> navBarList = [
     HomePage(),
-    const AddContactsPage(),
-    const ChatScreen(),
-    const SafeRoutes(),
-    const Profile(),
+    AddContactsPage(),
+    ChatScreen(),
+    SafeRoutes(),
+    Profile(),
   ];
 
   @override
@@ -139,5 +145,136 @@ class _BottomNavBarState extends State<BottomNavBar> {
     setState(() {
       _selectedIndex = value;
     });
+  }
+  AlertTimer(){
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      setState(() => _countdown--);
+      sheetSetState(() {
+        final seconds = Duration().inSeconds + _countdown;
+        Duration() = Duration(seconds: seconds);
+      });
+      if(_countdown == 0){
+        _timer!.cancel();
+        Navigator.of(context).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AudioPlayer()),
+        );
+      }
+      // if (_isBottomSheetVisible) {
+      //   Navigator.of(context).pop();
+      //   _isBottomSheetVisible = false;
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => AudioPlayer()),
+      //   );
+      // }
+    });
+  }
+
+  void showBottomSheet() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+            sheetSetState = setState;
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              height: 300,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Harsh Braking Activated!!!",
+                      style: GoogleFonts.outfit(
+                          fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Text(
+                      "Are you safe?",
+                      style: GoogleFonts.outfit(
+                          fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            backgroundColor: Theme.of(context).colorScheme.primary,
+                            value: _countdown / 60),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            _countdown.toString(),
+                            style: GoogleFonts.outfit(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(48),
+                          backgroundColor:
+                          Theme.of(context).colorScheme.tertiary),
+                      onPressed: () {
+                        _timer!.cancel();
+                        Navigator.pop(context);
+                        //_isBottomSheetVisible = false;
+                      },
+                      child: Text(
+                        'Yes',
+                        style: GoogleFonts.outfit(
+                            color: Colors.black54, fontSize: 18),
+                      )),
+                  SizedBox(height: 10,),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(48),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AudioPlayer()));
+                      },
+                      child: Text(
+                        'No',
+                        style: GoogleFonts.outfit(
+                            color: Colors.white, fontSize: 18),
+                      )),
+                ],
+              ),
+            );
+          });
+        },
+      );
+    });
+    // _isBottomSheetVisible = true;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    showBottomSheet();
+    AlertTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 }

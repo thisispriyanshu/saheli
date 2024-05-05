@@ -249,7 +249,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               controller: _contentController,
               decoration: InputDecoration(
                 labelStyle:
-                    TextStyle(color: Theme.of(context).colorScheme.secondary),
+                    TextStyle(color: Theme.of(context).colorScheme.primary),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                       color: Theme.of(context).colorScheme.secondary),
@@ -265,7 +265,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 backgroundColor: MaterialStateProperty.all<Color>(
                     Theme.of(context)
                         .colorScheme
-                        .secondary), // Change background color
+                        .primary), // Change background color
                 minimumSize: MaterialStateProperty.all<Size>(
                     Size(double.infinity, 45)), // Change width
               ),
@@ -306,9 +306,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 Navigator.pop(
                     context); // Navigate back to the community section
               },
+
               child: Text(
                 'Post',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black, fontSize: 16),
               ),
             ),
           ],
