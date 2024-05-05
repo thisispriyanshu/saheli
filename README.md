@@ -2,7 +2,7 @@
 
 Saheli, meaning 'female best friend' in Hindi, is an innovative mobile application designed to ensure the safety and security of women, empowering them to navigate through various situations confidently. Developed as a part of the Google Solution Challenge hackathon 2024, Saheli app is built using Flutter and integrating cutting-edge technologies and thoughtful features to address the pressing issue of women's safety.
 
-#### YouTube Video Demo Link (1 min) : 
+#### YouTube Video Demo Link (1 min) : https://youtu.be/GjfN3swoP4Q
 #### YouTube Video Demo Link (2 min) : https://www.youtube.com/watch?v=al7dooPSCwM
 #### Website Link : https://saheli-app.netlify.app/
 
