@@ -35,7 +35,7 @@ function traverse(routeArrays, coordinatesMap, endLocation) {
     for (let [key,value] of coordinatesMap) {
         if(value.length == routeArrays.size) {
             count++;
-            console.log("test: ",routeArrays.get(0)[count])
+            routeArrays.get(0)[count]
             if(unsafe(key)){
                 console.log("Warning: Unsafe route")
             }
