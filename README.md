@@ -99,7 +99,12 @@ Run the main.dart file using the flutter run command:<br>
 - Dialogflow
 - Gemini AI API
 - Vertex AI API
+- Gemma
 - Compute Engine (Deployment)
+- Tensorflow
+- OpenCV
+- Raspberry PI
+- CNN (VGG-16)
 
 ## Application Images
 
