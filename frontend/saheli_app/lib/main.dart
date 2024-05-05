@@ -1,12 +1,16 @@
 import 'dart:async';
 import 'package:android_physical_buttons/android_physical_buttons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -14,6 +18,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:saheli_app/services/localDb/localDb.dart';
 import 'package:saheli_app/views/OnboardingScreen.dart';
 import 'package:saheli_app/views/googleSignIn.dart';
+import 'package:saheli_app/views/home_screen.dart';
 import 'package:saheli_app/views/login.dart';
 import 'package:saheli_app/widgets/bottomNavBar.dart';
 import 'package:shake/shake.dart';
@@ -57,14 +62,37 @@ class MyApp extends StatefulWidget {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FlutterConfig.loadEnvVariables();
   //await dotenv.load();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  try{
+    final url = Uri.parse(
+        'https://saheli-backend-ufs3.onrender.com/safest-route');
+    final requestBody = {
+      "source": "28.8162605,77.1306592",
+      "destination": "28.550121, 77.1866867",
+      "mode": "driving",
+    };
+    print(requestBody.toString());
+
+    final response = await http.post(
+      url,
+      body: {
+        "source": "28.8162605,77.1306592",
+        "destination": "28.550121, 77.1866867",
+        "mode": "driving",
+      }
+    );
+    print(response.body.toString());
+  } catch(e) {
+    print("error $e");
+  }
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: MyApp(),
-    routes: {'/CallerScreen': (context) =>  CallerScreen()}
+    routes: {'/CallerScreen': (context) =>  CallerScreen(), '/HomeScreen': (context) =>  HomePage()}
   ));
 }
 
@@ -73,15 +101,28 @@ class _MyAppState extends State<MyApp> {
 
   bool isLogin = false;
 
-  getLoggedinState() async {
-    await LocalDb.getEmail().then((value) {
-      print(value);
+  // getLoggedinState() async {
+  //   await LocalDb.getEmail().then((value) {
+  //     print(value);
+  //     setState(() {
+  //       if (value.toString() != "null") {
+  //         isLogin = true;
+  //       }
+  //     });
+  //   });
+  // }
+
+  void checkUser() {
+    print("in checkUser()");
+    User? firebaseUser = FirebaseAuth.instance.currentUser;
+    if(firebaseUser == null){
+      isLogin = false;
+    } else {
       setState(() {
-        if (value.toString() != "null") {
-          isLogin = true;
-        }
+        isLogin = true;
       });
-    });
+    }
+    print('is logged in? $isLogin');
   }
 
   void playRingtone() {
@@ -90,7 +131,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    getLoggedinState();
+    print('Success in safe route');
+    checkUser();
     AndroidPhysicalButtons.listen((key) {
       print(key);
     });
@@ -122,8 +164,8 @@ class _MyAppState extends State<MyApp> {
 
     // Add a delay to simulate a splash screen effect
     Timer(Duration(seconds: 2), () {
-      getLoggedinState();
-
+      //getLoggedinState();
+      checkUser();
       setState(() {});
     });
     super.initState();
@@ -193,7 +235,7 @@ class SplashScreen extends StatelessWidget {
 
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/img.png'),
+                      image: AssetImage('lib/assets/images/img.png'),
                     ),
                   ),
                 ),

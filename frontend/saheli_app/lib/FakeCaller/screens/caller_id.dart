@@ -1,4 +1,6 @@
+import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'incoming_call.dart';
@@ -16,6 +18,15 @@ class _CallerIDState extends State<CallerID> {
   String name = "UNKNOWN";
   String number = "(410) 0679 890";
 
+  String dialCode = '+91';
+
+  final countryPicker = const  FlCountryCodePicker();
+
+  FlCountryCodePicker countryPickerWithParams = const FlCountryCodePicker(
+    localize: true,
+    showDialCode: true,
+    showSearchBar: true,
+  );
 
   @override
   void initState() {
@@ -30,62 +41,50 @@ class _CallerIDState extends State<CallerID> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      appBar: AppBar(
+        title: Text(
+          "Caller ID",
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w400, fontSize: 20),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+      ),
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
       resizeToAvoidBottomInset: false,
-
-      body: Container(
-        // decoration: const BoxDecoration(
-        //   image: DecorationImage(
-        //       image: AssetImage(
-        //         "assets/images/image4.jpeg",
-        //       ),
-        //       fit: BoxFit.cover),
-        // ),
+      body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.fromLTRB(10.0, 150.0, 10.0, 120.0),
-          padding: const EdgeInsets.symmetric(vertical: 35.0, horizontal: 20.0),
+          margin: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondary,
-            borderRadius: BorderRadius.circular(20)
-          ),
-          child: Column(
-              children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(5.0),
-                  width: 250,
-                  decoration: BoxDecoration(
-                    border:
-                        Border.all(color: Theme.of(context).colorScheme.secondary, width: 2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(5.0),
-                    ),
-                  ),
-                  child: Text(
-                    "Enter Caller ID to send Fake Call",
-                    style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 22.0, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(
+                  color: Theme.of(context).colorScheme.primary, width: 1)),
+          child: Column(children: [
+            Text(
+              "Enter Caller ID to send Fake Call",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.outfit(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w600),
             ),
-            const Expanded(
-              child: SizedBox(
-                height: 1.0,
-              ),
+            const SizedBox(
+              height: 30,
             ),
             Text(
               "Name",
-              style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 22, fontWeight: FontWeight.bold),
+              style: GoogleFonts.outfit(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500),
             ),
             const SizedBox(
               height: 10.0,
             ),
             TextField(
-              style: TextStyle(
+              style: GoogleFonts.outfit(
                 color: Theme.of(context).colorScheme.primary,
-                fontSize: 22.0,
+                fontSize: 18.0,
               ),
               keyboardType: TextInputType.name,
               textAlign: TextAlign.left,
@@ -93,58 +92,85 @@ class _CallerIDState extends State<CallerID> {
                 name = value;
               },
               decoration: InputDecoration(
-                //contentPadding:EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary),
-                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                      BorderSide(color: Theme.of(context).colorScheme.primary),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary),
+                  borderSide:
+                      BorderSide(color: Theme.of(context).colorScheme.primary),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
             ),
             const SizedBox(
-              height: 20.0,
+              height: 30.0,
             ),
             Text(
-              "Number",
-              style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 22, fontWeight: FontWeight.bold),
-
+              "Mobile Number",
+              style: GoogleFonts.outfit(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500),
             ),
             const SizedBox(
               height: 10.0,
             ),
-            TextField(
-              style: const TextStyle(
-                color: Color.fromARGB(255, 255, 236, 208),
-                fontSize: 22.0,
-              ),
-              keyboardType: TextInputType.number,
-              textAlign: TextAlign.left,
-              onChanged: (value) {
-                number = value;
-              },
-              decoration: InputDecoration(
-                //contentPadding:EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary),
-                  borderRadius: BorderRadius.circular(10),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    final picked= await countryPicker.showPicker(context: context);
+                    dialCode = picked!.dialCode;
+                    setState(() {
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(color: Theme.of(context).colorScheme.primary, width: 1)
+                    ),
+                    child: Text(
+                      dialCode,
+                      style: GoogleFonts.outfit(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500),),
+                  ),
                 ),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary),
-                  borderRadius: BorderRadius.circular(10),
+                const SizedBox(width: 5,),
+                Expanded(
+                  child: TextField(
+                    style: GoogleFonts.outfit(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 18.0,
+                    ),
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.left,
+                    onChanged: (value) {
+                      number = value;
+                    },
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Theme.of(context).colorScheme.primary),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Theme.of(context).colorScheme.primary),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-            const Expanded(
-              child: SizedBox(
-                height: 1.0,
-              ),
+            const SizedBox(
+              height: 30,
             ),
             ElevatedButton(
               onPressed: () {
@@ -154,20 +180,21 @@ class _CallerIDState extends State<CallerID> {
                   MaterialPageRoute(
                     builder: (context) => IncomingCall(
                       name: name,
-                      number: number,
+                      number: dialCode + number,
                     ),
                   ),
                 );
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.tertiary,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text(
+                  'Call Now',
+                  style: GoogleFonts.outfit(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18),
                 ),
               ),
-              child: const Text('Call Now', style: TextStyle(color: Colors.white, fontSize: 22),),
             ),
           ]),
         ),

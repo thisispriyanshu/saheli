@@ -7,9 +7,9 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import '../../db/databases.dart';
 import '../../model/PhoneContact.dart';
+
 class CallerScreen extends StatefulWidget {
   @override
   State<CallerScreen> createState() => _SafeHomeState();
@@ -25,7 +25,8 @@ class _SafeHomeState extends State<CallerScreen> {
     SmsStatus result = await BackgroundSms.sendMessage(
         phoneNumber: phoneNumber, message: message, simSlot: 1);
     if (result == SmsStatus.sent) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('SOS message sent successfully')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('SOS message sent successfully')));
       Fluttertoast.showToast(msg: "SOS Message Sent");
     } else {
       Fluttertoast.showToast(msg: "failed");
@@ -303,19 +304,18 @@ class _SafeHomeState extends State<CallerScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-                Navigator.pop(context);
-                Navigator.pop(context);
+                Navigator.popAndPushNamed(context, '/HomeScreen',
+                    arguments: {
+
+                    });
               },
               child: const Icon(
                 IconData(0xe127, fontFamily: 'MaterialIcons'),
                 size: 30.0,
               ),
               style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
+                shape: const CircleBorder(), backgroundColor: Colors.red,
                 padding: const EdgeInsets.all(24),
-                primary: Colors.red,
               ),
             ),
             const SizedBox(

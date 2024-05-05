@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,6 +14,9 @@ import 'package:saheli_app/widgets/Chatbot/chatbot.dart';
 import 'package:saheli_app/widgets/SafeRoutes/SafeHome.dart';
 import 'package:saheli_app/widgets/custom_widgets/CustomCarousel.dart';
 import 'package:saheli_app/widgets/custom_widgets/custom_appBar.dart';
+import 'package:saheli_app/widgets/emergencies/AmbulanceEmergency.dart';
+import 'package:saheli_app/widgets/emergencies/PoliceEmergency.dart';
+import 'package:saheli_app/widgets/emergencies/WomenHelpline.dart';
 import 'package:shake/shake.dart';
 import 'package:telephony/telephony.dart';
 
@@ -23,11 +25,12 @@ import '../model/PhoneContact.dart';
 import '../widgets/NearbyLocations/nearby_places.dart';
 import '../widgets/emergency.dart';
 import 'community.dart';
-
+import 'connectScreen.dart';
 
 class HomePage extends StatefulWidget {
   int qIndex = 0;
 
+  HomePage({super.key});
   @override
   State<StatefulWidget> createState() => _HomePageState();
 }
@@ -39,151 +42,210 @@ class _HomePageState extends State<HomePage> {
       qIndex = random.nextInt(6);
     });
   }
+
   int qIndex = 0;
-  void initState(){
+  @override
+  void initState() {
     super.initState();
     getRandomQuote();
   }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home", style: TextStyle(color: Colors.white),),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        title: Text(
+          "Home",
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 24),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      body: SafeArea(
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: CustomAppBar(
+              Container(
+                child: CustomAppBar(
                   quoteIndex: qIndex,
                   onTap: getRandomQuote(),
                 ),
+              ),
+              const SizedBox(height: 10),
+              //SafeHome(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Smart connect",
+              style: GoogleFonts.outfit(
+                  fontSize: 24, fontWeight: FontWeight.w500),
             ),
-              Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    const SizedBox(height: 10),
-                    //SafeHome(),
-                    const SizedBox(height: 10),
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "Incase of Emergency",
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w500),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(
+                  height: 8,
+                ),
+                Container(
+                  height: 220,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Image.asset(
+                          'lib/assets/images/hardware_iot.jpg',
+                          width: 350,
+                          color: Colors.black.withOpacity(0.4),
+                          colorBlendMode: BlendMode.multiply,
+                          fit: BoxFit.fitWidth,
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 5),
-                    const Emergency(),
-                    const SizedBox(height: 5),
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "Find on Map",
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      alignment: Alignment.center,
-                        child: const LiveSafe()),
-
-                    const SizedBox(height: 10),
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "Join Community",
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 5,),
-                    Card(
-                      margin: EdgeInsets.only(left: 20,right: 20),
-                      color: Theme.of(context).colorScheme.secondary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => CommunitySection()),
-                            );
-                          },
-                          child: Card(
-                            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                            color: Theme.of(context).primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            child: Container(
-                              width: 300,
-                              height: 150,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.group,
-                                    size: 50,
-                                    color: Colors.pinkAccent,
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    'Community',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    'Join the women community and share your thoughts!',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Connect smart device to Saheli',
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 24,
                               ),
                             ),
-                          ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              'Connect your smart device with the app and unlock the real power of Saheli with built-in state-of-the-art artificial intelligence features!',
+                              style: GoogleFonts.outfit(
+                                  fontSize: 16, color: Colors.white),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            ElevatedButton(
+                                onPressed: () async {
+                                  bool result = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          BluetoothScreen(),
+                                    ),
+                                  );
+
+                                },
+                                child: Text(
+                                  'Connect',
+                                  style: GoogleFonts.outfit(
+                                      fontSize: 16, color: Colors.white),
+                                )),
+                          ],
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "Explore Inspiring Stories",
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w500),
-                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+              const SizedBox(height: 10),
+              Text(
+                "Quick Emergency Services",
+                style: GoogleFonts.outfit(
+                    fontSize: 24, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 10),
+              //const Emergency(),
+              Row(
+                children: [
+                  Expanded(child: PoliceEmergency()),
+                  Expanded(child: AmbulanceEmergency()),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ArmyEmergency(),
+              const SizedBox(height: 30),
+              Text(
+                "Find on Map",
+                style: GoogleFonts.outfit(
+                    fontSize: 24, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 10),
+              Container(alignment: Alignment.center, child: const LiveSafe()),
+              const SizedBox(height: 10),
+              Text(
+                "Join Community",
+                style: GoogleFonts.outfit(
+                    fontSize: 24, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CommunitySection()),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondary,
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: Theme.of(context).colorScheme.primary, width: 2)
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.group,
+                        size: 50,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                    ),
-                    const CustomCarouel(),
-                  ],
+                      SizedBox(height: 5),
+                      Text(
+                        'Community',
+                        style: GoogleFonts.outfit(
+                          fontSize: 18, fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        'Join the women community and share your thoughts!',
+                        style: GoogleFonts.outfit(
+                            fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
               ),
+              const SizedBox(height: 30),
+              Text(
+                "Explore Inspiring Stories",
+                style: GoogleFonts.outfit(
+                    fontSize: 24, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 10),
+              const CustomCarouel(),
             ],
           ),
+        ],
         ),
-
-    );
+      ),
+    ));
   }
+}
 
-
+class ConnectScreen {
+  const ConnectScreen();
 }

@@ -1,3 +1,5 @@
+
+
 import 'dart:convert';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -13,14 +15,8 @@ Future<List<dynamic>?> makeSafeRouteRequest(LatLng source, LatLng destination, S
   final response = await http.post(
     url,
     body: jsonEncode({
-      'source': {
-        'lat': source.latitude,
-        'lng': source.longitude,
-      },
-      'destination': {
-        'lat': destination.latitude,
-        'lng': destination.longitude,
-      },
+      'source': "${source.latitude},${source.longitude}",
+      'destination': "${destination.latitude},${destination.longitude}",
       'mode': mode,
     }),
     headers: {'Content-Type': 'application/json'}, // Specify JSON content type
@@ -32,10 +28,10 @@ Future<List<dynamic>?> makeSafeRouteRequest(LatLng source, LatLng destination, S
     print('Safe route request successful');
 
     // Extract and return the steps from the response
-    return body['safestRoute']['legs'][0]['steps']; // Assuming there's only one leg
+    return body[0]['legs'][0]['steps']; // Assuming there's only one leg
   } else {
     // Request failed
-    print('Safe route request failed');
+    print('Safe route request failed: ${response.body}');
     return null; // Return null or handle the error as needed
   }
 }
