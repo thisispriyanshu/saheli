@@ -17,7 +17,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:saheli_app/views/home_screen.dart';
+import 'package:Saheli/views/home_screen.dart';
 import 'package:shake/shake.dart';
 import 'package:telephony/telephony.dart';
 

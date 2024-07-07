@@ -4,8 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:saheli_app/db/databases.dart';
-import 'package:saheli_app/model/PhoneContact.dart';
+import 'package:Saheli/db/databases.dart';
+import 'package:Saheli/model/PhoneContact.dart';
 
 class SafeHome extends StatefulWidget {
   @override

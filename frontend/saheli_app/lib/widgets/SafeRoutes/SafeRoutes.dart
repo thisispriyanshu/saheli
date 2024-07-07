@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -14,7 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:map_autocomplete_field/map_autocomplete_field.dart';
-import 'package:saheli_app/AudioRecorder/screens/home_screen/audioplayer.dart';
+import 'package:Saheli/AudioRecorder/screens/home_screen/audioplayer.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
@@ -512,12 +511,12 @@ class _SafeRoutesState extends State<SafeRoutes> {
                             hintStyle: GoogleFonts.outfit(),
                             focusColor: Colors.white,
                             floatingLabelBehavior: FloatingLabelBehavior.never,
-                            fillColor: Theme.of(context).colorScheme.secondary,
+                            fillColor: Theme.of(context).colorScheme.tertiary,
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary),
-                              borderRadius: BorderRadius.circular(18),
+                                  color: Theme.of(context).colorScheme.tertiary),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -555,7 +554,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
 
               ),
               Positioned(
-                top: 70,
+                top: 80,
                 right: 15,
                 left: 15,
 
@@ -574,12 +573,12 @@ class _SafeRoutesState extends State<SafeRoutes> {
                             hintStyle: GoogleFonts.outfit(),
                             focusColor: Colors.white,
                             floatingLabelBehavior: FloatingLabelBehavior.never,
-                            fillColor: Theme.of(context).colorScheme.secondary,
+                            fillColor: Theme.of(context).colorScheme.tertiary,
                             filled: true,
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: Theme.of(context).colorScheme.primary),
-                              borderRadius: BorderRadius.circular(18),
+                                  color: Theme.of(context).colorScheme.tertiary),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -620,7 +619,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
 
               ),
               Positioned(
-              top: 130,
+              top: 150,
               left: 55,
               right: 55,
 

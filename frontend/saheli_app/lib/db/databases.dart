@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:saheli_app/model/PhoneContact.dart';
+import 'package:Saheli/model/PhoneContact.dart';
 
 import '../model/PhoneContact.dart';
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:saheli_app/widgets/SOSStorage/SubmitForm.dart';
+import 'package:Saheli/widgets/SOSStorage/SubmitForm.dart';
 // import 'package:google_maps_flutter_web/google_maps_flutter_web.dart' as webGM;
 
 class MapPicker extends StatefulWidget {

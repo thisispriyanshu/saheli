@@ -1,15 +1,13 @@
+package com.saheli.app
+
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
 import androidx.annotation.NonNull
-import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
-import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 
 class AndroidVolumeButtonsPlugin : FlutterPlugin, EventChannel.StreamHandler {
     private lateinit var applicationContext: Context
@@ -20,7 +18,10 @@ class AndroidVolumeButtonsPlugin : FlutterPlugin, EventChannel.StreamHandler {
         val methodChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "android_volume_buttons")
         val eventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "android_volume_buttons_events")
         methodChannel.setMethodCallHandler { call, result ->
-            result.notImplemented() // We don't need method calls in this plugin
+            when (call.method) {
+                "setAccelerationSamplingPeriod" -> result.notImplemented() // Handle this if needed
+                else -> result.notImplemented()
+            }
         }
         eventChannel.setStreamHandler(this)
     }

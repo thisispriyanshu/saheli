@@ -1,4 +1,4 @@
-name: saheli_app
+name: Saheli
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -21,11 +21,6 @@ version: 1.0.0+1
 environment:
   sdk: '>=3.2.5 <4.0.0'
 
-flutter_launcher_icons:
-  ios: true
-  android: true
-  image_path_ios: "lib/assets/images/logo.png"
-  image_path_android: "lib/assets/images/logo.png"
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -132,6 +127,8 @@ dependencies:
   loading_animation_widget: ^1.2.1
   flutter_launcher_icons: ^0.13.1
   modal_bottom_sheet: ^3.0.0
+  device_preview: ^1.1.0
+  flutter_toggle_tab: ^1.4.1
 
 
 dev_dependencies:

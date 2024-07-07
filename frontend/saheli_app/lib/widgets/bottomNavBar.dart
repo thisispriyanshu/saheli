@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:saheli_app/views/home_screen.dart';
+import 'package:Saheli/views/home_screen.dart';
 
 import '../AudioRecorder/screens/home_screen/audioplayer.dart';
 import '../AudioRecorder/screens/home_screen/home_screen.dart';
 import '../api/safeways.dart';
 import 'Chatbot/chatbot.dart';
 import 'Contacts/new_contacts.dart';
-import 'Profile.dart';
+import '../views/Profile.dart';
 import 'SafeRoutes/BrakeDetection.dart';
 import 'SafeRoutes/SafeRoutes.dart';
 
@@ -29,13 +29,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
   int _countdown = 60;
   Timer? _timer;
   bool _isBottomSheetVisible = false;
-  late Function sheetSetState;
+  late Function(Function()) sheetSetState;
   final List<Widget> navBarList = [
     HomePage(),
-    AddContactsPage(),
-    ChatScreen(),
-    SafeRoutes(),
-    Profile(),
+    const AddContactsPage(),
+    const ChatScreen(),
+    const SafeRoutes(),
+    const Profile(),
   ];
 
   @override
@@ -146,11 +146,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
       _selectedIndex = value;
     });
   }
-  AlertTimer(){
+
+  alertTimer(){
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       setState(() => _countdown--);
       sheetSetState(() {
-        final seconds = Duration().inSeconds + _countdown;
+        final seconds = const Duration().inSeconds + _countdown;
         Duration() = Duration(seconds: seconds);
       });
       if(_countdown == 0){
@@ -222,7 +223,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size.fromHeight(48),
@@ -238,7 +239,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         style: GoogleFonts.outfit(
                             color: Colors.black54, fontSize: 18),
                       )),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(48),
@@ -269,7 +270,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void initState() {
     super.initState();
     showBottomSheet();
-    AlertTimer();
+    sheetSetState = (fn) {
+      setState(fn);
+    };
+    alertTimer();
   }
 
   @override

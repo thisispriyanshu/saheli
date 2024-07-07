@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:saheli_app/widgets/custom_widgets/safewebview.dart';
+import 'package:Saheli/widgets/custom_widgets/safewebview.dart';
 
 class ArticleCard extends StatefulWidget {
   ArticleCard(

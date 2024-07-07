@@ -55,22 +55,25 @@ class SafeRoutesForm extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary),
                     borderRadius: BorderRadius.circular(18),
                   ),
-                );
-              },
-              icon: const Icon(Icons.place),
-              label: const Text(
-                'Select Location',
-                style: TextStyle(color: Colors.black),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.primary),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme
-                    .of(context)
-                    .colorScheme
-                    .secondary,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 25, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+              const SizedBox(height: 20.0),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: InputDecoration(
+                  labelText: 'Description/Situation of place',
+                  labelStyle: GoogleFonts.outfit(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.primary),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.primary),
+                  ),
                 ),
                 maxLines: 3,
               ),
@@ -89,52 +92,18 @@ class SafeRoutesForm extends StatelessWidget {
                 ),
                 maxLines: 3,
               ),
-              onPressed: () {
-                _submitForm(context);
-              },
-              child: const Text(
-                'Submit', style: TextStyle(color: Colors.black, fontSize: 16),),),
-
-          ],
-        ),
-      ),
-    );
-  }
-
-
-  void _submitForm(BuildContext context) async {
-    // Access the form data
-    String name = _nameController.text;
-    String description = _descriptionController.text;
-    String situation = _situationController.text;
-
-    // Access Firestore instance
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-      FirebaseAuth _auth=FirebaseAuth.instance;
-      String? id=_auth.currentUser?.uid;
-
-
-      await firestore.collection('users').doc(id).collection('complaints').add({
-        'name': name,
-        'description': description,
-        'situation': situation,
-        'timestamp': FieldValue.serverTimestamp(),
-        'location': GeoPoint(position.latitude, position.longitude),
-      });
-
-      // Show a success message
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Success'),
-            content: Text('Complaint submitted successfully!'),
-            actions: <Widget>[
-              TextButton(
+              const SizedBox(height: 30.0),
+              Text(
+                'Select Location from Map',
+                style: GoogleFonts.outfit(
+                    color: Theme.of(context).colorScheme.primary, fontSize: 18),
+              ),
+              const SizedBox(height: 10.0),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.tertiary,
+                    elevation: 0,
+                    side: const BorderSide(color: Colors.black54, width: 1)),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -149,7 +118,7 @@ class SafeRoutesForm extends StatelessWidget {
                   child: Text(
                     'Select Location',
                     style:
-                        GoogleFonts.outfit(color: Colors.black54, fontSize: 18),
+                    GoogleFonts.outfit(color: Colors.black54, fontSize: 18),
                   ),
                 ),
               ),
@@ -165,7 +134,7 @@ class SafeRoutesForm extends StatelessWidget {
                   child: Text(
                     'Submit',
                     style:
-                        GoogleFonts.outfit(color: Colors.white, fontSize: 18),
+                    GoogleFonts.outfit(color: Colors.white, fontSize: 18),
                   ),
                 ),
               ),
@@ -184,7 +153,7 @@ class SafeRoutesForm extends StatelessWidget {
           title: Text('Form Submitted', style:
           GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.w300),),
           content: Text(
-              'Suspicious location details have been submitted successfully. Thank you for helping Saheli make women stronger and safer!', style:
+            'Suspicious location details have been submitted successfully. Thank you for helping Saheli make women stronger and safer!', style:
           GoogleFonts.outfit(fontSize: 16, fontWeight: FontWeight.w300),),
           actions: [
             TextButton(
@@ -215,11 +184,9 @@ class _MyAppState extends State<MapScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Submit suspicous locations'),
-
       ),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
-
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const Text(
             'Enter your location',

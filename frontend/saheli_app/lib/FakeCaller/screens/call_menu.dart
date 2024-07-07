@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:saheli_app/FakeCaller/screens/scheduler.dart';
-import 'package:saheli_app/FakeCaller/screens/user_manual.dart';
+import 'package:Saheli/FakeCaller/screens/scheduler.dart';
+import 'package:Saheli/FakeCaller/screens/user_manual.dart';
 import '../utilities/card_child.dart';
 import '../utilities/icon_content.dart';
 import 'caller_id.dart';

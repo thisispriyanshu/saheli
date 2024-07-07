@@ -233,6 +233,7 @@ class _DetailsState extends State<Details> {
                         CustomBtn(
                             msg: "Submit",
                             loading: loading,
+                            color: Theme.of(context).colorScheme.primary,
                             onTap: () {
                               submit(
                                   phoneNumberController.text,

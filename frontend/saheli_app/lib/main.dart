@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'package:Saheli/views/addUserDetails.dart';
 import 'package:android_physical_buttons/android_physical_buttons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,12 +18,12 @@ import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:saheli_app/services/localDb/localDb.dart';
-import 'package:saheli_app/views/OnboardingScreen.dart';
-import 'package:saheli_app/views/googleSignIn.dart';
-import 'package:saheli_app/views/home_screen.dart';
-import 'package:saheli_app/views/login.dart';
-import 'package:saheli_app/widgets/bottomNavBar.dart';
+import 'package:Saheli/services/localDb/localDb.dart';
+import 'package:Saheli/views/OnboardingScreen.dart';
+import 'package:Saheli/views/googleSignIn.dart';
+import 'package:Saheli/views/home_screen.dart';
+import 'package:Saheli/views/login.dart';
+import 'package:Saheli/widgets/bottomNavBar.dart';
 import 'package:shake/shake.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -67,53 +70,49 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  try{
-    final url = Uri.parse(
-        'https://saheli-backend-ufs3.onrender.com/safest-route');
-    final requestBody = {
-      "source": "28.8162605,77.1306592",
-      "destination": "28.550121, 77.1866867",
-      "mode": "driving",
-    };
-    print(requestBody.toString());
-
-    final response = await http.post(
-      url,
-      body: {
-        "source": "28.8162605,77.1306592",
-        "destination": "28.550121, 77.1866867",
-        "mode": "driving",
-      }
-    );
-    print(response.body.toString());
-  } catch(e) {
-    print("error $e");
-  }
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: MyApp(),
-    routes: {'/CallerScreen': (context) =>  CallerScreen(), '/HomeScreen': (context) =>  HomePage()}
-  ));
+  // try{
+  //   final url = Uri.parse(
+  //       'https://saheli-backend-ufs3.onrender.com/safest-route');
+  //   final requestBody = {
+  //     "source": "28.8162605,77.1306592",
+  //     "destination": "28.550121, 77.1866867",
+  //     "mode": "driving",
+  //   };
+  //   print(requestBody.toString());
+  //
+  //   final response = await http.post(
+  //     url,
+  //     body: {
+  //       "source": "28.8162605,77.1306592",
+  //       "destination": "28.550121, 77.1866867",
+  //       "mode": "driving",
+  //     }
+  //   );
+  //   debugPrint("res: ${response.body.toString()}");
+  // } catch(e) {
+  //   print("error $e");
+  // }
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+        builder: (context) => MyApp(),
+        // builder: (context) => MaterialApp(
+        //     debugShowCheckedModeBanner: false,
+        //     home: MyApp(),
+        //     routes: {'/CallerScreen': (context) =>  CallerScreen(), '/HomeScreen': (context) =>  HomePage()}
+        // )
+    )
+  );
 }
 
 class _MyAppState extends State<MyApp> {
   final PageController _pageController = PageController(); // Moved it here
 
   bool isLogin = false;
+  bool contactAdded = false;
 
-  // getLoggedinState() async {
-  //   await LocalDb.getEmail().then((value) {
-  //     print(value);
-  //     setState(() {
-  //       if (value.toString() != "null") {
-  //         isLogin = true;
-  //       }
-  //     });
-  //   });
-  // }
-
-  void checkUser() {
-    print("in checkUser()");
+  Future<void> checkUser() async {
+    debugPrint("in checkUser()");
     User? firebaseUser = FirebaseAuth.instance.currentUser;
     if(firebaseUser == null){
       isLogin = false;
@@ -121,8 +120,16 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         isLogin = true;
       });
+      final userDoc = await FirebaseFirestore.instance.collection('users').doc(firebaseUser.uid).get();
+      Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
+      if(data['phone_number'] != ''){
+        setState(() {
+          contactAdded = true;
+        });
+      }
     }
-    print('is logged in? $isLogin');
+    debugPrint('is logged in? $isLogin');
+    debugPrint('is contact added? $contactAdded');
   }
 
   void playRingtone() {
@@ -131,15 +138,13 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    print('Success in safe route');
     checkUser();
     AndroidPhysicalButtons.listen((key) {
-      print(key);
+      debugPrint('key $key');
     });
     AndroidVolumeButtons.listenForVolumeButtons((volume) {
       Fluttertoast.showToast(msg: "Volume changed: $volume");
     });
-    print(isLogin);
     super.initState();
     ShakeDetector.autoStart(
       onPhoneShake: () {
@@ -160,14 +165,12 @@ class _MyAppState extends State<MyApp> {
       shakeThresholdGravity: 3.0,
       shakeCountResetTime: 3000,
     );
-    print(isLogin);
-
     // Add a delay to simulate a splash screen effect
-    Timer(Duration(seconds: 2), () {
-      //getLoggedinState();
-      checkUser();
-      setState(() {});
-    });
+    // Timer(const Duration(seconds: 2), () {
+    //   //getLoggedinState();
+    //   checkUser();
+    //   setState(() {});
+    // });
     super.initState();
   }
 
@@ -192,16 +195,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: Styles.themeData(context),
-        home: FutureBuilder(
-          future: Future.delayed(Duration(seconds: 2)),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return isLogin ? BottomNavBar() : OnboardingScreen();
-            } else {
-              return SplashScreen();
-            }
-          },
-        ),
+        home: isLogin ? (contactAdded ? const BottomNavBar() : const AddUserDetails()) : GoogleSignIn(),
           routes: {
             '/CallerScreen': (context) => CallerScreen(),
           }),
@@ -233,27 +227,27 @@ class SplashScreen extends StatelessWidget {
                 child: Container(
                   height: 250,
 
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('lib/assets/images/img.png'),
                     ),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
-              Text(
+              const Text(
                 'S A H E L I',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
                     fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-              Text(
+              const Text(
                 'Towards A Safe \'YOU\'',
                 style: TextStyle(
                     color: Colors.white,
@@ -288,12 +282,20 @@ void addExamplePosts() async {
 
 
 class AndroidVolumeButtons {
-  static const MethodChannel _channel =
-  MethodChannel('android_volume_buttons');
+  static const MethodChannel _channel = MethodChannel('android_volume_buttons');
+  static const EventChannel _eventChannel = EventChannel('android_volume_buttons_events');
 
   static void listenForVolumeButtons(void Function(dynamic) callback) {
-    EventChannel('android_volume_buttons_events').receiveBroadcastStream().listen((dynamic event) {
+    _eventChannel.receiveBroadcastStream().listen((dynamic event) {
       callback(event);
     });
+  }
+
+  static Future<void> setAccelerationSamplingPeriod(int period) async {
+    try {
+      await _channel.invokeMethod('setAccelerationSamplingPeriod', period);
+    } on MissingPluginException catch (e) {
+      debugPrint('Error: $e');
+    }
   }
 }

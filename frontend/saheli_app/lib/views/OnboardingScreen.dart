@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:saheli_app/views/googleSignIn.dart';
-import 'package:saheli_app/views/login.dart';
+import 'package:Saheli/views/googleSignIn.dart';
+import 'package:Saheli/views/login.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});

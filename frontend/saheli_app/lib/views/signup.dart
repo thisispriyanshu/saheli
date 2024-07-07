@@ -4,9 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:saheli_app/common/widgets/customBtn.dart';
-import 'package:saheli_app/views/details.dart';
-import 'package:saheli_app/views/login.dart';
+import 'package:Saheli/common/widgets/customBtn.dart';
+import 'package:Saheli/views/details.dart';
+import 'package:Saheli/views/login.dart';
 
 import '../services/localDb/localDb.dart';
 
@@ -225,6 +225,7 @@ class _SignupPageState extends State<SignupPage> {
                             CustomBtn(
                                 msg: "Register",
                                 loading: loading,
+                                color: Theme.of(context).colorScheme.primary,
                                 onTap: () {
                                   signUp(
                                       nameController.text,

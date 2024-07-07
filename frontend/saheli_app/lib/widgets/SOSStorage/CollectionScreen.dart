@@ -2,12 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:saheli_app/FakeCaller/screens/scheduler.dart';
-import 'package:saheli_app/FakeCaller/screens/user_manual.dart';
-import 'package:saheli_app/widgets/SOSStorage/AudioListScreen.dart';
-import 'package:saheli_app/widgets/SOSStorage/AudioStore.dart';
-import 'package:saheli_app/widgets/SOSStorage/CameraStore.dart';
-import 'package:saheli_app/widgets/SOSStorage/sosCardChild.dart';
+import 'package:Saheli/FakeCaller/screens/scheduler.dart';
+import 'package:Saheli/FakeCaller/screens/user_manual.dart';
+import 'package:Saheli/widgets/SOSStorage/AudioListScreen.dart';
+import 'package:Saheli/widgets/SOSStorage/AudioStore.dart';
+import 'package:Saheli/widgets/SOSStorage/CameraStore.dart';
+import 'package:Saheli/widgets/SOSStorage/sosCardChild.dart';
 import '../../FakeCaller/utilities/card_child.dart';
 import '../../FakeCaller/utilities/icon_content.dart';
 

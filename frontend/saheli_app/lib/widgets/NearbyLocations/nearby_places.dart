@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:saheli_app/widgets/NearbyLocations/Cards/BusStationCard.dart';
-import 'package:saheli_app/widgets/NearbyLocations/Cards/PoliceStationCard.dart';
-import 'package:saheli_app/widgets/NearbyLocations/Cards/HospitalCard.dart';
+import 'package:Saheli/widgets/NearbyLocations/Cards/BusStationCard.dart';
+import 'package:Saheli/widgets/NearbyLocations/Cards/PoliceStationCard.dart';
+import 'package:Saheli/widgets/NearbyLocations/Cards/HospitalCard.dart';
 
 class LiveSafe extends StatelessWidget {
   const LiveSafe({Key? key}) : super(key: key);

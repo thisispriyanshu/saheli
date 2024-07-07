@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:saheli_app/views/home_screen.dart';
-import 'package:saheli_app/views/signup.dart';
-import 'package:saheli_app/widgets/bottomNavBar.dart';
+import 'package:Saheli/views/home_screen.dart';
+import 'package:Saheli/views/signup.dart';
+import 'package:Saheli/widgets/bottomNavBar.dart';
 
 import '../common/widgets/customBtn.dart';
 
@@ -167,6 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(width: 60,),
                           CustomBtn(
                               msg: "Login",
+                              color: Theme.of(context).colorScheme.primary,
                               onTap: () {
                                 login(emailController.text,
                                     passwordController.text);

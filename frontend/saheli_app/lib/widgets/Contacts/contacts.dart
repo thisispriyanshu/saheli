@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,7 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../db/databases.dart';
 import '../../model/PhoneContact.dart';
-import '../../utils/constants.dart';
+import '../../common/utils/constants.dart';
 
 class ContactsPage extends StatefulWidget {
   const ContactsPage({Key? key}) : super(key: key);
@@ -200,6 +202,17 @@ class _ContactsPageState extends State<ContactsPage> {
     } else {
       Fluttertoast.showToast(msg: "Failed to add contacts");
     }
+    final data = {
+      'name': newContact.name,
+      'phone_number': newContact.number,
+    };
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    User user = _auth.currentUser!;
+    final userDoc = _firestore.collection('users').doc(user.uid);
+    await userDoc.update({
+      'emergency_contacts': FieldValue.arrayUnion([data])
+    });
     Navigator.of(context).pop(true);
   }
 }

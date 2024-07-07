@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:Saheli/views/addUserDetails.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,15 +10,15 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:saheli_app/common/widgets/customBtn.dart';
-import 'package:saheli_app/views/login.dart';
-import 'package:saheli_app/widgets/Chatbot/chatbot.dart';
-import 'package:saheli_app/widgets/SafeRoutes/SafeHome.dart';
-import 'package:saheli_app/widgets/custom_widgets/CustomCarousel.dart';
-import 'package:saheli_app/widgets/custom_widgets/custom_appBar.dart';
-import 'package:saheli_app/widgets/emergencies/AmbulanceEmergency.dart';
-import 'package:saheli_app/widgets/emergencies/PoliceEmergency.dart';
-import 'package:saheli_app/widgets/emergencies/WomenHelpline.dart';
+import 'package:Saheli/common/widgets/customBtn.dart';
+import 'package:Saheli/views/login.dart';
+import 'package:Saheli/widgets/Chatbot/chatbot.dart';
+import 'package:Saheli/widgets/SafeRoutes/SafeHome.dart';
+import 'package:Saheli/widgets/custom_widgets/CustomCarousel.dart';
+import 'package:Saheli/widgets/custom_widgets/custom_appBar.dart';
+import 'package:Saheli/widgets/emergencies/AmbulanceEmergency.dart';
+import 'package:Saheli/widgets/emergencies/PoliceEmergency.dart';
+import 'package:Saheli/widgets/emergencies/WomenHelpline.dart';
 import 'package:shake/shake.dart';
 import 'package:telephony/telephony.dart';
 
@@ -90,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                   height: 8,
                 ),
                 Container(
-                  height: 220,
+                  height: 250,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                   ),
@@ -100,10 +102,11 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(30),
                         child: Image.asset(
                           'lib/assets/images/hardware_iot.jpg',
-                          width: 350,
+                          width: 400,
+                          height: 450,
                           color: Colors.black.withOpacity(0.4),
                           colorBlendMode: BlendMode.multiply,
-                          fit: BoxFit.fitWidth,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       Padding(
@@ -125,10 +128,10 @@ class _HomePageState extends State<HomePage> {
                             Text(
                               'Connect your smart device with the app and unlock the real power of Saheli with built-in state-of-the-art artificial intelligence features!',
                               style: GoogleFonts.outfit(
-                                  fontSize: 16, color: Colors.white),
+                                  fontSize: 14, color: Colors.white),
                             ),
                             const SizedBox(
-                              height: 16,
+                              height: 8,
                             ),
                             ElevatedButton(
                                 onPressed: () async {
@@ -139,7 +142,6 @@ class _HomePageState extends State<HomePage> {
                                           BluetoothScreen(),
                                     ),
                                   );
-
                                 },
                                 child: Text(
                                   'Connect',

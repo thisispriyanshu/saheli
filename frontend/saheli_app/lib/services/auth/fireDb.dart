@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:saheli_app/services/localDb/localDb.dart';
+import 'package:Saheli/services/localDb/localDb.dart';
 
 class FireDb {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Map<String, dynamic> data = {};
   createNewUser(String name, String email, String photoUrl, String uid,
       String jwtToken) async {
@@ -56,6 +59,21 @@ class FireDb {
     } else {
       print('Error: ${response.statusCode}');
       return false;
+    }
+  }
+
+  Future<Map<String, dynamic>?> fetchUserDetails(String uid) async {
+    try {
+      final DocumentSnapshot userDoc = await _firestore.collection('users').doc(uid).get();
+      if (userDoc.exists) {
+        return userDoc.data() as Map<String, dynamic>?;
+      } else {
+        debugPrint('User does not exist in Firestore');
+        return null;
+      }
+    } catch (e) {
+      debugPrint('Error fetching user details: $e');
+      return null;
     }
   }
 }

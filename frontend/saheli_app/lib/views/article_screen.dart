@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:saheli_app/widgets/article/cards.dart';
-import 'package:saheli_app/widgets/custom_widgets/safewebview.dart';
+import 'package:Saheli/widgets/article/cards.dart';
+import 'package:Saheli/widgets/custom_widgets/safewebview.dart';
 
 class ArticleScreen extends StatelessWidget {
   const ArticleScreen({super.key});

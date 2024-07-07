@@ -114,37 +114,6 @@ class _ChatBotState extends State<ChatScreen> {
                     child: Stack(
                       //fit: StackFit.expand,
                       children: [
-                        // Expanded(
-                        //     child: Image.asset(
-                        //   'lib/assets/images/KiranBg.png',
-                        //   fit: BoxFit.cover,
-                        //   color: Colors.black.withOpacity(0.2),
-                        //   colorBlendMode: BlendMode.multiply,
-                        // )),
-                        // Column(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     Text(
-                        //       'Sakha AI',
-                        //       style: GoogleFonts.outfit(
-                        //           color: Theme.of(context).colorScheme.primary,
-                        //           fontSize: 24,
-                        //           fontWeight: FontWeight.bold),
-                        //     ),
-                        //     Text(
-                        //       'Your personalised chat bot \n'
-                        //       'ready to help you anytime',
-                        //       textAlign: TextAlign.center,
-                        //       style: GoogleFonts.outfit(
-                        //           color: Theme.of(context).colorScheme.primary,
-                        //           fontSize: 16,
-                        //           fontWeight: FontWeight.w500),
-                        //     ),
-                        //     SizedBox(
-                        //       height: 30,
-                        //     )
-                        //   ],
-                        // ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 8.0, right: 8.0, bottom: 10, top: 0.0),

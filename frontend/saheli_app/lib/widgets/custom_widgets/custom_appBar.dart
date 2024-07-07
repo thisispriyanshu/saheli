@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:saheli_app/utils/quotes.dart';
+import 'package:Saheli/common/utils/quotes.dart';
 
 class CustomAppBar extends StatelessWidget {
   // const CustomAppBar({super.key});

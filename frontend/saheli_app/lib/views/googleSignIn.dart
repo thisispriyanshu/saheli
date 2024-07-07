@@ -1,9 +1,10 @@
+import 'package:Saheli/views/addUserDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:saheli_app/widgets/bottomNavBar.dart';
+import 'package:Saheli/widgets/bottomNavBar.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
 import '../services/auth/googleAuth.dart';
@@ -77,12 +78,20 @@ class _GoogleSignInState extends State<GoogleSignIn> {
                           //   isLoading = false;
                           // });
                           //await _googleSignInManager.signIn();
-                          await signInWithGoogle();
-                          Navigator.pushReplacement(
+                          bool newUser = await signInWithGoogle();
+                          if(!newUser) {
+                            Navigator.pushReplacement(
                               context,
                               PageTransition(
                                   child: const BottomNavBar(),
                                   type: PageTransitionType.fade));
+                          } else {
+                            Navigator.pushReplacement(
+                                context,
+                                PageTransition(
+                                    child: const AddUserDetails(),
+                                    type: PageTransitionType.fade));
+                          }
                         },
                         style: ButtonStyle(
                           backgroundColor: isLoadingOtp
