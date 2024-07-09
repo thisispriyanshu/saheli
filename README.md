@@ -6,7 +6,7 @@ Saheli, meaning 'female best friend' in Hindi, is an innovative mobile applicati
 
 #### YouTube Video Demo Link (1 min) : https://youtu.be/GjfN3swoP4Q
 #### YouTube Video Demo Link (2 min) : https://www.youtube.com/watch?v=al7dooPSCwM
-#### Website Link : https://saheli-app.netlify.app/
+#### Website Link : [saheli.dev](https://www.saheli.dev/)
 
 ## Features:
 
