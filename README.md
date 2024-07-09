@@ -1,5 +1,7 @@
 # Saheli - Your Ultimate Safety Companion
 
+Awards : [People Choice Award](https://blog.google/technology/developers/meet-the-students-that-are-changing-the-world-through-technology) and [Top 10 Winner](https://developers.googleblog.com/en/5-years-of-innovation-student-developers-solving-real-world-problems-using-google-tech/) of [Google Solution Challenge 2024](https://developers.google.com/community/gdsc-solution-challenge/winners). Checkout link to read blogs on Google Developers Blog page.
+
 Saheli, meaning 'female best friend' in Hindi, is an innovative mobile application designed to ensure the safety and security of women, empowering them to navigate through various situations confidently. Developed as a part of the Google Solution Challenge hackathon 2024, Saheli app is built using Flutter and integrating cutting-edge technologies and thoughtful features to address the pressing issue of women's safety.
 
 #### YouTube Video Demo Link (1 min) : https://youtu.be/GjfN3swoP4Q
