@@ -143,117 +143,87 @@ class _ProfileState extends State<Profile> {
         title: Text(
           "Profile",
           style: GoogleFonts.outfit(
-              fontWeight: FontWeight.w600, fontSize: 24),
+              fontWeight: FontWeight.w600, fontSize: 32),
         ),
         backgroundColor: Theme.of(context).colorScheme.tertiary,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 30,
-              child: Stack(
-                children: [
-                  Positioned(
-                      right: 20,
-                      bottom: 10,
-                      child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfile()));
-                          },
-                          child: Text(
-                            'Edit',
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              color: _edit ? Theme.of(context).colorScheme.primary : inactive,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )))
-                ],
-              ),
-            ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: Colors.white)
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: CachedNetworkImage(
-                        imageUrl: photoUrl.isNotEmpty
-                            ? photoUrl
-                            : 'https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg',
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: 100,
-                      )),
-                  Container(
-                    height: 96,
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          width: 1,
-                          strokeAlign: BorderSide.strokeAlignCenter,
-                          color: inactive.withOpacity(0.4),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Column(
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfile()));
+                },
+                borderRadius: BorderRadius.circular(10),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        userName!,
-                        style: GoogleFonts.outfit(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 24,
-                        ),
-                      ),
-                      const SizedBox(height: 5,),
-                      Text(
-                        userEmail,
-                        style: GoogleFonts.outfit(
-                          fontWeight: FontWeight.w300,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 5,),
-                      Text(
-                        contactNumber,
-                        style: GoogleFonts.outfit(
-                          fontWeight: FontWeight.w300,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 5,),
-                      Row(
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: CachedNetworkImage(
+                            imageUrl: photoUrl.isNotEmpty
+                                ? photoUrl
+                                : 'https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg',
+                            fit: BoxFit.cover,
+                            height: 100,
+                            width: 100,
+                          )),
+                      const SizedBox(width: 20,),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            age,
+                            userName!,
                             style: GoogleFonts.outfit(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 24,
                             ),
                           ),
-                          const SizedBox(width: 10,),
-                          Text(
-                            gender,
-                            style: GoogleFonts.outfit(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 16,
-                            ),
+                          // const SizedBox(height: 5,),
+                          // Text(
+                          //   userEmail,
+                          //   style: GoogleFonts.outfit(
+                          //     fontWeight: FontWeight.w300,
+                          //     fontSize: 16,
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 5,),
+                          // Text(
+                          //   contactNumber,
+                          //   style: GoogleFonts.outfit(
+                          //     fontWeight: FontWeight.w300,
+                          //     fontSize: 16,
+                          //   ),
+                          // ),
+                          const SizedBox(height: 5,),
+                          Row(
+                            children: [
+                              Text(
+                                age,
+                                style: GoogleFonts.outfit(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(width: 10,),
+                              Text(
+                                gender,
+                                style: GoogleFonts.outfit(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
-                      ),
+                      )
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20,),
@@ -331,7 +301,7 @@ class _ProfileState extends State<Profile> {
                     }),
               ],
             ),
-            SizedBox(height: 50,)
+            const SizedBox(height: 50,)
           ],
         ),
       ),

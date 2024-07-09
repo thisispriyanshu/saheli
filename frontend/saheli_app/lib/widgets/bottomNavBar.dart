@@ -68,9 +68,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       backgroundColor: Theme.of(context).bottomAppBarTheme.color,
       key: _scaffoldKey,
       // body: _pages[_selectedIndex],
-      body: SafeArea(
-        child: IndexedStack(index: _selectedIndex, children: navBarList),
-      ),
+      body: IndexedStack(index: _selectedIndex, children: navBarList),
       bottomNavigationBar: Material(
         elevation: 15,
         child: Container(

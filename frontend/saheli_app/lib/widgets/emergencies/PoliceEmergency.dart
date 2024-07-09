@@ -13,10 +13,12 @@ class PoliceEmergency extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
       ),
-      elevation: 10,
+      elevation: 0,
       child: InkWell(
         onTap: () => _callNumber('1090'),
         child: Container(
+          width: 155,
+          height: 250,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
               gradient: const LinearGradient(

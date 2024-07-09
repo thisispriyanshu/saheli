@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
@@ -74,7 +75,7 @@ class _ChatBotState extends State<ChatScreen> {
       appBar: AppBar(
         title: Text(
           "Sakha",
-          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 24),
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 32),
         ),
         backgroundColor: Theme.of(context).colorScheme.tertiary,
       ),
@@ -109,85 +110,36 @@ class _ChatBotState extends State<ChatScreen> {
                       }).toList(),
                     ),
                   ),
-                  Container(
-                    height: 495,
-                    child: Stack(
-                      //fit: StackFit.expand,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8.0, right: 8.0, bottom: 10, top: 0.0),
-                          child: Column(
-                            children: [
-                              Flexible(
-                                child: ListView.builder(
-                                  reverse: true,
-                                  itemCount: messages.length,
-                                  itemBuilder: (context, index) => Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 4.0),
-                                    child: chatBubble(
-                                        messages[index]["message"].toString(),
-                                        messages[index]["data"]),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                child: ListTile(
-                                  title: Container(
-                                    padding: EdgeInsets.only(left: 10),
-                                    decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .tertiary,
-                                        border: Border.all(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            width: 1),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(18))),
-                                    child: TextFormField(
-                                      controller: messageController,
-                                      decoration: InputDecoration(
-                                          hintText: "Ask anything...",
-                                          hintStyle: GoogleFonts.outfit(),
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          focusedBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          disabledBorder: InputBorder.none),
-                                      cursorColor: clr1,
+                  SingleChildScrollView(
+                    child: Container(
+                      height: 520,
+                      child: Stack(
+                        //fit: StackFit.expand,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, right: 8.0, bottom: 10, top: 0.0),
+                            child: Column(
+                              children: [
+                                Flexible(
+                                  child: ListView.builder(
+                                    reverse: true,
+                                    itemCount: messages.length,
+                                    itemBuilder: (context, index) => Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 4.0),
+                                      child: chatBubble(
+                                          messages[index]["message"].toString(),
+                                          messages[index]["data"]),
                                     ),
                                   ),
-                                  trailing: GestureDetector(
-                                    child:
-                                        Icon(Icons.send_outlined, color: clr1),
-                                    onTap: () {
-                                      setState(() {
-                                        messages.insert(0, {
-                                          "data": 1,
-                                          "message": messageController.text
-                                        });
-                                      });
-                                      getResponse(messageController.text);
-                                      messageController.clear();
-                                    },
-                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 10),
-                            ],
+                                SizedBox(height: 10),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -221,6 +173,57 @@ class _ChatBotState extends State<ChatScreen> {
                             color: Colors.white, fontSize: 20),
                       )),
             ),
+        bottomNavigationBar: Container(
+          child: ListTile(
+            title: Container(
+              padding: EdgeInsets.only(left: 10),
+              decoration: BoxDecoration(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .tertiary,
+                  border: Border.all(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary,
+                      width: 1),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(18))),
+              child: TextFormField(
+                controller: messageController,
+                decoration: InputDecoration(
+                    hintText: "Ask anything...",
+                    hintStyle: GoogleFonts.outfit(),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary),
+                      borderRadius:
+                      BorderRadius.circular(10),
+                    ),
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none),
+                cursorColor: clr1,
+              ),
+            ),
+            trailing: GestureDetector(
+              child:
+              Icon(Icons.send_outlined, color: clr1),
+              onTap: () {
+                setState(() {
+                  messages.insert(0, {
+                    "data": 1,
+                    "message": messageController.text
+                  });
+                });
+                getResponse(messageController.text);
+                messageController.clear();
+              },
+            ),
+          ),
+        ),
     );
   }
 

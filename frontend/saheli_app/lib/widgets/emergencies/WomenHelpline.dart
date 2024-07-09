@@ -13,12 +13,13 @@ class ArmyEmergency extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
       ),
-      elevation: 10,
+      elevation: 0,
       child: InkWell(
         onTap: () => _callNumber('100'),
         child: Container(
           //width: MediaQuery.of(context).size.width,
           width: 155,
+          height: 250,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
               gradient: const LinearGradient(

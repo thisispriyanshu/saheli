@@ -65,7 +65,7 @@ class _AddContactsPageState extends State<AddContactsPage> {
       appBar: AppBar(
         title: Text(
           "Contacts",
-          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 24),
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 32),
         ),
         backgroundColor: Theme.of(context).colorScheme.tertiary,
       ),

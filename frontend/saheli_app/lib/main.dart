@@ -95,17 +95,21 @@ void main() async {
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
-        builder: (context) => MyApp(),
-        // builder: (context) => MaterialApp(
-        //     debugShowCheckedModeBanner: false,
-        //     home: MyApp(),
-        //     routes: {'/CallerScreen': (context) =>  CallerScreen(), '/HomeScreen': (context) =>  HomePage()}
-        // )
+        //builder: (context) => MyApp(),
+        builder: (context) => MaterialApp(
+            useInheritedMediaQuery: true,
+            builder: DevicePreview.appBuilder,
+            locale: DevicePreview.locale(context),
+            debugShowCheckedModeBanner: false,
+            home: MyApp(),
+            routes: {'/CallerScreen': (context) =>  CallerScreen(), '/HomeScreen': (context) =>  HomePage()}
+        )
     )
   );
 }
 
 class _MyAppState extends State<MyApp> {
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final PageController _pageController = PageController(); // Moved it here
 
   bool isLogin = false;
@@ -148,7 +152,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     ShakeDetector.autoStart(
       onPhoneShake: () {
-        // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('shaked')));
+        //ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('shaked')));
+        debugPrint('phone shaken');
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -166,11 +171,11 @@ class _MyAppState extends State<MyApp> {
       shakeCountResetTime: 3000,
     );
     // Add a delay to simulate a splash screen effect
-    // Timer(const Duration(seconds: 2), () {
-    //   //getLoggedinState();
-    //   checkUser();
-    //   setState(() {});
-    // });
+    Timer(const Duration(seconds: 2), () {
+      //getLoggedinState();
+      checkUser();
+      setState(() {});
+    });
     super.initState();
   }
 

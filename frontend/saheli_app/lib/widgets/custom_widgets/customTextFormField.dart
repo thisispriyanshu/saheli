@@ -6,7 +6,8 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   bool isInputTypeString;
   Color color;
-  CustomTextFormField({super.key, required this.hint, required this.controller, required this.color, this.isInputTypeString = true});
+  bool enabled;
+  CustomTextFormField({super.key, required this.hint, required this.controller, required this.color, this.isInputTypeString = true, this.enabled = true});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class CustomTextFormField extends StatelessWidget {
         }
         return null;
       },
-      enabled: true,
+      enabled: enabled,
       style: GoogleFonts.poppins(
         fontSize: 16,
         fontWeight: FontWeight.w400,

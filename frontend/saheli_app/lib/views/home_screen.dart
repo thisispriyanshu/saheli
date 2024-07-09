@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -58,7 +59,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(
           "Home",
-          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 24),
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 32),
         ),
         backgroundColor: Theme.of(context).colorScheme.tertiary,
       ),
@@ -164,16 +165,19 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 10),
               //const Emergency(),
-              Row(
-                children: [
-                  Expanded(child: PoliceEmergency()),
-                  Expanded(child: AmbulanceEmergency()),
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    PoliceEmergency(),
+                    AmbulanceEmergency(),
+                    ArmyEmergency(),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              ArmyEmergency(),
               const SizedBox(height: 30),
               Text(
                 "Find on Map",

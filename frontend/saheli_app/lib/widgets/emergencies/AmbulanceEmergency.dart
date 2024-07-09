@@ -13,10 +13,12 @@ class AmbulanceEmergency extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
       ),
-      elevation: 10,
+      elevation: 0,
       child: InkWell(
         onTap: () => _callNumber('108'),
         child: Container(
+          width: 155,
+          height: 250,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),

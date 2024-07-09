@@ -493,7 +493,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
               ),
 
               Positioned(
-                top: 10,
+                top: 30,
                 right: 15,
                 left: 15,
 
@@ -554,7 +554,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
 
               ),
               Positioned(
-                top: 80,
+                top: 100,
                 right: 15,
                 left: 15,
 
@@ -619,7 +619,7 @@ class _SafeRoutesState extends State<SafeRoutes> {
 
               ),
               Positioned(
-              top: 150,
+              top: 170,
               left: 55,
               right: 55,
 

@@ -60,7 +60,7 @@ class _EditProfileState extends State<EditProfile> {
           contactNumber = data['phone_number'];
           gender = data['gender'];
           age = data['age'];
-          if(gender == 'Female') {
+          if (gender == 'Female') {
             _tabTextIndexSelected = 0;
           } else {
             _tabTextIndexSelected = 1;
@@ -111,15 +111,17 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   void _checkNumber(String value) {
-    if(value.isEmpty) return;
+    if (value.isEmpty) return;
     if (value.length == 10) {
       setState(() {
         warningMessage = 'The number has now reached 10 digits';
-        if(nameController.text.isNotEmpty && emailController.text.isNotEmpty && ageController.text.isNotEmpty){
+        if (nameController.text.isNotEmpty &&
+            emailController.text.isNotEmpty &&
+            ageController.text.isNotEmpty) {
           enable = true;
         }
       });
-    } else if(value.length > 0 && value.length <10) {
+    } else if (value.length > 0 && value.length < 10) {
       setState(() {
         warningMessage = 'The number should be exactly 10 digits';
         enable = false;
@@ -128,7 +130,7 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   updateDetails() async {
-    try{
+    try {
       final FirebaseAuth _auth = FirebaseAuth.instance;
       final FirebaseFirestore _firestore = FirebaseFirestore.instance;
       User user = _auth.currentUser!;
@@ -138,7 +140,7 @@ class _EditProfileState extends State<EditProfile> {
         'email': emailController.text,
         'age': ageController.text,
         'gender': selectedGender,
-        'phone_number': dialCode+contactController.text,
+        'phone_number': dialCode + contactController.text,
         'photoURL': photoUrl
       });
       showSnackBar(context, 'Profile Updated successfully', successColor);
@@ -163,240 +165,333 @@ class _EditProfileState extends State<EditProfile> {
     contactController.dispose();
   }
 
+  toggleEdit() {
+    setState(() {
+      _edit = !_edit;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Details', style: GoogleFonts.outfit(
-            fontWeight: FontWeight.w600, fontSize: 24),),
+        title: Text(
+          'Edit Details',
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 24),
+        ),
         backgroundColor: Theme.of(context).colorScheme.tertiary,
       ),
       backgroundColor: Theme.of(context).colorScheme.tertiary,
       body: SingleChildScrollView(
         child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 100,
-                width: 100,
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: !updatingLogo ? CachedNetworkImage(
-                          imageUrl: photoUrl.isNotEmpty
-                              ? photoUrl
-                              : 'https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg',
-                          fit: BoxFit.cover,
-                          height: 100,
-                          width: 100,
-                        ) : const Center(child: CircularProgressIndicator(),)),
-                    Positioned(
-                        bottom: 2,
-                        right: 2,
-                        child: InkWell(
-                          onTap: () async {
-                            await pickAndUploadImage();
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            SizedBox(
+              height: 30,
+              child: Stack(
+                children: [
+                  Positioned(
+                      right: 20,
+                      bottom: 10,
+                      child: GestureDetector(
+                          onTap: () {
+                            toggleEdit();
                           },
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: const Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              )),
-                        )
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Name",
-                      style: GoogleFonts.outfit(
-                          fontSize: 24,
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    CustomTextFormField(hint: userName, controller: nameController, color: Theme.of(context).colorScheme.primary),
-                    const SizedBox(height: 5,),
-                    Text(
-                      "Email",
-                      style: GoogleFonts.outfit(
-                          fontSize: 24,
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    CustomTextFormField(hint: userEmail, controller: emailController, color: Theme.of(context).colorScheme.primary),
-                    const SizedBox(height: 5,),
-                    Text(
-                      "Age",
-                      style: GoogleFonts.outfit(
-                          fontSize: 24,
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    CustomTextFormField(hint: age, controller: ageController, color: Theme.of(context).colorScheme.primary),
-                    const SizedBox(height: 5,),
-                    Text(
-                      "Contact Number",
-                      style: GoogleFonts.outfit(
-                          fontSize: 24,
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            final picked =
-                            await countryPicker.showPicker(context: context);
-                            setState(() {
-                              if(picked!.dialCode.isNotEmpty) {
-                                dialCode = picked.dialCode;
-                                countryFlag = picked.flagImage(fit: BoxFit.cover, width: 25);
-                              }
-                            });
-                          },
-                          child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 16, horizontal: 8),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primary,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Row(
-                                children: [
-                                  countryFlag,
-                                  const Icon(
-                                    Icons.arrow_drop_down,
-                                    color: Colors.white,
-                                    size: 25,
-                                  )
-                                ],
-                              )),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            controller: contactController,
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Phone Number cannot be empty";
-                              }
-                              final cleanedValue = value.replaceAll(' ', '');
-                              if (!RegExp(r'^(?:[+0]9)?[0-9]{10}$')
-                                  .hasMatch(cleanedValue)) {
-                                return ("Please enter a valid number");
-                              } else {
-                                return null;
-                              }
-                            },
-                            enabled: true,
-                            onChanged: (value) {
-                              contactController.text = value;
-                              _checkNumber(value);
-                            },
-                            style: GoogleFonts.poppins(),
-                            maxLines: 1,
-                            cursorColor: Theme.of(context).colorScheme.primary,
-                            textAlignVertical: TextAlignVertical.top,
-                            decoration: InputDecoration(
-                              hintText: contactNumber,
-                              hintStyle: GoogleFonts.poppins(
-                                color: Colors.black.withOpacity(0.20000000298023224),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Theme.of(context).colorScheme.primary),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Theme.of(context).colorScheme.primary),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Theme.of(context).colorScheme.primary),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
+                          child: Text(
+                            'Edit',
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              color: _edit
+                                  ? Theme.of(context).colorScheme.primary
+                                  : inactive,
+                              fontWeight: FontWeight.w400,
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                    Text(
-                      warningMessage,
-                      style: GoogleFonts.poppins(
-                        color: warningMessage == 'The number has now reached 10 digits'
-                            ? Colors.green
-                            : Colors.red,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    FlutterToggleTab(
-                      width: 90,
-                      height: 50,
-                      borderRadius: 50,
-                      selectedIndex: _tabTextIndexSelected,
-                      selectedBackgroundColors: [
-                        Theme.of(context).colorScheme.primary,
-                      ],
-                      selectedTextStyle: GoogleFonts.outfit(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                      unSelectedTextStyle: GoogleFonts.outfit(
-                          color: const Color(0xFF898989),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                      labels: _listTextTabToggle,
-                      selectedLabelIndex: (index) {
-                        setState(() {
-                          _tabTextIndexSelected = index;
-                          selectedGender = _listTextTabToggle[index];
-                        });
-                      },
-                      isScroll: false,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                  ],
-                ),
+                          )))
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: CustomBtn(
-                    msg: 'Save',
-                    textColor: Colors.white,
-                    color: enable ? Theme.of(context).colorScheme.primary : inactive,
-                    onTap: enable ? () async {
-                      await updateDetails();
-                    } : () {}),
-              )
-            ]
-          ),
+            ),
+            SizedBox(
+              height: 100,
+              width: 100,
+              child: Stack(
+                children: [
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: !updatingLogo
+                          ? CachedNetworkImage(
+                              imageUrl: photoUrl.isNotEmpty
+                                  ? photoUrl
+                                  : 'https://coenterprises.com.au/wp-content/uploads/2018/02/male-placeholder-image.jpeg',
+                              fit: BoxFit.cover,
+                              height: 100,
+                              width: 100,
+                            )
+                          : const Center(
+                              child: CircularProgressIndicator(),
+                            )),
+                  Positioned(
+                      bottom: 2,
+                      right: 2,
+                      child: InkWell(
+                        onTap: _edit ?() async {
+                          await pickAndUploadImage();
+                        } : () {},
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: _edit ? Theme.of(context).colorScheme.primary : inactive,
+                                borderRadius: BorderRadius.circular(20)),
+                            child: const Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            )),
+                      ))
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Name",
+                    style: GoogleFonts.outfit(
+                        fontSize: 24,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  _edit
+                      ? CustomTextFormField(
+                          hint: userName,
+                          controller: nameController,
+                          color: Theme.of(context).colorScheme.primary)
+                      : CustomTextFormField(
+                          hint: userName,
+                          controller: nameController,
+                          color: Theme.of(context).colorScheme.primary,
+                          enabled: false,
+                        ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Email",
+                    style: GoogleFonts.outfit(
+                        fontSize: 24,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  _edit
+                      ? CustomTextFormField(
+                          hint: userEmail,
+                          controller: emailController,
+                          color: Theme.of(context).colorScheme.primary)
+                      : CustomTextFormField(
+                          hint: userEmail,
+                          controller: emailController,
+                          color: Theme.of(context).colorScheme.primary,
+                          enabled: false,
+                        ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Age",
+                    style: GoogleFonts.outfit(
+                        fontSize: 24,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  _edit
+                      ? CustomTextFormField(
+                          hint: age,
+                          controller: ageController,
+                          color: Theme.of(context).colorScheme.primary)
+                      : CustomTextFormField(
+                          hint: age,
+                          controller: ageController,
+                          color: Theme.of(context).colorScheme.primary,
+                          enabled: false,
+                        ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Contact Number",
+                    style: GoogleFonts.outfit(
+                        fontSize: 24,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  _edit
+                      ? Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                final picked = await countryPicker.showPicker(
+                                    context: context);
+                                setState(() {
+                                  if (picked!.dialCode.isNotEmpty) {
+                                    dialCode = picked.dialCode;
+                                    countryFlag = picked.flagImage(
+                                        fit: BoxFit.cover, width: 25);
+                                  }
+                                });
+                              },
+                              child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 16, horizontal: 8),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      countryFlag,
+                                      const Icon(
+                                        Icons.arrow_drop_down,
+                                        color: Colors.white,
+                                        size: 25,
+                                      )
+                                    ],
+                                  )),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                controller: contactController,
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Phone Number cannot be empty";
+                                  }
+                                  final cleanedValue =
+                                      value.replaceAll(' ', '');
+                                  if (!RegExp(r'^(?:[+0]9)?[0-9]{10}$')
+                                      .hasMatch(cleanedValue)) {
+                                    return ("Please enter a valid number");
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                enabled: true,
+                                onChanged: (value) {
+                                  contactController.text = value;
+                                  _checkNumber(value);
+                                },
+                                style: GoogleFonts.poppins(),
+                                maxLines: 1,
+                                cursorColor:
+                                    Theme.of(context).colorScheme.primary,
+                                textAlignVertical: TextAlignVertical.top,
+                                decoration: InputDecoration(
+                                  hintText: contactNumber,
+                                  hintStyle: GoogleFonts.poppins(
+                                    color: Colors.black
+                                        .withOpacity(0.20000000298023224),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      : CustomTextFormField(
+                          hint: contactNumber,
+                          controller: contactController,
+                          color: Theme.of(context).colorScheme.primary,
+                          enabled: false,
+                        ),
+                  Text(
+                    warningMessage,
+                    style: GoogleFonts.poppins(
+                      color: warningMessage ==
+                              'The number has now reached 10 digits'
+                          ? Colors.green
+                          : Colors.red,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  FlutterToggleTab(
+                    width: 90,
+                    height: 50,
+                    borderRadius: 50,
+                    selectedIndex: _tabTextIndexSelected,
+                    selectedBackgroundColors: [
+                      Theme.of(context).colorScheme.primary,
+                    ],
+                    selectedTextStyle: GoogleFonts.outfit(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                    unSelectedTextStyle: GoogleFonts.outfit(
+                        color: const Color(0xFF898989),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
+                    labels: _listTextTabToggle,
+                    selectedLabelIndex: (index) {
+                      setState(() {
+                        _tabTextIndexSelected = index;
+                        selectedGender = _listTextTabToggle[index];
+                      });
+                    },
+                    isScroll: false,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: CustomBtn(
+                  msg: 'Save',
+                  textColor: Colors.white,
+                  color:
+                      enable ? Theme.of(context).colorScheme.primary : inactive,
+                  onTap: enable
+                      ? () async {
+                          await updateDetails();
+                        }
+                      : () {}),
+            )
+          ]),
         ),
       ),
     );
