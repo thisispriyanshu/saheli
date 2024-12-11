@@ -6,7 +6,6 @@ import faiss
 import numpy as np
 import torch
 from dotenv import load_dotenv
-from watchdog.events import FileSystemEventHandler, FileCreatedEvent, FileModifiedEvent, FileDeletedEvent
 
 # Load environment variables
 load_dotenv()
