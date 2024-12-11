@@ -3,5 +3,5 @@ google-generativeai
 sentence-transformers
 faiss-cpu
 numpy
-torch
-python-dotenv 
+python-dotenv
+gunicorn 

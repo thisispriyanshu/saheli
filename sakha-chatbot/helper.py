@@ -4,7 +4,7 @@ import google.generativeai as genai
 from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
-import torch
+# import torch
 from dotenv import load_dotenv
 
 # Load environment variables
