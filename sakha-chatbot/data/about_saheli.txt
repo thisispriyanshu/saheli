@@ -1,0 +1,85 @@
+Features:
+
+SOS Alert: Women can swiftly send their location to pre-set trusted contacts in case of emergencies, ensuring immediate assistance.
+Safe Route: Utilizes Google Maps API and K-means clustering ML algorithm to provide the safest and shortest path to the destination, enhancing navigation security.
+Emergency Services Locator: Quickly access nearby police stations, hospitals, and bus stands from the current location, ensuring immediate access to help.
+Helpline Directory: Comprehensive list of important helpline numbers essential during emergencies, facilitating quick access to support services.
+Fake Caller: Activate a fake incoming call feature by shaking the phone or manually triggering, providing a discreet exit strategy from potentially unsafe situations.
+Scheduled Fake Caller: Set scheduled fake calls with customized name, number, and timing, offering a seamless escape plan.
+AI Chatbot (Sakha): Integrated AI chatbot using Gemini AI, VERTEX AI API and Dialogflow which is trained on women's safety, providing guidance, tips, and assistance during emergencies.
+Crowdsourced Safety Zones: Empower users to report unsafe areas and identify verified safe zones, fostering community-driven safety initiatives.
+Offline Accessibility: Ensure core functionalities remain accessible even without internet connectivity, prioritizing usability in diverse environments.
+Audio-Video Recording: Activate automatic audio-video recording with SOS alerts, capturing real-time environment data for immediate assistance or legal evidence.
+
+How to Use : 
+
+SOS Alert
+Step-by-step instructions on how to use the SOS alert feature:
+
+Open the Saheli app on your phone.
+Locate the SOS button on the home screen. It is usually a large, red button with the word "SOS" written on it.
+Tap on the SOS button.
+Saheli will start recording audio and video.
+Your location and the audio/video recording will be sent to your trusted contacts.
+Note: Make sure to add trusted contacts in the app beforehand so that they can receive your SOS alert. You can add up to 5 trusted contacts.
+How to add emergency contacts
+Instructions on how to add emergency contacts:
+
+Open the Saheli app on your phone.
+Tap on the "Contacts" button located at the bottom of the screen.
+Select "Add Emergency Contact".
+Choose from your existing contacts or search for a new contact to add.
+Once you have selected your contact, tap on "Add".
+Safe Route
+Instructions on how to use the safe route feature...
+
+Open the Saheli app on your phone.
+Tap on the "Safe Route" button located at the bottom of the screen.
+Enter your source and destination locations.
+Select your preferred mode of travel (walking, public transit, or driving).
+Tap on the "Find Route" button.
+It will redirect you on Google Maps showing safest shortest route
+Fake Caller
+Instructions on activating and using the fake caller feature:
+
+Open the Saheli app on your phone.
+Go to the "Profile" section.
+Select "Fake Caller".
+You will have three options:
+Trigger Fake Call Now: This will immediately trigger a fake call.
+Customize and Trigger Fake Call: This allows you to customize the caller name and number, and then trigger the fake call.
+Schedule Fake Call: This allows you to schedule a fake call for a later time.
+Emergency Service Locator
+To access emergency services through Saheli, you can use the following methods:
+
+Home Screen Options:
+Emergency Button: Tap on the large, red "Emergency" button on the home screen. This will immediately connect you to the emergency services number in your country.
+Emergency Services Card: Scroll down to the "Emergency Services" card on the home screen. Here, you will find a list of essential helpline numbers, including police, ambulance, fire, and domestic violence support.
+
+Emergency Service Locator:
+Tap on the "More" button at the bottom of the home screen.
+Select "Emergency Service Locator".
+Here, you will find a map with the locations of nearby police stations, hospitals, and bus stands.
+
+Reporting Suspicious Places
+Steps for reporting suspicious places to contribute to community safety...
+
+Open the Saheli app on your phone.
+Tap on the "Profile" icon at the bottom of the screen.
+Select "Report Suspicious Places".
+Fill out the form with the following information:
+Your name (optional)
+Description of the suspicious place
+Location of the suspicious place (you can pinpoint the location on the map)
+Tap on the "Submit" button.
+
+Impact:
+Information about the social impact of Saheli:
+
+Goal 4: Quality Education - Equips women with self-defense skills, increases crime awareness, and promotes self-empowerment.
+Goal 5: Achieve Gender Equality and Empower All Women and Girls - Empowers women through security features, reduces violence, and increases participation.
+Goal 11: Sustainable Cities and Communities - Fosters safer public spaces, promotes community involvement, and empowers citizens for a sustainable urban environment.
+Goal 16: Peace, Justice and Strong Institutions - Reduces violence and crime, strengthens institutions, and promotes justice through empowerment and collaboration.
+
+About
+Saheli, meaning 'female best friend' in Hindi, is an innovative mobile application designed to ensure the safety and security of women, empowering them to navigate through various situations confidently. Developed as a part of the Google Solution Challenge hackathon, Saheli app is built using Flutter and integrating cutting-edge technologies and thoughtful features to address the pressing issue of women's safety.
