@@ -1,12 +1,16 @@
-runtime: python39  # or python310 depending on your Python version
-entrypoint: gunicorn -b :8080 main:app
+runtime: python39
+entrypoint: gunicorn -b :8080 main:app --workers 1 --threads 2 --timeout 30
 
 instance_class: F1
 
 automatic_scaling:
-  target_cpu_utilization: 0.65
+  target_cpu_utilization: 0.6
   min_instances: 1
-  max_instances: 10
+  max_instances: 2
+  max_concurrent_requests: 10
+  target_throughput_utilization: 0.6
+  max_pending_latency: 30s
+  max_idle_instances: 1
 
 env_variables:
   GOOGLE_API_KEY: ${GOOGLE_API_KEY}
@@ -14,4 +18,9 @@ env_variables:
 
 handlers:
 - url: /.*
-  script: auto 
+  script: auto
+
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
