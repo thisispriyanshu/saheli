@@ -1,3 +1,4 @@
+import Link from 'next/link';
 
 export default function Footer() {
 
@@ -18,7 +19,9 @@ export default function Footer() {
             <button className="text-sm leading-6 text-gray-600 hover:text-gray-900" ><a href="https://www.linkedin.com/in/priyanshu-agrawal-5a00651b1/">Contact</a></button>
           </div>
           <div className="pb-6">
-            <a className="text-sm leading-6 text-gray-600 hover:text-gray-900" href="/privacy">Privacy</a>
+            <Link href="/privacy" legacyBehavior>
+              <a className="text-sm leading-6 text-gray-600 hover:text-gray-900">Privacy</a>
+            </Link>
           </div>
         </nav>
         <div>

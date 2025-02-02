@@ -1,0 +1,43 @@
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.header {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #0070f3;
+}
+
+.updatedDate {
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.paragraph {
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.subHeader {
+  font-size: 1.5em;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  color: #0070f3;
+}
+
+.list {
+  list-style-type: disc;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.subList {
+  list-style-type: circle;
+  margin-left: 20px;
+}

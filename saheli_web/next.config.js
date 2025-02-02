@@ -23,12 +23,7 @@ const nextConfig = {
       },
       {
         source: "/support",
-        destination: "mailto:stey@vercel.com",
-        permanent: true,
-      },
-      {
-        source: "/privacy",
-        destination: "https://vercel.com/privacy",
+        destination: "mailto:pentatopelabs@gmail.com",
         permanent: true,
       },
     ];
